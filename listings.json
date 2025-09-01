@@ -3,8 +3,6 @@
     "listing": "/index.html",
     "items": [
       "/posts/welcome/index.html",
-      "/posts/example/index.html",
-      "/posts/template/index.html",
       "/posts/quarto-instructions/index.html"
     ]
   }
