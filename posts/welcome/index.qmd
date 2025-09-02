@@ -3,7 +3,7 @@ title: "Welcome To My Blog"
 author: "Jordan Wozniak"
 date: "9/2/2025"
 categories: [welcome]
-image: "thumbnail.jpg"
+image: "welcomephoto.jpg"
 ---
 
 # Welcome to my Blog! {#sec-welcome}
