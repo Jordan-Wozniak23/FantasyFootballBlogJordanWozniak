@@ -1,0 +1,34 @@
+---
+title: "My Fantasy Team"
+author: "Jordan Wozniak"
+date: "9/11/2025"
+categories: [welcome, fantasyteam]
+image: ""
+format: html
+---
+
+
+# My Fantasy Team Introduction! {#sec-myFantasyTeamIntro}
+
+I have had the opportunity to participate in my class' fantasy football draft, where we drafted a whole team with 5 people, 1 extra bot player, with a QB, 2 RB, 2 WR, 1 TE, 1 FLEX, 1 DEF, 1 K, and 6 BENCH spots. How I organize who I drafted will be the the order in which: I drafted them, my justification, their strengths and weaknesses.
+
+# Who Did I Draft? {#sec-whoDraft}
+
+-First Pick - Saquon Barkley (RB): The name of the game is the running back, and that would fall onto Saquon as one of the best at it. This is observed through his last season with the Eagles, where he nearly broke the rushing record, and his last several season with the Giants, where they looked decent, and then horrible without him. His strength here is that teams haven't figured out how to stop him. His weakness is that the Eagles offense also have Jalen Hurts who is a mobile QB, and could take away touches from Saquon.
+
+-Second Pick - Justin Jefferson (WR): Justin Jefferson is a prolific scorer and receiving machine. He has been one of the top receiving yards leader for many season, and will continue to do so. His strength would be that the Vikings don't have any relative WRs that can compete to take away Justin Jefferson's targets. His weakness his solely on the fact that he is the only receiver, and will be prone to be double-teamed and the Vikings are also trying out a new QB in J.J. McCarthy.
+
+-Third Pick - Amon-Ra St. Brown (WR): Amon-Ra, just like Justin Jefferson, has the same profile as him, where he has been leading the Lions in receiving yards for years and will continue to grow. His strength here is that the Lions are evenly mixed with the run game and throwing through the air, and with the veteran QB, Jared Goff. His weakness would be on that since the Lions are well versed in talent, it may take away his targets.
+
+-Fourth Pick - Ashton Jeanty (RB): I would've considered this as a hail mary in picking a top RB. Since I only have the evidence of how well he did was from leading Boise State to being a relevant team. His strength would be that he is a young RB, a lot of energy. This would lead into his weakness, where there is a lot of uncertainty to it.
+
+-Fifth Pick - George Kittle (TE): 
+
+
+# Team Plan {#sec-teamPlan}
+
+My way to address all of these weaknesses is to run with what I have since I have a lot of up-side compared to the down-side.
+
+# My Prediction {#sec-prediction}
+
+Analyzing my team at a deeper level, I believe that I have enough talent to carry myself to the top of the rankings. I would say around a 10-4 to a 12-2 record, I have a high ceiling.
