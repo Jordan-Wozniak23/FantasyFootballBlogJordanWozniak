@@ -3,7 +3,7 @@ title: "My Fantasy Team"
 author: "Jordan Wozniak"
 date: "9/11/2025"
 categories: [welcome, fantasyteam]
-image: ""
+image: "il_fullxfull.5165482813_3fig.jpg"
 format: html
 ---
 
@@ -74,6 +74,11 @@ Simple to pick this kicker. He has been consistent, watch him kick a record brea
 
 This is an honor pick for my team. Kupp, while on the Rams, has been one of the top receivers in the league, and will continue to do so on his new team, the Seahawks. However, he is paired with another top receiver in Smith-Njigba, and Kenneth Walker III.
 
+
+# Team Strengths and Weaknesses {#sec-teamSW}
+
+I have a decent amount of strengths that can elevate my team to the next level when it is compared to other teams. I have a lot of depth when it comes to players. If one player is down due to injury, I have enough star power where I don't see a difference in production. These players that I have picked are consistent enough through-in and through-out where they can perform better than their match-ups.
+Where there comes strengths, come weaknesses. When you put someone in your lineup, they are locked. With these players, they are teams highlights to stop. If you are the top person on the team, then you are the highlight to be stopped no matter what. I have a lot of WR1s or RB1s, and not 2s. When it comes to the secondary option, you are most likely to only have one person on you versus being the main target on the defensive side.
 
 # Team Plan {#sec-teamPlan}
 
