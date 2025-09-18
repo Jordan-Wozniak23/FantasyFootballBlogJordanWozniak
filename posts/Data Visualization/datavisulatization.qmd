@@ -13,6 +13,36 @@ AI Disclosure: AI was not used.
 
 Link to AI Transcript: not applicable
 
+# Preamble {#sec-preamble}
+
+## Install Libraries
+```{r}
+#install.packages("remotes")
+#remotes::install_github("DevPsyLab/petersenlab")
+#remotes::install_github("FantasyFootballAnalytics/ffanalytics")
+
+#update.packages(ask = FALSE)
+```
+
+## Load Libraries
+```{r}
+#| message: false
+#| warning: false
+
+library("nflplotR")
+library("plotly")
+library("gghighlight")
+library("ggridges")
+library("ggExtra")
+library("patchwork")
+library("tidyverse")
+```
+
+## Load Data
+```{r}
+load(file = "../../data/player_stats_weekly.Rdata")
+```
+
 # Abstract {#sec-abstract}
 
 **Question**: 
@@ -36,25 +66,34 @@ You have dominate players like Aaron Rodgers, Tom Brady, and Matthew Stafford, w
 The method that I want to use here is to use a table with all players and their seasonal fantasy point numbers, compared to their age, all in a histogram. A histogram is better for this, in my opinion, is that you get the average fantasy point numbers by the x and y that is chosen, in this case it would be age and season fantasy points. This is also cleaner and produces an average, which is what we want to create a correct answer. What we are trying to find here is that there is a positive skew, leaning towards the younger age versus the older age.
 
 #Results {#sec-results}
-```{r}
-load("../Data/player_stats_weekly.Rdata")
-```
+We are going to load player stats weekly, where it will look at all the fantasy points each week for a player, with the added information of their age, and compare.
 
 ```{r}
 ggplot2::ggplot(
-  data = player_stats_weekly %>%
-    filter(position_group %in% c("QB, RB, WR, TE")),
-  mapping = aes(
-    x = fantasyPoints,
-    y = age)
+  data = player_stats_weekly,
+  mapping = aes(x = fantasyPoints)   # ONLY x
 ) +
   geom_histogram(
+    bins = 30,
     color = "black",
     fill = "green"
   ) +
   labs(
     x = "Fantasy Points",
-    y = "Age",
-    title = "Correlation between Fantasy Points and Age"
+    y = "Count",
+    title = "Distribution of Fantasy Points"
   )
+```
+
+# Discussion {#sec-discussion}
+
+# Strengths and Limitations {#sec-strengthsLimits}
+
+# Conlusion {#sec-conclusion}
+
+# References {#sec-references}
+
+# Session Info {#sec-sessionInfo}
+```{r}
+sessionInfo()
 ```
