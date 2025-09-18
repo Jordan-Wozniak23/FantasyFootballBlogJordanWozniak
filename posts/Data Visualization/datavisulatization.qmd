@@ -40,7 +40,7 @@ library("tidyverse")
 
 ## Load Data
 ```{r}
-load(file = "../../data/player_stats_weekly.Rdata")
+load("../../data/nfl_actualFantasyPoints_seasonal.RData")
 ```
 
 # Abstract {#sec-abstract}
@@ -70,18 +70,14 @@ We are going to load player stats weekly, where it will look at all the fantasy 
 
 ```{r}
 ggplot2::ggplot(
-  data = player_stats_weekly,
-  mapping = aes(x = fantasyPoints)   # ONLY x
+  data = nfl_actualFantasyPoints_seasonal,
+  mapping = aes(x = fantasyPoints, y = age)
 ) +
-  geom_histogram(
-    bins = 30,
-    color = "black",
-    fill = "green"
-  ) +
+  geom_point(color = "green") +
   labs(
     x = "Fantasy Points",
-    y = "Count",
-    title = "Distribution of Fantasy Points"
+    y = "Age",
+    title = "Fantasy Points vs Age"
   )
 ```
 
