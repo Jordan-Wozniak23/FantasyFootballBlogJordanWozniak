@@ -39,8 +39,10 @@ library("tidyverse")
 ```
 
 ## Load Data
+
 ```{r}
-load("../../data/nfl_actualFantasyPoints_seasonal.RData")
+load(file = "data/nfl_actualFantasyPoints_seasonal.RData")
+
 ```
 
 # Abstract {#sec-abstract}
@@ -70,14 +72,17 @@ We are going to load player stats weekly, where it will look at all the fantasy 
 
 ```{r}
 ggplot2::ggplot(
-  data = nfl_actualFantasyPoints_seasonal,
-  mapping = aes(x = fantasyPoints, y = age)
+  data = nfl_actualFantasyPoints_seasonal %>%
+    filter(position %in% c("QB", "RB", "WR", "TE")),   # correct way
+  aes(x = age, y = fantasyPoints)
 ) +
-  geom_point(color = "green") +
+  geom_point() +
+  geom_smooth(method = "lm", color = "red") +
+  geom_smooth(method = "gam", color = "blue") +
   labs(
-    x = "Fantasy Points",
-    y = "Age",
-    title = "Fantasy Points vs Age"
+    x = "Age",
+    y = "Fantasy Points",
+    title = "Correlation between Age and Fantasy Points"
   )
 ```
 
