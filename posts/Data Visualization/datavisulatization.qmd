@@ -37,23 +37,24 @@ The method that I want to use here is to use a table with all players and their 
 
 #Results {#sec-results}
 ```{r}
-load("../player_stats_weekly.Rdata")
+load("../Data/player_stats_weekly.Rdata")
 ```
 
 ```{r}
 ggplot2::ggplot(
   data = player_stats_weekly %>%
-    filter(position_group %in% c("")),
+    filter(position_group %in% c("QB, RB, WR, TE")),
   mapping = aes(
-    x = fantasyPoints)
+    x = fantasyPoints,
+    y = age)
 ) +
   geom_histogram(
     color = "black",
     fill = "green"
   ) +
   labs(
-    x = "",
-    y = "",
-    title = ""
+    x = "Fantasy Points",
+    y = "Age",
+    title = "Correlation between Fantasy Points and Age"
   )
 ```
