@@ -29,20 +29,22 @@ Link to AI Transcript: not applicable
 #| message: false
 #| warning: false
 
-library("nflplotR")
-library("plotly")
-library("gghighlight")
+library("petersenlab")
+library("XICOR")
+library("psych")
+library("DescTools")
+library("psych")
+library("correlation")
+library("effectsize")
+library("GGally")
 library("ggridges")
-library("ggExtra")
-library("patchwork")
 library("tidyverse")
 ```
 
 ## Load Data
 
 ```{r}
-load(file = "data/nfl_actualFantasyPoints_seasonal.RData")
-
+load("../data/nfl_actualFantasyPoints_player_seasonal.RData")
 ```
 
 # Abstract {#sec-abstract}
