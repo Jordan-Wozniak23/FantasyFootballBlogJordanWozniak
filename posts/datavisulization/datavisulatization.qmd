@@ -3,7 +3,7 @@ title: "Data Visulization"
 author: "Jordan Wozniak"
 date: "9/18/2025"
 categories: [welcome, fantasyteam, datavisulatization]
-image: ""
+image: "qo1hbloml85d1.jpg"
 format: html
 ---
 
