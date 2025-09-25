@@ -1,73 +1,73 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "My Blog",
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
     "section": "",
-    "text": "Data Visulization\n\n\n\nwelcome\n\nfantasyteam\n\ndatavisulatization\n\n\n\n\n\n\n\n\n\nSep 18, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nMy Fantasy Team\n\n\n\nwelcome\n\nfantasyteam\n\n\n\n\n\n\n\n\n\nSep 11, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\nwelcome\n\n\n\n\n\n\n\n\n\nSep 2, 2025\n\n\nJordan Wozniak\n\n\n\n\n\nNo matching items"
+    "text": "About this blog"
   },
   {
     "objectID": "posts/datavisulization/datavisulatization.html",
     "href": "posts/datavisulization/datavisulatization.html",
-    "title": "Data Visulization",
+    "title": "Visulalization If Age Plays An Impact On Their Fantasy Point Production",
     "section": "",
     "text": "AI Disclosure: AI was not used.\nLink to AI Transcript: not applicable"
   },
   {
     "objectID": "posts/datavisulization/datavisulatization.html#install-libraries",
     "href": "posts/datavisulization/datavisulatization.html#install-libraries",
-    "title": "Data Visulization",
+    "title": "Visulalization If Age Plays An Impact On Their Fantasy Point Production",
     "section": "2.1 Install Libraries",
     "text": "2.1 Install Libraries\n\n\nCode\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)"
   },
   {
     "objectID": "posts/datavisulization/datavisulatization.html#load-libraries",
     "href": "posts/datavisulization/datavisulatization.html#load-libraries",
-    "title": "Data Visulization",
+    "title": "Visulalization If Age Plays An Impact On Their Fantasy Point Production",
     "section": "2.2 Load Libraries",
     "text": "2.2 Load Libraries\n\n\nCode\nlibrary(\"petersenlab\")\nlibrary(\"XICOR\")\nlibrary(\"psych\")\nlibrary(\"DescTools\")\nlibrary(\"psych\")\nlibrary(\"correlation\")\nlibrary(\"effectsize\")\nlibrary(\"GGally\")\nlibrary(\"ggridges\")\nlibrary(\"tidyverse\")"
   },
   {
     "objectID": "posts/datavisulization/datavisulatization.html#load-data",
     "href": "posts/datavisulization/datavisulatization.html#load-data",
-    "title": "Data Visulization",
+    "title": "Visulalization If Age Plays An Impact On Their Fantasy Point Production",
     "section": "2.3 Load Data",
     "text": "2.3 Load Data\n\n\nCode\nload(\"player_stats_weekly.RData\")"
   },
   {
     "objectID": "posts/datavisulization/datavisulatization.html#researchQuestion",
     "href": "posts/datavisulization/datavisulatization.html#researchQuestion",
-    "title": "Data Visulization",
+    "title": "Visulalization If Age Plays An Impact On Their Fantasy Point Production",
     "section": "4.1 Research Questions",
     "text": "4.1 Research Questions\nDoes age matter when it comes to fantasy performance?"
   },
   {
     "objectID": "posts/datavisulization/datavisulatization.html#sec-hyptothesis",
     "href": "posts/datavisulization/datavisulatization.html#sec-hyptothesis",
-    "title": "Data Visulization",
+    "title": "Visulalization If Age Plays An Impact On Their Fantasy Point Production",
     "section": "4.2 Hypothesis",
     "text": "4.2 Hypothesis\nI believe that age does play a factor into a player’s fantasy performance. The older they get, the less they get."
   },
   {
     "objectID": "posts/datavisulization/datavisulatization.html#sec-justification",
     "href": "posts/datavisulization/datavisulatization.html#sec-justification",
-    "title": "Data Visulization",
+    "title": "Visulalization If Age Plays An Impact On Their Fantasy Point Production",
     "section": "4.3 Justification",
     "text": "4.3 Justification\nYou have dominate players like Aaron Rodgers, Tom Brady, and Matthew Stafford, who in their “hay-days,” where fantasy point machines. During their last seasons in the league, around or over the age of 40, have significantly slowed down. There are some outliers and the difference of who is on that team at the time. Is there a correct assumption to say that the older the player is, the worse they get, or is it irrelevant?"
   },
   {
     "objectID": "posts/datavisulization/datavisulatization.html#sec-method",
     "href": "posts/datavisulization/datavisulatization.html#sec-method",
-    "title": "Data Visulization",
+    "title": "Visulalization If Age Plays An Impact On Their Fantasy Point Production",
     "section": "4.4 Method",
     "text": "4.4 Method\nThe method that I want to use here is to use a table with all players and their seasonal fantasy point numbers, compared to their age, all in a correlation plot. This is better for this, in my opinion, is that you get the average fantasy point numbers by the x and y that is chosen, in this case it would be age and season fantasy points. This is also cleaner and produces an average, which is what we want to create a correct answer. What we are trying to find here is that there is a positive skew, leaning towards the younger age versus the older age.\n#Results {#sec-results} We are going to load player stats weekly, where it will look at all the fantasy points each week for a player, with the added information of their age, and compare.\n\n\nCode\nggplot2::ggplot(\n  data = player_stats_weekly %&gt;%\n    filter(position %in% c(\"QB\", \"RB\", \"WR\", \"TE\")),\n  aes(x = age, y = fantasyPoints)\n) +\n  geom_point() +\n  geom_smooth(method = \"lm\", color = \"red\") +\n  geom_smooth(method = \"gam\", color = \"blue\") +\n  labs(\n    x = \"Age\",\n    y = \"Fantasy Points\",\n    title = \"Correlation between Age and Fantasy Points\"\n  )\n\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\nWarning: Removed 1033 rows containing non-finite outside the scale range\n(`stat_smooth()`).\n\n\n`geom_smooth()` using formula = 'y ~ s(x, bs = \"cs\")'\n\n\nWarning: Removed 1033 rows containing non-finite outside the scale range\n(`stat_smooth()`).\n\n\nWarning: Removed 1033 rows containing missing values or values outside the scale range\n(`geom_point()`)."
   },
   {
-    "objectID": "posts/welcome/index.html",
-    "href": "posts/welcome/index.html",
-    "title": "Welcome To My Blog",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "My Blog",
     "section": "",
-    "text": "1 Welcome to my Blog!\nHello there, it is me, Jordan Wozniak. I am currently in my fourth year at the University of Iowa, majoring in Psychology. I also plan on going into a fifth year where I go on the road to achieve my masters, and get an associates in criminal justice, since I like the idea of the crime side of psychology.\n\n\n2 About Me\nThis blog will contain posts about football, fantasy football, and other relating ideas. Using the art of psychology will help study human behaviors through the art of statistics."
+    "text": "Visulalization If Age Plays An Impact On Their Fantasy Point Production\n\n\n\nwelcome\n\nfantasyteam\n\nagevsfantasypoints\n\n\n\n\n\n\n\n\n\nSep 18, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nMy Fantasy Team\n\n\n\nwelcome\n\nfantasyteam\n\n\n\n\n\n\n\n\n\nSep 11, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\nwelcome\n\n\n\n\n\n\n\n\n\nSep 2, 2025\n\n\nJordan Wozniak\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/myfantasyteam/myfantasyteam.html",
@@ -182,10 +182,10 @@
     "text": "2.15 Fifteenth Pick - Cooper Kupp (WR)\nThis is an honor pick for my team. Kupp, while on the Rams, has been one of the top receivers in the league, and will continue to do so on his new team, the Seahawks. However, he is paired with another top receiver in Smith-Njigba, and Kenneth Walker III."
   },
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
+    "objectID": "posts/welcome/index.html",
+    "href": "posts/welcome/index.html",
+    "title": "Welcome To My Blog",
     "section": "",
-    "text": "About this blog"
+    "text": "1 Welcome to my Blog!\nHello there, it is me, Jordan Wozniak. I am currently in my fourth year at the University of Iowa, majoring in Psychology. I also plan on going into a fifth year where I go on the road to achieve my masters, and get an associates in criminal justice, since I like the idea of the crime side of psychology.\n\n\n2 About Me\nThis blog will contain posts about football, fantasy football, and other relating ideas. Using the art of psychology will help study human behaviors through the art of statistics."
   }
 ]
