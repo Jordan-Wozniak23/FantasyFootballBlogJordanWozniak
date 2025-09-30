@@ -1,7 +1,7 @@
 ---
 title: "Visulalization If Age Plays An Impact On Their Fantasy Point Production"
 author: "Jordan Wozniak"
-date: "9/18/2025"
+date: "9/30/2025"
 categories: [welcome, fantasyteam, agevsfantasypoints]
 image: "qo1hbloml85d1.jpg"
 format: html
@@ -53,19 +53,41 @@ The question of picking, if he was still in the league, were the Roethlisbergers
 
 ## Research Question
 
-Is there a correlation between a QB’s rushing yards and their overall fantasy finish?
-Can we safely say that QBs who prioritize rushing yards tend to score more fantasy points than other QBs.
+Is there a correlation between a QB’s rushing carries and their overall fantasy finish?
+Can we safely say that QBs who prioritize rushing carries tend to score more fantasy points than other QBs.
 
 ## Hypothesis and Prediction
 
-My hypothesis and prediction is that QBs with higher rushing yards
+My hypothesis and prediction is that QBs with higher rushing carries will lead to more fantasy points produce by said player.
 
 ## Justification
 
+There is a reason why I picked carries over flat rushing yards. Through when I have played in multiple leagues over multiple leagues, I have seen that QBs that always use their legs, in turn more carries, tend to score more points than their opposing matchup. This isn't true 100% of the time, but gives you a better chance to win that direct matchup.
 
 # Method {#sec-method}
 
 # Results {#sec-results}
+
+```{r}
+ggplot2::ggplot(
+  data = player_stats_weekly %>% filter(position == "QB"),
+  aes(
+    x = carries,
+    y = fantasyPoints)) +
+  geom_point() +
+  geom_smooth(
+    method = "lm",  # linear best-fit line
+    color = "red") +
+  geom_smooth(
+    method = "gam", # nonlinear best-fit line
+    color = "blue"
+  ) +
+  labs(
+    x = "Carries",
+    y = "Fantasy Points",
+    title = "Correlation between Carries with QBs and Fantasy Points"
+  )
+```
 
 ## Discussion
 
