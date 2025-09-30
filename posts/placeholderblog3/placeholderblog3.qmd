@@ -1,0 +1,80 @@
+---
+title: "Visulalization If Age Plays An Impact On Their Fantasy Point Production"
+author: "Jordan Wozniak"
+date: "9/18/2025"
+categories: [welcome, fantasyteam, agevsfantasypoints]
+image: "qo1hbloml85d1.jpg"
+format: html
+---
+
+# A.I. Disclosure {#sec-aiDisclosure}
+
+AI Disclosure: AI was not used.
+
+Link to AI Transcript: not applicable
+
+# Preamble {#sec-preamble}
+
+## Install Libraries
+```{r}
+#install.packages("remotes")
+#remotes::install_github("DevPsyLab/petersenlab")
+#remotes::install_github("FantasyFootballAnalytics/ffanalytics")
+
+#update.packages(ask = FALSE)
+```
+
+## Load Libraries
+```{r}
+#| message: false
+#| warning: false
+
+library("petersenlab")
+library("XICOR")
+library("psych")
+library("DescTools")
+library("psych")
+library("correlation")
+library("effectsize")
+library("GGally")
+library("ggridges")
+library("tidyverse")
+```
+
+## Load Data
+
+```{r}
+load("../Data/player_stats_weekly.Rdata")
+```
+
+# Background {#sec-background}
+
+The question of picking, if he was still in the league, were the Roethlisbergers of the league or the Josh Allens of the league. This topic is important because if you want to win your fantasy league, you need the best when it comes to scoring points. Would a QB like Josh Allen be a better pick than Matthew Stafford? Similar statistics can inference if this is true or false.
+
+## Research Question
+
+Is there a correlation between a QB’s rushing yards and their overall fantasy finish?
+Can we safely say that QBs who prioritize rushing yards tend to score more fantasy points than other QBs.
+
+## Hypothesis and Prediction
+
+My hypothesis and prediction is that QBs with higher rushing yards
+
+## Justification
+
+
+# Method {#sec-method}
+
+# Results {#sec-results}
+
+## Discussion
+
+## Strengths and Limitations
+
+## Conclusion
+
+## Statistical Visualization
+
+# Citation {#sec-citation}
+
+# Session Info {#sec-sessionInfo}
