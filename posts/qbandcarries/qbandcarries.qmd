@@ -3,7 +3,7 @@ title: "Correlation between the amount of carries for a QB compared to their fan
 author: "Jordan Wozniak"
 date: "9/30/2025"
 categories: [welcome, fantasyteam, agevsfantasypoints, correlationQBandFPs]
-image: ""
+image: "download.jpg"
 format: html
 ---
 
