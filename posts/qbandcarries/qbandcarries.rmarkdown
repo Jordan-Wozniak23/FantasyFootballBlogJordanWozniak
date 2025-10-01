@@ -7,6 +7,8 @@ image: "download.jpg"
 format: html
 ---
 
+
+
 # A.I. Disclosure {#sec-aiDisclosure}
 
 AI Disclosure: AI was not used.
@@ -16,6 +18,8 @@ Link to AI Transcript: not applicable
 # Preamble {#sec-preamble}
 
 ## Install Libraries
+
+
 ```{r}
 #install.packages("remotes")
 #remotes::install_github("DevPsyLab/petersenlab")
@@ -24,7 +28,11 @@ Link to AI Transcript: not applicable
 #update.packages(ask = FALSE)
 ```
 
+
+
 ## Load Libraries
+
+
 ```{r}
 #| message: false
 #| warning: false
@@ -41,11 +49,17 @@ library("ggridges")
 library("tidyverse")
 ```
 
+
+
 ## Load Data
+
+
 
 ```{r}
 load("player_stats_weekly.RData")
 ```
+
+
 
 # Abstract {#sec-abstract}
 
@@ -76,6 +90,8 @@ The method that I chose to do for this research question was to do a correlation
 
 ## Correlation Analysis
 
+
+
 ```{r}
 ggplot2::ggplot(
   data = player_stats_weekly %>% filter(position == "QB"),
@@ -96,7 +112,11 @@ ggplot2::ggplot(
     title = "Correlation between Carries with QBs and Fantasy Points"
   )
 ```
+
+
 ## Regression Model
+
+
 
 ```{r}
 regressionOnePredictor <- lm(
@@ -119,6 +139,8 @@ regressionTwoPredictors <- lm(
 summary(regressionTwoPredictors)
 print(effectsize::standardize_parameters(regressionTwoPredictors, method = "refit"), digits = 4)
 ```
+
+
 
 ## Discussion
 
@@ -148,6 +170,8 @@ https://www.dynastynerds.com/analytics/top-fantasy-stats-qb-rb-wr-te/
 
 
 # Session Info {#sec-sessionInfo}
+
+
 ```{r}
 sessionInfo()
 ```
