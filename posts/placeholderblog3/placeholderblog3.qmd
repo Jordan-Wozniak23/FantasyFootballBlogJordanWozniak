@@ -1,9 +1,9 @@
 ---
-title: "Visulalization If Age Plays An Impact On Their Fantasy Point Production"
+title: "Correlation between the amount of carries for a QB compared to their fantasy point production"
 author: "Jordan Wozniak"
 date: "9/30/2025"
-categories: [welcome, fantasyteam, agevsfantasypoints]
-image: "qo1hbloml85d1.jpg"
+categories: [welcome, fantasyteam, agevsfantasypoints, correlationQBandFPs]
+image: ""
 format: html
 ---
 
@@ -44,8 +44,12 @@ library("tidyverse")
 ## Load Data
 
 ```{r}
-load("../Data/player_stats_weekly.Rdata")
+load("player_stats_weekly.RData")
 ```
+
+# Abstract {#sec-abstract}
+
+This study analyzed the impact of quarterback carries on fantasy points. Results showed that carries significantly increase scoring, though passing yards explain most variance. Overall, rushing provides an important independent boost to QB fantasy value.
 
 # Background {#sec-background}
 
@@ -66,7 +70,11 @@ There is a reason why I picked carries over flat rushing yards. Through when I h
 
 # Method {#sec-method}
 
+The method that I chose to do for this research question was to do a correlation analysis on carries versus fantasy points. Create a regression model predictor with both of those items, and add an additional regression two predictor model with passing yards.
+
 # Results {#sec-results}
+
+## Correlation Analysis
 
 ```{r}
 ggplot2::ggplot(
@@ -88,15 +96,58 @@ ggplot2::ggplot(
     title = "Correlation between Carries with QBs and Fantasy Points"
   )
 ```
+## Regression Model
+
+```{r}
+regressionOnePredictor <- lm(
+  fantasyPoints ~ carries,
+  data = player_stats_weekly %>% filter(position %in% c("QB")),
+  na.action = "na.exclude"
+)
+
+summary(regressionOnePredictor)
+print(effectsize::standardize_parameters(regressionOnePredictor, method = "refit"), digits = 4)
+```
+
+```{r}
+regressionTwoPredictors <- lm(
+  fantasyPoints ~ carries + passing_yards,
+  data = player_stats_weekly %>% filter(position %in% c("QB")),
+  na.action = "na.exclude"
+)
+
+summary(regressionTwoPredictors)
+print(effectsize::standardize_parameters(regressionTwoPredictors, method = "refit"), digits = 4)
+```
 
 ## Discussion
 
+For this analysis, there were two different charts that were created. A plot diagram where it visually shows all QBs, their amount of carries, compared to their amount of fantasy points.
+
+For the first graph, we can say that QBs with more carries tend to score more fantasy points.
+
+For our regression model, we can say that a QB with 0 carries averages 9.7 fantasy points, while each carries will add about 1.3 fantasy points, on average. Since our p-value < 0.005, it is most certain that it will happen.
+
+For the second regression model, I added two predictors, the addition of passing yards. We could go on and on with touchdowns, interceptions, but passing yards still shows that carries provide an independent boost to a QBs fantasy output.
+
 ## Strengths and Limitations
+
+The strength behind this study that there is a strong correlation by statistical evidence that it is safe to draft a QB with a high carries rate.
+
+There could a few limitations to this study that could make or break it. There are some items out there can we can't always predict. QBs can always have off games, there can be confounds that can arise, such as their passing rate for yards and touchdowns, the other defense's ability to stop the run game, but that's the name of the game.
 
 ## Conclusion
 
-## Statistical Visualization
+This study demonstrates that both passing yards and carries are important predictors of quarterback fantasy performance. While passing yards account for the majority of variance in scoring, carries remain a significant and meaningful independent contributor. Overall, carries matter, providing a consistent and measurable boost to fantasy outcomes.
 
 # Citation {#sec-citation}
 
+https://www.pff.com/news/fantasy-football-does-a-quarterbacks-rushing-ability-set-their-fantasy-floor-or-ceiling
+
+https://www.dynastynerds.com/analytics/top-fantasy-stats-qb-rb-wr-te/
+
+
 # Session Info {#sec-sessionInfo}
+```{r}
+sessionInfo()
+```
