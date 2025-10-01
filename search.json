@@ -7,67 +7,11 @@
     "text": "About this blog"
   },
   {
-    "objectID": "posts/datavisulization/datavisulatization.html",
-    "href": "posts/datavisulization/datavisulatization.html",
-    "title": "Visulalization If Age Plays An Impact On Their Fantasy Point Production",
+    "objectID": "posts/welcome/index.html",
+    "href": "posts/welcome/index.html",
+    "title": "Welcome To My Blog",
     "section": "",
-    "text": "AI Disclosure: AI was not used.\nLink to AI Transcript: not applicable"
-  },
-  {
-    "objectID": "posts/datavisulization/datavisulatization.html#install-libraries",
-    "href": "posts/datavisulization/datavisulatization.html#install-libraries",
-    "title": "Visulalization If Age Plays An Impact On Their Fantasy Point Production",
-    "section": "2.1 Install Libraries",
-    "text": "2.1 Install Libraries\n\n\nCode\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)"
-  },
-  {
-    "objectID": "posts/datavisulization/datavisulatization.html#load-libraries",
-    "href": "posts/datavisulization/datavisulatization.html#load-libraries",
-    "title": "Visulalization If Age Plays An Impact On Their Fantasy Point Production",
-    "section": "2.2 Load Libraries",
-    "text": "2.2 Load Libraries\n\n\nCode\nlibrary(\"petersenlab\")\nlibrary(\"XICOR\")\nlibrary(\"psych\")\nlibrary(\"DescTools\")\nlibrary(\"psych\")\nlibrary(\"correlation\")\nlibrary(\"effectsize\")\nlibrary(\"GGally\")\nlibrary(\"ggridges\")\nlibrary(\"tidyverse\")"
-  },
-  {
-    "objectID": "posts/datavisulization/datavisulatization.html#load-data",
-    "href": "posts/datavisulization/datavisulatization.html#load-data",
-    "title": "Visulalization If Age Plays An Impact On Their Fantasy Point Production",
-    "section": "2.3 Load Data",
-    "text": "2.3 Load Data\n\n\nCode\nload(\"player_stats_weekly.RData\")"
-  },
-  {
-    "objectID": "posts/datavisulization/datavisulatization.html#researchQuestion",
-    "href": "posts/datavisulization/datavisulatization.html#researchQuestion",
-    "title": "Visulalization If Age Plays An Impact On Their Fantasy Point Production",
-    "section": "4.1 Research Questions",
-    "text": "4.1 Research Questions\nDoes age matter when it comes to fantasy performance?"
-  },
-  {
-    "objectID": "posts/datavisulization/datavisulatization.html#sec-hyptothesis",
-    "href": "posts/datavisulization/datavisulatization.html#sec-hyptothesis",
-    "title": "Visulalization If Age Plays An Impact On Their Fantasy Point Production",
-    "section": "4.2 Hypothesis",
-    "text": "4.2 Hypothesis\nI believe that age does play a factor into a player’s fantasy performance. The older they get, the less they get."
-  },
-  {
-    "objectID": "posts/datavisulization/datavisulatization.html#sec-justification",
-    "href": "posts/datavisulization/datavisulatization.html#sec-justification",
-    "title": "Visulalization If Age Plays An Impact On Their Fantasy Point Production",
-    "section": "4.3 Justification",
-    "text": "4.3 Justification\nYou have dominate players like Aaron Rodgers, Tom Brady, and Matthew Stafford, who in their “hay-days,” where fantasy point machines. During their last seasons in the league, around or over the age of 40, have significantly slowed down. There are some outliers and the difference of who is on that team at the time. Is there a correct assumption to say that the older the player is, the worse they get, or is it irrelevant?"
-  },
-  {
-    "objectID": "posts/datavisulization/datavisulatization.html#sec-method",
-    "href": "posts/datavisulization/datavisulatization.html#sec-method",
-    "title": "Visulalization If Age Plays An Impact On Their Fantasy Point Production",
-    "section": "4.4 Method",
-    "text": "4.4 Method\nThe method that I want to use here is to use a table with all players and their seasonal fantasy point numbers, compared to their age, all in a correlation plot. This is better for this, in my opinion, is that you get the average fantasy point numbers by the x and y that is chosen, in this case it would be age and season fantasy points. This is also cleaner and produces an average, which is what we want to create a correct answer. What we are trying to find here is that there is a positive skew, leaning towards the younger age versus the older age.\n#Results {#sec-results} We are going to load player stats weekly, where it will look at all the fantasy points each week for a player, with the added information of their age, and compare.\n\n\nCode\nggplot2::ggplot(\n  data = player_stats_weekly %&gt;%\n    filter(position %in% c(\"QB\", \"RB\", \"WR\", \"TE\")),\n  aes(x = age, y = fantasyPoints)\n) +\n  geom_point() +\n  geom_smooth(method = \"lm\", color = \"red\") +\n  geom_smooth(method = \"gam\", color = \"blue\") +\n  labs(\n    x = \"Age\",\n    y = \"Fantasy Points\",\n    title = \"Correlation between Age and Fantasy Points\"\n  )\n\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\nWarning: Removed 1033 rows containing non-finite outside the scale range\n(`stat_smooth()`).\n\n\n`geom_smooth()` using formula = 'y ~ s(x, bs = \"cs\")'\n\n\nWarning: Removed 1033 rows containing non-finite outside the scale range\n(`stat_smooth()`).\n\n\nWarning: Removed 1033 rows containing missing values or values outside the scale range\n(`geom_point()`)."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "My Blog",
-    "section": "",
-    "text": "Visulalization If Age Plays An Impact On Their Fantasy Point Production\n\n\n\nwelcome\n\nfantasyteam\n\nagevsfantasypoints\n\n\n\n\n\n\n\n\n\nSep 18, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nMy Fantasy Team\n\n\n\nwelcome\n\nfantasyteam\n\n\n\n\n\n\n\n\n\nSep 11, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\nwelcome\n\n\n\n\n\n\n\n\n\nSep 2, 2025\n\n\nJordan Wozniak\n\n\n\n\n\nNo matching items"
+    "text": "1 Welcome to my Blog!\nHello there, it is me, Jordan Wozniak. I am currently in my fourth year at the University of Iowa, majoring in Psychology. I also plan on going into a fifth year where I go on the road to achieve my masters, and get an associates in criminal justice, since I like the idea of the crime side of psychology.\n\n\n2 About Me\nThis blog will contain posts about football, fantasy football, and other relating ideas. Using the art of psychology will help study human behaviors through the art of statistics."
   },
   {
     "objectID": "posts/myfantasyteam/myfantasyteam.html",
@@ -182,10 +126,150 @@
     "text": "2.15 Fifteenth Pick - Cooper Kupp (WR)\nThis is an honor pick for my team. Kupp, while on the Rams, has been one of the top receivers in the league, and will continue to do so on his new team, the Seahawks. However, he is paired with another top receiver in Smith-Njigba, and Kenneth Walker III."
   },
   {
-    "objectID": "posts/welcome/index.html",
-    "href": "posts/welcome/index.html",
-    "title": "Welcome To My Blog",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "My Blog",
     "section": "",
-    "text": "1 Welcome to my Blog!\nHello there, it is me, Jordan Wozniak. I am currently in my fourth year at the University of Iowa, majoring in Psychology. I also plan on going into a fifth year where I go on the road to achieve my masters, and get an associates in criminal justice, since I like the idea of the crime side of psychology.\n\n\n2 About Me\nThis blog will contain posts about football, fantasy football, and other relating ideas. Using the art of psychology will help study human behaviors through the art of statistics."
+    "text": "Correlation between the amount of carries for a QB compared to their fantasy point production\n\n\n\nwelcome\n\nfantasyteam\n\nagevsfantasypoints\n\ncorrelationQBandFPs\n\n\n\n\n\n\n\n\n\nSep 30, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nVisulalization If Age Plays An Impact On Their Fantasy Point Production\n\n\n\nwelcome\n\nfantasyteam\n\nagevsfantasypoints\n\n\n\n\n\n\n\n\n\nSep 18, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nMy Fantasy Team\n\n\n\nwelcome\n\nfantasyteam\n\n\n\n\n\n\n\n\n\nSep 11, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\nwelcome\n\n\n\n\n\n\n\n\n\nSep 2, 2025\n\n\nJordan Wozniak\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/qbandcarries/qbandcarries.html",
+    "href": "posts/qbandcarries/qbandcarries.html",
+    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
+    "section": "",
+    "text": "AI Disclosure: AI was not used.\nLink to AI Transcript: not applicable"
+  },
+  {
+    "objectID": "posts/qbandcarries/qbandcarries.html#install-libraries",
+    "href": "posts/qbandcarries/qbandcarries.html#install-libraries",
+    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
+    "section": "2.1 Install Libraries",
+    "text": "2.1 Install Libraries\n\n\nCode\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)"
+  },
+  {
+    "objectID": "posts/qbandcarries/qbandcarries.html#load-libraries",
+    "href": "posts/qbandcarries/qbandcarries.html#load-libraries",
+    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
+    "section": "2.2 Load Libraries",
+    "text": "2.2 Load Libraries\n\n\nCode\nlibrary(\"petersenlab\")\nlibrary(\"XICOR\")\nlibrary(\"psych\")\nlibrary(\"DescTools\")\nlibrary(\"psych\")\nlibrary(\"correlation\")\nlibrary(\"effectsize\")\nlibrary(\"GGally\")\nlibrary(\"ggridges\")\nlibrary(\"tidyverse\")"
+  },
+  {
+    "objectID": "posts/qbandcarries/qbandcarries.html#load-data",
+    "href": "posts/qbandcarries/qbandcarries.html#load-data",
+    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
+    "section": "2.3 Load Data",
+    "text": "2.3 Load Data\n\n\nCode\nload(\"player_stats_weekly.RData\")"
+  },
+  {
+    "objectID": "posts/qbandcarries/qbandcarries.html#research-question",
+    "href": "posts/qbandcarries/qbandcarries.html#research-question",
+    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
+    "section": "4.1 Research Question",
+    "text": "4.1 Research Question\nIs there a correlation between a QB’s rushing carries and their overall fantasy finish? Can we safely say that QBs who prioritize rushing carries tend to score more fantasy points than other QBs."
+  },
+  {
+    "objectID": "posts/qbandcarries/qbandcarries.html#hypothesis-and-prediction",
+    "href": "posts/qbandcarries/qbandcarries.html#hypothesis-and-prediction",
+    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
+    "section": "4.2 Hypothesis and Prediction",
+    "text": "4.2 Hypothesis and Prediction\nMy hypothesis and prediction is that QBs with higher rushing carries will lead to more fantasy points produce by said player."
+  },
+  {
+    "objectID": "posts/qbandcarries/qbandcarries.html#justification",
+    "href": "posts/qbandcarries/qbandcarries.html#justification",
+    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
+    "section": "4.3 Justification",
+    "text": "4.3 Justification\nThere is a reason why I picked carries over flat rushing yards. Through when I have played in multiple leagues over multiple leagues, I have seen that QBs that always use their legs, in turn more carries, tend to score more points than their opposing matchup. This isn’t true 100% of the time, but gives you a better chance to win that direct matchup."
+  },
+  {
+    "objectID": "posts/qbandcarries/qbandcarries.html#correlation-analysis",
+    "href": "posts/qbandcarries/qbandcarries.html#correlation-analysis",
+    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
+    "section": "6.1 Correlation Analysis",
+    "text": "6.1 Correlation Analysis\n\n\nCode\nggplot2::ggplot(\n  data = player_stats_weekly %&gt;% filter(position == \"QB\"),\n  aes(\n    x = carries,\n    y = fantasyPoints)) +\n  geom_point() +\n  geom_smooth(\n    method = \"lm\",  # linear best-fit line\n    color = \"red\") +\n  geom_smooth(\n    method = \"gam\", # nonlinear best-fit line\n    color = \"blue\"\n  ) +\n  labs(\n    x = \"Carries\",\n    y = \"Fantasy Points\",\n    title = \"Correlation between Carries with QBs and Fantasy Points\"\n  )\n\n\n`geom_smooth()` using formula = 'y ~ x'\n`geom_smooth()` using formula = 'y ~ s(x, bs = \"cs\")'"
+  },
+  {
+    "objectID": "posts/qbandcarries/qbandcarries.html#regression-model",
+    "href": "posts/qbandcarries/qbandcarries.html#regression-model",
+    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
+    "section": "6.2 Regression Model",
+    "text": "6.2 Regression Model\n\n\nCode\nregressionOnePredictor &lt;- lm(\n  fantasyPoints ~ carries,\n  data = player_stats_weekly %&gt;% filter(position %in% c(\"QB\")),\n  na.action = \"na.exclude\"\n)\n\nsummary(regressionOnePredictor)\n\n\n\nCall:\nlm(formula = fantasyPoints ~ carries, data = player_stats_weekly %&gt;% \n    filter(position %in% c(\"QB\")), na.action = \"na.exclude\")\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-25.268  -6.603  -0.483   5.602  33.912 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  9.71756    0.09517  102.11   &lt;2e-16 ***\ncarries      1.32503    0.02580   51.36   &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 8.235 on 16101 degrees of freedom\nMultiple R-squared:  0.1408,    Adjusted R-squared:  0.1407 \nF-statistic:  2638 on 1 and 16101 DF,  p-value: &lt; 2.2e-16\n\n\nCode\nprint(effectsize::standardize_parameters(regressionOnePredictor, method = \"refit\"), digits = 4)\n\n\n# Standardization method: refit\n\nParameter   | Std. Coef. |            95% CI\n--------------------------------------------\n(Intercept) | 2.5634e-18 | [-0.0143, 0.0143]\ncarries     |     0.3752 | [ 0.3609, 0.3895]\n\n\n\n\nCode\nregressionTwoPredictors &lt;- lm(\n  fantasyPoints ~ carries + passing_yards,\n  data = player_stats_weekly %&gt;% filter(position %in% c(\"QB\")),\n  na.action = \"na.exclude\"\n)\n\nsummary(regressionTwoPredictors)\n\n\n\nCall:\nlm(formula = fantasyPoints ~ carries + passing_yards, data = player_stats_weekly %&gt;% \n    filter(position %in% c(\"QB\")), na.action = \"na.exclude\")\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-17.5703  -3.1466  -0.1201   2.6699  24.9235 \n\nCoefficients:\n                Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)   -1.6698831  0.0852692  -19.58   &lt;2e-16 ***\ncarries        0.8841407  0.0152843   57.85   &lt;2e-16 ***\npassing_yards  0.0642118  0.0003644  176.19   &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 4.813 on 16100 degrees of freedom\nMultiple R-squared:  0.7066,    Adjusted R-squared:  0.7065 \nF-statistic: 1.938e+04 on 2 and 16100 DF,  p-value: &lt; 2.2e-16\n\n\nCode\nprint(effectsize::standardize_parameters(regressionTwoPredictors, method = \"refit\"), digits = 4)\n\n\n# Standardization method: refit\n\nParameter     |  Std. Coef. |            95% CI\n-----------------------------------------------\n(Intercept)   | -1.6530e-18 | [-0.0084, 0.0084]\ncarries       |      0.2503 | [ 0.2419, 0.2588]\npassing yards |      0.7625 | [ 0.7540, 0.7710]"
+  },
+  {
+    "objectID": "posts/qbandcarries/qbandcarries.html#discussion",
+    "href": "posts/qbandcarries/qbandcarries.html#discussion",
+    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
+    "section": "6.3 Discussion",
+    "text": "6.3 Discussion\nFor this analysis, there were two different charts that were created. A plot diagram where it visually shows all QBs, their amount of carries, compared to their amount of fantasy points.\nFor the first graph, we can say that QBs with more carries tend to score more fantasy points.\nFor our regression model, we can say that a QB with 0 carries averages 9.7 fantasy points, while each carries will add about 1.3 fantasy points, on average. Since our p-value &lt; 0.005, it is most certain that it will happen.\nFor the second regression model, I added two predictors, the addition of passing yards. We could go on and on with touchdowns, interceptions, but passing yards still shows that carries provide an independent boost to a QBs fantasy output."
+  },
+  {
+    "objectID": "posts/qbandcarries/qbandcarries.html#strengths-and-limitations",
+    "href": "posts/qbandcarries/qbandcarries.html#strengths-and-limitations",
+    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
+    "section": "6.4 Strengths and Limitations",
+    "text": "6.4 Strengths and Limitations\nThe strength behind this study that there is a strong correlation by statistical evidence that it is safe to draft a QB with a high carries rate.\nThere could a few limitations to this study that could make or break it. There are some items out there can we can’t always predict. QBs can always have off games, there can be confounds that can arise, such as their passing rate for yards and touchdowns, the other defense’s ability to stop the run game, but that’s the name of the game."
+  },
+  {
+    "objectID": "posts/qbandcarries/qbandcarries.html#conclusion",
+    "href": "posts/qbandcarries/qbandcarries.html#conclusion",
+    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
+    "section": "6.5 Conclusion",
+    "text": "6.5 Conclusion\nThis study demonstrates that both passing yards and carries are important predictors of quarterback fantasy performance. While passing yards account for the majority of variance in scoring, carries remain a significant and meaningful independent contributor. Overall, carries matter, providing a consistent and measurable boost to fantasy outcomes."
+  },
+  {
+    "objectID": "posts/agevsqb/agevsqb.html",
+    "href": "posts/agevsqb/agevsqb.html",
+    "title": "Visulalization If Age Plays An Impact On Their Fantasy Point Production",
+    "section": "",
+    "text": "AI Disclosure: AI was not used.\nLink to AI Transcript: not applicable"
+  },
+  {
+    "objectID": "posts/agevsqb/agevsqb.html#install-libraries",
+    "href": "posts/agevsqb/agevsqb.html#install-libraries",
+    "title": "Visulalization If Age Plays An Impact On Their Fantasy Point Production",
+    "section": "2.1 Install Libraries",
+    "text": "2.1 Install Libraries\n\n\nCode\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)"
+  },
+  {
+    "objectID": "posts/agevsqb/agevsqb.html#load-libraries",
+    "href": "posts/agevsqb/agevsqb.html#load-libraries",
+    "title": "Visulalization If Age Plays An Impact On Their Fantasy Point Production",
+    "section": "2.2 Load Libraries",
+    "text": "2.2 Load Libraries\n\n\nCode\nlibrary(\"petersenlab\")\nlibrary(\"XICOR\")\nlibrary(\"psych\")\nlibrary(\"DescTools\")\nlibrary(\"psych\")\nlibrary(\"correlation\")\nlibrary(\"effectsize\")\nlibrary(\"GGally\")\nlibrary(\"ggridges\")\nlibrary(\"tidyverse\")"
+  },
+  {
+    "objectID": "posts/agevsqb/agevsqb.html#load-data",
+    "href": "posts/agevsqb/agevsqb.html#load-data",
+    "title": "Visulalization If Age Plays An Impact On Their Fantasy Point Production",
+    "section": "2.3 Load Data",
+    "text": "2.3 Load Data\n\n\nCode\nload(\"player_stats_weekly.RData\")"
+  },
+  {
+    "objectID": "posts/agevsqb/agevsqb.html#researchQuestion",
+    "href": "posts/agevsqb/agevsqb.html#researchQuestion",
+    "title": "Visulalization If Age Plays An Impact On Their Fantasy Point Production",
+    "section": "4.1 Research Questions",
+    "text": "4.1 Research Questions\nDoes age matter when it comes to fantasy performance?"
+  },
+  {
+    "objectID": "posts/agevsqb/agevsqb.html#sec-hyptothesis",
+    "href": "posts/agevsqb/agevsqb.html#sec-hyptothesis",
+    "title": "Visulalization If Age Plays An Impact On Their Fantasy Point Production",
+    "section": "4.2 Hypothesis",
+    "text": "4.2 Hypothesis\nI believe that age does play a factor into a player’s fantasy performance. The older they get, the less they get."
+  },
+  {
+    "objectID": "posts/agevsqb/agevsqb.html#sec-justification",
+    "href": "posts/agevsqb/agevsqb.html#sec-justification",
+    "title": "Visulalization If Age Plays An Impact On Their Fantasy Point Production",
+    "section": "4.3 Justification",
+    "text": "4.3 Justification\nYou have dominate players like Aaron Rodgers, Tom Brady, and Matthew Stafford, who in their “hay-days,” where fantasy point machines. During their last seasons in the league, around or over the age of 40, have significantly slowed down. There are some outliers and the difference of who is on that team at the time. Is there a correct assumption to say that the older the player is, the worse they get, or is it irrelevant?"
+  },
+  {
+    "objectID": "posts/agevsqb/agevsqb.html#sec-method",
+    "href": "posts/agevsqb/agevsqb.html#sec-method",
+    "title": "Visulalization If Age Plays An Impact On Their Fantasy Point Production",
+    "section": "4.4 Method",
+    "text": "4.4 Method\nThe method that I want to use here is to use a table with all players and their seasonal fantasy point numbers, compared to their age, all in a correlation plot. This is better for this, in my opinion, is that you get the average fantasy point numbers by the x and y that is chosen, in this case it would be age and season fantasy points. This is also cleaner and produces an average, which is what we want to create a correct answer. What we are trying to find here is that there is a positive skew, leaning towards the younger age versus the older age.\n#Results {#sec-results} We are going to load player stats weekly, where it will look at all the fantasy points each week for a player, with the added information of their age, and compare.\n\n\nCode\nggplot2::ggplot(\n  data = player_stats_weekly %&gt;%\n    filter(position %in% c(\"QB\", \"RB\", \"WR\", \"TE\")),\n  aes(x = age, y = fantasyPoints)\n) +\n  geom_point() +\n  geom_smooth(method = \"lm\", color = \"red\") +\n  geom_smooth(method = \"gam\", color = \"blue\") +\n  labs(\n    x = \"Age\",\n    y = \"Fantasy Points\",\n    title = \"Correlation between Age and Fantasy Points\"\n  )\n\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\nWarning: Removed 1033 rows containing non-finite outside the scale range\n(`stat_smooth()`).\n\n\n`geom_smooth()` using formula = 'y ~ s(x, bs = \"cs\")'\n\n\nWarning: Removed 1033 rows containing non-finite outside the scale range\n(`stat_smooth()`).\n\n\nWarning: Removed 1033 rows containing missing values or values outside the scale range\n(`geom_point()`)."
   }
 ]
