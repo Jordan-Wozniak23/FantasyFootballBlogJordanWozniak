@@ -3,7 +3,7 @@ title: "Fallacies and biases created from analyzing one specific pieces data in 
 author: "Jordan Wozniak"
 date: "10/9/2025"
 categories: [FallaciesAndBiases]
-image: ""
+image: "fallacies.jpg"
 format: html
 ---
 
