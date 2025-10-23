@@ -1,0 +1,71 @@
+---
+title: ""
+author: "Jordan Wozniak"
+date: "10/23/2025"
+categories: []
+image: ""
+format: html
+---
+
+# Preamble {#sec-preamble}
+
+## Install Libraries
+```{r}
+#install.packages("remotes")
+#remotes::install_github("DevPsyLab/petersenlab")
+#remotes::install_github("FantasyFootballAnalytics/ffanalytics")
+
+#update.packages(ask = FALSE)
+```
+
+## Load Libraries
+```{r}
+#| message: false
+#| warning: false
+
+library("petersenlab")
+library("tidyverse")
+```
+
+# A.I. Disclosure {#sec-aiDisclosure}
+
+AI Disclosure: AI was not used.
+
+Link to AI Transcript: not applicable
+
+
+# Abstract {#sec-abstract}
+
+**Background:**
+
+**Method:**
+
+**Results:**
+
+**Discussion:**
+
+# Background {#sec-background}
+
+## Research Question
+
+
+## Hypothesis
+
+
+## Justification
+
+
+# Method {#sec-method}
+
+# Data {#sec-data}
+
+# Results {#sec-results}
+
+# Discussion {#sec-discussion}
+
+# Strengths and Limitations {#sec-strengthsAndLimitations}
+
+# Citation {#sec-Citation}
+
+# Session Info {#sec-sessionInfo}
+
