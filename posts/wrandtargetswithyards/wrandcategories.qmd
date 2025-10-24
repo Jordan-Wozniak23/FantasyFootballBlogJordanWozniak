@@ -1,9 +1,9 @@
 ---
-title: ""
+title: "Do Last-Game Receptions Beat Yardage for Predicting Next Week?"
 author: "Jordan Wozniak"
 date: "10/23/2025"
-categories: []
-image: ""
+categories: [ReceptionsBeatingYardage]
+image: "megatron.jpg"
 format: html
 ---
 
@@ -30,8 +30,6 @@ library("tidyverse")
 ## Load Data
 
 ```{r}
-#| eval: false
-
 load(file = "../../data/player_stats_weekly.RData")
 load(file = "../../data/players_projections_weekly.RData")
 load(file = "../../data/nfl_playerIDs.RData")
@@ -50,35 +48,91 @@ Link to AI Transcript: not applicable
 
 # Abstract {#sec-abstract}
 
-**Background:**
+**Background:** I compared two simple WR signals—prior-game receptions and prior-game receiving yards—to see which better predicts hitting a startable threshold next game (≥5 receptions vs ≥50 yards).
 
-**Method:**
+**Method:**For WR game logs, I created lag/lead variables (last game → next game) and evaluated two binary rules with **petersenlab::accuracyAtCutoff()**.
 
-**Results:**
+**Results:** Receptions ≥5: TP=6,486; TN=26,145; FP=9,123; FN=4,151 → Accuracy 71.1% (base-rate 76.8%), SN 0.61, SP 0.74, PPV 0.42, NPV 0.86, Youden J 0.351.
 
-**Discussion:**
+Reception Yards ≥50: TP=7,165; TN=24,805; FP=7,137; FN=6,798 → Accuracy 69.7% (base-rate 69.6%), SN 0.51, SP 0.78, PPV 0.50, NPV 0.79, Youden J 0.290.
+
+**Discussion:** Receptions showed better discrimination than yards, partly supporting the hypothesis that receptions are the stronger signal. However, the simple receptions cutoff underperformed the naive baseline on accuracy, and its precision was lower than the yardage rule.
 
 # Background {#sec-background}
 
-I will evaluate whether a wide receiver’s prior-game receiving yards predict hitting ≥60 yards in the next game, using binary-classification accuracy
+I will compare two simple signals for wide receivers—prior-game receptions and prior-game receiving yards—to see which better predicts a WR reaching startable thresholds next game (≥6 receptions vs. ≥60 yards) using binary-classification accuracy and calibration.
 
 ## Research Question
 
-For NFL wide receivers, how accurately and how well-calibrated does prior-game receiving yards predict a next-game outcome of ≥60 receiving yards, and is this signal strong enough to guide start/sit decisions?
+Among NFL WRs, which prior-game metric—receptions or receiving yards—more accurately and more well-calibratedly predicts hitting the same threshold in the following game (≥5 receptions or ≥50 yards), and which yields more useful start/sit decisions?
 
 ## Hypothesis
 
-Prior-game receiving yards will best predict a WR reaching ≥60 yards next game; specifically, higher prior yards increase the odds of repeating the 60+ threshold with decent calibration.
+I believe that receptions will outperform receiving yards: prior-game receptions will be the more accurate and better-calibrated predictor of next-game outcomes.
 
 ## Justification
 
-60 yards is a sustainable number for receivers to achieve. Making it an accurate number to see. Through analysis in fantasy leagues, having a wide receiver that achieves this number on a consistent basis can predict that they are a reliable receiver to draft/keep.
+From a fundamental point of view, receptions can be more of a consistent measure when analyzing past games, and within PPR (Points Per Reception) leagues, this number is very valuable. Let's look at an example. Player A has 3 receptions for 70 yards, versus, Player B with 6 receptions 40 yards. Which is a better statline? From a fantasy point line, they both have 10 (excluding other statistical measures, like touchdowns and rushing yards, et cetera). We can view that since receptions is a flat 1 point, versus 0.1 for yards, we can say that receptions, on a prediction accuracy model, can tell us that this could be more reliable.
 
 # Method {#sec-method}
 
-
+For our method, we will provide two prediction accuracy models. One for yardage, which I chose the baseline at 50, a common average for a receptions yards, and 5 receptions, a common baseline. This will be a prior game, and create a prediction accuracy model to see if that number can be met, or succeeded, and to see which is more accurate.
 
 # Data {#sec-data}
+
+```{r}
+player_stats_weekly_subset <- player_stats_weekly %>% 
+  filter(!is.na(player_id))
+
+nfl_playerIDs_subset <- nfl_playerIDs %>% 
+  filter(!is.na(gsis_id)) %>% 
+  distinct(gsis_id, .keep_all = TRUE) %>% # keep only rows that do not have duplicate values of gsis_id
+  select(-all_of(c("team", "position", "height", "weight", "age")))
+
+players_projectedPoints_weekly_combined$season <- as.integer(players_projectedPoints_weekly_combined$season)
+players_projections_weekly_average_merged$season <- as.integer(players_projections_weekly_average_merged$season)
+
+player_stats_weekly_subset_IDs <- left_join(
+  player_stats_weekly_subset,
+  nfl_playerIDs_subset,
+  by = c("player_id" = "gsis_id")
+) %>% 
+  filter(!is.na(mfl_id))
+
+projectionsWithActuals_weekly <- full_join(
+  player_stats_weekly_subset_IDs,
+  players_projectedPoints_weekly_combined,
+  by = c("mfl_id" = "id", "season", "week"),
+  suffix = c("", "_proj"),
+)
+
+crowdAveragedProjectionsWithActuals_weekly <- full_join(
+  player_stats_weekly_subset_IDs,
+  players_projections_weekly_average_merged,
+  by = c("mfl_id" = "id", "season", "week"),
+  suffix = c("", "_proj"),
+)
+
+projectionsWithActuals_weekly <- projectionsWithActuals_weekly %>% 
+  unite(
+    "player_id_season_week",
+    player_id,
+    season,
+    week,
+    remove = FALSE
+  )
+
+crowdAveragedProjectionsWithActuals_weekly <- crowdAveragedProjectionsWithActuals_weekly %>% 
+  unite(
+    "player_id_season_week",
+    player_id,
+    season,
+    week,
+    remove = FALSE
+  )
+```
+
+
 ```{r}
 library(dplyr)
 library(petersenlab)
@@ -89,32 +143,89 @@ player_stats_weekly_example <- player_stats_weekly %>%
   group_by(player_id, season) %>%
   mutate(
     receiving_yards_priorGame = dplyr::lag(receiving_yards),
-    yds60_next = as.integer(dplyr::lead(receiving_yards >= 60))
+    yds50_next = as.integer(dplyr::lead(receiving_yards >= 50))
   ) %>%
   ungroup() %>%
-  filter(!is.na(receiving_yards_priorGame), !is.na(yds60_next))
+  filter(!is.na(receiving_yards_priorGame), !is.na(yds50_next))
 
 player_stats_weekly_example %>%
-  select(player_id, season, week, receiving_yards, receiving_yards_priorGame, yds60_next) %>%
+  select(player_id, season, week, receiving_yards, receiving_yards_priorGame, yds50_next) %>%
   head()
 ```
 
 ```{r}
 petersenlab::accuracyAtCutoff(
   predicted = player_stats_weekly_example$receiving_yards_priorGame,
-  actual    = player_stats_weekly_example$yds60_next,
-  cutoff    = 59 # 1 before 60, to see how many fit
+  actual    = player_stats_weekly_example$yds50_next,
+  cutoff    = 49 # 1 before 50, to see how many fit
+)
+```
+```{r}
+library(dplyr)
+library(petersenlab)
+
+player_stats_weekly_example <- player_stats_weekly %>%
+  filter(position == "WR") %>%
+  arrange(player_id, season, week) %>%
+  group_by(player_id, season) %>%
+  mutate(
+    receptions_priorGame = dplyr::lag(receptions),
+    rec5_next = as.integer(dplyr::lead(receptions >= 5))
+  ) %>%
+  ungroup() %>%
+  filter(!is.na(receptions_priorGame), !is.na(rec5_next))
+
+player_stats_weekly_example %>%
+  select(player_id, season, week, receptions, receptions_priorGame, rec5_next) %>%
+  head()
+```
+
+```{r}
+petersenlab::accuracyAtCutoff(
+  predicted = player_stats_weekly_example$receptions_priorGame,
+  actual    = player_stats_weekly_example$rec5_next,
+  cutoff    = 4
 )
 ```
 
 # Results {#sec-results}
 
+Using simple last-game cutoffs, receptions showed better discrimination but not better overall accuracy than receiving yards.
+
+**Receptions:** ≥5 (cutoff = 4): TP=6,486, TN=26,145, FP=9,123, FN=4,151 → Accuracy 71.1% (vs 76.8% base-rate), Sensitivity 0.610, Specificity 0.741, PPV 0.416, NPV 0.863, Youden J 0.351, MCC 0.313.
+
+**Receiving Yards:** ≥50 (cutoff = 49): TP=7,165, TN=24,805, FP=7,137, FN=6,798 → Accuracy 69.7% (≈ 69.6% base-rate), Sensitivity 0.513, Specificity 0.777, PPV 0.501, NPV 0.785, Youden J 0.290.
+
+Interpretation vs. hypothesis. The hypothesis that receptions are the better predictor receives partial support: receptions have higher sensitivity and higher Youden J (better separation of positives/negatives). However, receptions underperform the naive baseline on accuracy and have lower precision (PPV) than yards, so they are not uniformly better. Overall, evidence is mixed/weak in favor of the hypothesis when using fixed cutoffs.
+
 # Discussion {#sec-discussion}
+
+We compared two simple “last-game” signals for WRs—prior-game receptions (>4) and prior-game receiving yards (>49)—to predict next-game thresholds (≥5 receptions, ≥50 yards). Receptions showed better discrimination (Youden J = 0.351; SN = 0.61) than yards (Youden J = 0.29; SN = 0.51), aligning with the idea that volume is the stickier signal. However, the receptions cutoff underperformed a naive base-rate guess on overall accuracy (71.1% vs 76.8%), and its precision (PPV = 0.42) was lower than the yardage rule (PPV = 0.50). The yardage rule’s accuracy (69.7%) was essentially tied with its base-rate benchmark (69.6%).
+
+Taken together, the evidence provides mixed/weak support for the hypothesis that receptions are “better.” They are better at finding true positives (higher sensitivity, higher Youden J), but not clearly better in terms of decision reliability at a fixed cutoff (lower PPV; no advantage vs base-rate accuracy). Practically, either single-number rule is too noisy for confident start/sit decisions.
+
+Do I personally think that this could be a good factor into predicting next games for players, sure. However, there are a lot of factors to put into play that make this hard to generally predict, could be littered with confounds.
 
 # Strengths and Limitations {#sec-strengthsAndLimitations}
 
+**Strengths:**
+Big, real-world sample of WR games.
+Clear, reproducible rules (last-game to next-game threshold).
+Same method for both signals, so fair head-to-head.
+Multiple metrics reported.
 
-# Citation {#sec-Citation}
+**Limitations:**
+Only one input at a time (receptions or yards); no combined model.
+Fixed, hand-picked cutoffs (4, 49) instead of data-driven thresholds.
+Ignores context (targets, routes, air yards, injuries, opponent, QB)
+
+# Conclusion {#sec-conclusion}
+
+Receptions are directionally stronger than yardage for discrimination, but neither fixed cutoff is practically reliable: receptions underperform a naive baseline and yards only match it.
+
+If I were to try this again, I would pick more areas to analyze, look them over, and see what is the best for a prediction accuracy model. Receptions versus receiving yards is a good model to look at since it can interpret that high reception counts could lead to more/better usage for that player on the snap counts, so that's why I chose that receptions are better, since it means that the player is getting the ball more versus getting a big play or two.
+
+# Citation {#sec-citation}
 
 https://www.rotoviz.com/2016/08/using-air-yards-to-better-predict-receiving-yards/
 
