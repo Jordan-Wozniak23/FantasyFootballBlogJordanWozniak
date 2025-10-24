@@ -37,58 +37,8 @@ load(file = "../../data/players_projections_weekly.RData")
 load(file = "../../data/nfl_playerIDs.RData")
 ```
 
-## Prepare Data
-
 ```{r}
-player_stats_weekly_subset <- player_stats_weekly %>% 
-  filter(!is.na(player_id))
-
-nfl_playerIDs_subset <- nfl_playerIDs %>% 
-  filter(!is.na(gsis_id)) %>% 
-  distinct(gsis_id, .keep_all = TRUE) %>% # keep only rows that do not have duplicate values of gsis_id
-  select(-all_of(c("team", "position", "height", "weight", "age")))
-
-players_projectedPoints_weekly_combined$season <- as.integer(players_projectedPoints_weekly_combined$season)
-players_projections_weekly_average_merged$season <- as.integer(players_projections_weekly_average_merged$season)
-
-player_stats_weekly_subset_IDs <- left_join(
-  player_stats_weekly_subset,
-  nfl_playerIDs_subset,
-  by = c("player_id" = "gsis_id")
-) %>% 
-  filter(!is.na(mfl_id))
-
-projectionsWithActuals_weekly <- full_join(
-  player_stats_weekly_subset_IDs,
-  players_projectedPoints_weekly_combined,
-  by = c("mfl_id" = "id", "season", "week"),
-  suffix = c("", "_proj"),
-)
-
-crowdAveragedProjectionsWithActuals_weekly <- full_join(
-  player_stats_weekly_subset_IDs,
-  players_projections_weekly_average_merged,
-  by = c("mfl_id" = "id", "season", "week"),
-  suffix = c("", "_proj"),
-)
-
-projectionsWithActuals_weekly <- projectionsWithActuals_weekly %>% 
-  unite(
-    "player_id_season_week",
-    player_id,
-    season,
-    week,
-    remove = FALSE
-  )
-
-crowdAveragedProjectionsWithActuals_weekly <- crowdAveragedProjectionsWithActuals_weekly %>% 
-  unite(
-    "player_id_season_week",
-    player_id,
-    season,
-    week,
-    remove = FALSE
-  )
+options(scipen = 999) # prevent scientific notation
 ```
 
 # A.I. Disclosure {#sec-aiDisclosure}
@@ -110,31 +60,51 @@ Link to AI Transcript: not applicable
 
 # Background {#sec-background}
 
-I want to use predictions to see the comparison, for wide receivers, between receptions, using the magic number of 5 from their last game, seeing if they are consistent on that number. Also the number of receiving yards, magic number of 60, and yards after catch, with 15. This is a thought-out comparison to see, if accuracy predictions, which one is better than the other, and can we safely say what is better to pick for a fantasy team.
+I will evaluate whether a wide receiver’s prior-game receiving yards predict hitting ≥60 yards in the next game, using binary-classification accuracy
 
 ## Research Question
 
-Among NFL wide receivers, which prior-game signal—receptions ≥5, receiving yards ≥60, or yards after catch ≥15 most accurately and calibratedly predicts hitting the same threshold next game, and which signal yields the best start/sit decisions under binary-classification metrics
+For NFL wide receivers, how accurately and how well-calibrated does prior-game receiving yards predict a next-game outcome of ≥60 receiving yards, and is this signal strong enough to guide start/sit decisions?
 
 ## Hypothesis
 
-Prior-game receptions ≥5 will be the most accurate and best-calibrated predictor of repeating the threshold next game. 
+Prior-game receiving yards will best predict a WR reaching ≥60 yards next game; specifically, higher prior yards increase the odds of repeating the 60+ threshold with decent calibration.
 
 ## Justification
 
-Leagues are in PPR (Points Per Reception) leagues, so the value of receptions is really high. Having a great amount of receptions per game.
+60 yards is a sustainable number for receivers to achieve. Making it an accurate number to see. Through analysis in fantasy leagues, having a wide receiver that achieves this number on a consistent basis can predict that they are a reliable receiver to draft/keep.
 
 # Method {#sec-method}
 
 
 
 # Data {#sec-data}
+```{r}
+library(dplyr)
+library(petersenlab)
+
+player_stats_weekly_example <- player_stats_weekly %>%
+  filter(position == "WR") %>%
+  arrange(player_id, season, week) %>%
+  group_by(player_id, season) %>%
+  mutate(
+    receiving_yards_priorGame = dplyr::lag(receiving_yards),
+    yds60_next = as.integer(dplyr::lead(receiving_yards >= 60))
+  ) %>%
+  ungroup() %>%
+  filter(!is.na(receiving_yards_priorGame), !is.na(yds60_next))
+
+player_stats_weekly_example %>%
+  select(player_id, season, week, receiving_yards, receiving_yards_priorGame, yds60_next) %>%
+  head()
+```
 
 ```{r}
 petersenlab::accuracyAtCutoff(
-  predicted = player_stats_weekly_example$receptions_priorGame,
-  actual = player_stats_weekly_example$rec_6,
-  cutoff = 6
+  predicted = player_stats_weekly_example$receiving_yards_priorGame,
+  actual    = player_stats_weekly_example$yds60_next,
+  cutoff    = 59 # 1 before 60, to see how many fit
+)
 ```
 
 # Results {#sec-results}
@@ -146,7 +116,7 @@ petersenlab::accuracyAtCutoff(
 
 # Citation {#sec-Citation}
 
-
+https://www.rotoviz.com/2016/08/using-air-yards-to-better-predict-receiving-yards/
 
 # Session Info {#sec-sessionInfo}
 ```{r}
