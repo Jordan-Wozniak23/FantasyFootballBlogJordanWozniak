@@ -1,0 +1,154 @@
+---
+title: ""
+author: "Jordan Wozniak"
+date: "10/23/2025"
+categories: []
+image: ""
+format: html
+---
+
+# Preamble {#sec-preamble}
+
+## Install Libraries
+```{r}
+#install.packages("remotes")
+#remotes::install_github("DevPsyLab/petersenlab")
+#remotes::install_github("FantasyFootballAnalytics/ffanalytics")
+
+#update.packages(ask = FALSE)
+```
+
+## Load Libraries
+```{r}
+#| message: false
+#| warning: false
+
+library("petersenlab")
+library("tidyverse")
+```
+
+## Load Data
+
+```{r}
+#| eval: false
+
+load(file = "../../data/player_stats_weekly.RData")
+load(file = "../../data/players_projections_weekly.RData")
+load(file = "../../data/nfl_playerIDs.RData")
+```
+
+## Prepare Data
+
+```{r}
+player_stats_weekly_subset <- player_stats_weekly %>% 
+  filter(!is.na(player_id))
+
+nfl_playerIDs_subset <- nfl_playerIDs %>% 
+  filter(!is.na(gsis_id)) %>% 
+  distinct(gsis_id, .keep_all = TRUE) %>% # keep only rows that do not have duplicate values of gsis_id
+  select(-all_of(c("team", "position", "height", "weight", "age")))
+
+players_projectedPoints_weekly_combined$season <- as.integer(players_projectedPoints_weekly_combined$season)
+players_projections_weekly_average_merged$season <- as.integer(players_projections_weekly_average_merged$season)
+
+player_stats_weekly_subset_IDs <- left_join(
+  player_stats_weekly_subset,
+  nfl_playerIDs_subset,
+  by = c("player_id" = "gsis_id")
+) %>% 
+  filter(!is.na(mfl_id))
+
+projectionsWithActuals_weekly <- full_join(
+  player_stats_weekly_subset_IDs,
+  players_projectedPoints_weekly_combined,
+  by = c("mfl_id" = "id", "season", "week"),
+  suffix = c("", "_proj"),
+)
+
+crowdAveragedProjectionsWithActuals_weekly <- full_join(
+  player_stats_weekly_subset_IDs,
+  players_projections_weekly_average_merged,
+  by = c("mfl_id" = "id", "season", "week"),
+  suffix = c("", "_proj"),
+)
+
+projectionsWithActuals_weekly <- projectionsWithActuals_weekly %>% 
+  unite(
+    "player_id_season_week",
+    player_id,
+    season,
+    week,
+    remove = FALSE
+  )
+
+crowdAveragedProjectionsWithActuals_weekly <- crowdAveragedProjectionsWithActuals_weekly %>% 
+  unite(
+    "player_id_season_week",
+    player_id,
+    season,
+    week,
+    remove = FALSE
+  )
+```
+
+# A.I. Disclosure {#sec-aiDisclosure}
+
+AI Disclosure: AI was not used.
+
+Link to AI Transcript: not applicable
+
+
+# Abstract {#sec-abstract}
+
+**Background:**
+
+**Method:**
+
+**Results:**
+
+**Discussion:**
+
+# Background {#sec-background}
+
+I want to use predictions to see the comparison, for wide receivers, between receptions, using the magic number of 5 from their last game, seeing if they are consistent on that number. Also the number of receiving yards, magic number of 60, and yards after catch, with 15. This is a thought-out comparison to see, if accuracy predictions, which one is better than the other, and can we safely say what is better to pick for a fantasy team.
+
+## Research Question
+
+Among NFL wide receivers, which prior-game signal—receptions ≥5, receiving yards ≥60, or yards after catch ≥15 most accurately and calibratedly predicts hitting the same threshold next game, and which signal yields the best start/sit decisions under binary-classification metrics
+
+## Hypothesis
+
+Prior-game receptions ≥5 will be the most accurate and best-calibrated predictor of repeating the threshold next game. 
+
+## Justification
+
+Leagues are in PPR (Points Per Reception) leagues, so the value of receptions is really high. Having a great amount of receptions per game.
+
+# Method {#sec-method}
+
+
+
+# Data {#sec-data}
+
+```{r}
+petersenlab::accuracyAtCutoff(
+  predicted = player_stats_weekly_example$receptions_priorGame,
+  actual = player_stats_weekly_example$rec_6,
+  cutoff = 6
+```
+
+# Results {#sec-results}
+
+# Discussion {#sec-discussion}
+
+# Strengths and Limitations {#sec-strengthsAndLimitations}
+
+
+# Citation {#sec-Citation}
+
+
+
+# Session Info {#sec-sessionInfo}
+```{r}
+sessionInfo()
+```
