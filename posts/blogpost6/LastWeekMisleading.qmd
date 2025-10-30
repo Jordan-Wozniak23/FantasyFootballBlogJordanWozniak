@@ -1,0 +1,75 @@
+---
+title: "INSERT"
+author: "Jordan Wozniak"
+date: "10/30/2025"
+categories: [INSERT]
+image: ""
+format: html
+---
+
+# Preamble {#sec-preamble}
+
+## Install Libraries
+```{r}
+#install.packages("remotes")
+#remotes::install_github("DevPsyLab/petersenlab")
+#remotes::install_github("FantasyFootballAnalytics/ffanalytics")
+
+#update.packages(ask = FALSE)
+```
+
+## Load Libraries
+```{r}
+#| message: false
+#| warning: false
+
+library("petersenlab")
+library("tidyverse")
+```
+
+## Load Data
+
+```{r}
+load(file = "../../data/player_stats_weekly.RData")
+load(file = "../../data/players_projections_weekly.RData")
+load(file = "../../data/nfl_playerIDs.RData")
+```
+
+```{r}
+options(scipen = 999) # prevent scientific notation
+```
+
+# A.I. Disclosure {#sec-aiDisclosure}
+
+AI Disclosure: AI was not used.
+
+Link to AI Transcript: not applicable
+
+# Absract {#sec-abstract}
+
+**Background**:
+**Method**:
+**Results**:
+**Discussion**:
+
+# Background {#sec-background}
+
+## Research Question
+
+## Hypothesis
+
+## Justification
+
+# Method {#sec-method}
+
+# Results {#sec-results}
+
+# Discussion {#sec-discussion}
+
+# Strengths and Limitations {#sec-strengthsAndLimitations}
+
+# Conclusion {#sec-conclusion}
+
+# Citation {#sec-citation}
+
+# Session Info {#sec-sessionInfo}
