@@ -1,8 +1,8 @@
 ---
-title: "INSERT"
+title: "Does last week fantasy points mislead? Baseline last game vs elastic net for WR next-game points"
 author: "Jordan Wozniak"
 date: "10/30/2025"
-categories: [INSERT]
+categories: [misleadingweeks]
 image: ""
 format: html
 ---
@@ -36,6 +36,58 @@ load(file = "../../data/nfl_playerIDs.RData")
 ```
 
 ```{r}
+player_stats_weekly_subset <- player_stats_weekly %>% 
+  filter(!is.na(player_id))
+
+nfl_playerIDs_subset <- nfl_playerIDs %>% 
+  filter(!is.na(gsis_id)) %>% 
+  distinct(gsis_id, .keep_all = TRUE) %>% # keep only rows that do not have duplicate values of gsis_id
+  select(-all_of(c("team", "position", "height", "weight", "age")))
+
+players_projectedPoints_weekly_combined$season <- as.integer(players_projectedPoints_weekly_combined$season)
+players_projections_weekly_average_merged$season <- as.integer(players_projections_weekly_average_merged$season)
+
+player_stats_weekly_subset_IDs <- left_join(
+  player_stats_weekly_subset,
+  nfl_playerIDs_subset,
+  by = c("player_id" = "gsis_id")
+) %>% 
+  filter(!is.na(mfl_id))
+
+projectionsWithActuals_weekly <- full_join(
+  player_stats_weekly_subset_IDs,
+  players_projectedPoints_weekly_combined,
+  by = c("mfl_id" = "id", "season", "week"),
+  suffix = c("", "_proj"),
+)
+
+crowdAveragedProjectionsWithActuals_weekly <- full_join(
+  player_stats_weekly_subset_IDs,
+  players_projections_weekly_average_merged,
+  by = c("mfl_id" = "id", "season", "week"),
+  suffix = c("", "_proj"),
+)
+
+projectionsWithActuals_weekly <- projectionsWithActuals_weekly %>% 
+  unite(
+    "player_id_season_week",
+    player_id,
+    season,
+    week,
+    remove = FALSE
+  )
+
+crowdAveragedProjectionsWithActuals_weekly <- crowdAveragedProjectionsWithActuals_weekly %>% 
+  unite(
+    "player_id_season_week",
+    player_id,
+    season,
+    week,
+    remove = FALSE
+  )
+```
+
+```{r}
 options(scipen = 999) # prevent scientific notation
 ```
 
@@ -54,15 +106,77 @@ Link to AI Transcript: not applicable
 
 # Background {#sec-background}
 
+One of our popular evaluations to value a player's next week fantasy point production is to analyze their previous week's performance. However, we can over-predict these values. I think of this as the Ryan Fitzpatrick problem that I once occured upon when playing fantasy football. To set the scene, Ryan Fitzpatrick was the starting quarterback over the suspended Jameis Winston. Fitzpatrick was electric, hense the name "Fitzmagic." He threw for over 1200 yards, 12 TDs passing, 1 rushing, and only 3 interceptions. He was 2-1 in that span, and scored 40+, 30+, and 25+ in that span. Then, we over-predicted his performance in the next week, and strayed away from the light, he was 0-5 in the next games, and had a negative ratio of TD/INT. This is just one of many examples where we look at the last game, or previous game, and overpredict how well they do.
+ 
 ## Research Question
+
+Can last week fantasy point performances predict well, or create over-prediction for valuing next week performances. Are there other factors that we should consider following different statistics to convince us to start a player over another player? In other words, should be only rely on the fantasy point numbers? Or does it blind us?
 
 ## Hypothesis
 
+“Last week” is a useful but limited predictor—better than guessing, but often overconfident; a simple elastic-net that blends targets, yards, TDs, etc. usually beats it, so treat “last week” as a baseline, not the final word.
+
 ## Justification
+
+When predicting fantasy points values from week to week, with the reference to the previous week, it can become really hard to do so. There are countless factors and confounding variables that can play into predicting values. If a WR for instance scores 30 points, one would predict that they would score maybe 20, or 25. Wouldn't that in turn create recency bias?
 
 # Method {#sec-method}
 
+
+
 # Results {#sec-results}
+
+## Code
+
+```{r}
+# WR next-game target and "last-week" baseline
+wr_baseline <- projectionsWithActuals_weekly %>%
+  filter(position_group == "WR") %>%
+  arrange(player_id, season, week) %>%
+  group_by(player_id, season) %>%
+  mutate(
+    next_fp = lead(fantasyPoints),
+    last_fp = lag(fantasyPoints)
+  ) %>%
+  ungroup() %>%
+  select(player_id, season, week, next_fp, last_fp) %>%
+  drop_na(next_fp, last_fp)
+
+# Evaluate baseline (last game -> next game)
+petersenlab::accuracyOverall(
+  predicted = wr_baseline$last_fp,
+  actual    = wr_baseline$next_fp,
+  dropUndefined = TRUE
+)
+```
+
+```{r}
+petersenlab::accuracyOverall(
+  predicted = projectionsWithActuals_weekly_wr$rec_tds,
+  actual    = projectionsWithActuals_weekly_wr$receiving_tds,
+  dropUndefined = TRUE
+)
+```
+
+```{r}
+# WR: projected receiving yards vs actual receiving yards
+petersenlab::accuracyOverall(
+  predicted = projectionsWithActuals_weekly_wr$rec_yds,
+  actual    = projectionsWithActuals_weekly_wr$receiving_yards,
+  dropUndefined = TRUE
+)
+```
+
+```{r}
+# WR: projected fantasy points vs actual fantasy points
+petersenlab::accuracyOverall(
+  predicted = projectionsWithActuals_weekly_wr$raw_points,
+  actual    = projectionsWithActuals_weekly_wr$fantasyPoints,
+  dropUndefined = TRUE
+)
+```
+
+## Findings
 
 # Discussion {#sec-discussion}
 
@@ -71,5 +185,7 @@ Link to AI Transcript: not applicable
 # Conclusion {#sec-conclusion}
 
 # Citation {#sec-citation}
+
+https://arxiv.org/pdf/1505.06918
 
 # Session Info {#sec-sessionInfo}
