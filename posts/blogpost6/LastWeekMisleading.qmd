@@ -33,6 +33,7 @@ library("tidyverse")
 load(file = "../../data/player_stats_weekly.RData")
 load(file = "../../data/players_projections_weekly.RData")
 load(file = "../../data/nfl_playerIDs.RData")
+load(file = "../../data/projectionsWithActuals_weekly.RData")
 ```
 
 ```{r}
@@ -122,7 +123,7 @@ When predicting fantasy points values from week to week, with the reference to t
 
 # Method {#sec-method}
 
-
+I created a few R code 
 
 # Results {#sec-results}
 
@@ -149,6 +150,36 @@ petersenlab::accuracyOverall(
   dropUndefined = TRUE
 )
 ```
+```{r}
+player_stats_weekly_subset <- player_stats_weekly %>%
+  dplyr::filter(!is.na(player_id))
+
+nfl_playerIDs_subset <- nfl_playerIDs %>%
+  dplyr::filter(!is.na(gsis_id)) %>%
+  dplyr::distinct(gsis_id, .keep_all = TRUE) %>%
+  dplyr::select(-dplyr::all_of(c("team","position","height","weight","age")))
+
+players_projectedPoints_weekly_combined$season <- as.integer(players_projectedPoints_weekly_combined$season)
+players_projections_weekly_average_merged$season <- as.integer(players_projections_weekly_average_merged$season)
+
+player_stats_weekly_subset_IDs <- dplyr::left_join(
+  player_stats_weekly_subset, nfl_playerIDs_subset,
+  by = c("player_id" = "gsis_id")
+) %>% dplyr::filter(!is.na(mfl_id))
+
+projectionsWithActuals_weekly <- dplyr::full_join(
+  player_stats_weekly_subset_IDs,
+  players_projectedPoints_weekly_combined,
+  by = c("mfl_id" = "id", "season", "week"),
+  suffix = c("", "_proj")
+)
+```
+
+
+```{r}
+projectionsWithActuals_weekly_wr <- projectionsWithActuals_weekly %>%
+  dplyr::filter(position_group == "WR")
+```  
 
 ```{r}
 petersenlab::accuracyOverall(
@@ -159,19 +190,9 @@ petersenlab::accuracyOverall(
 ```
 
 ```{r}
-# WR: projected receiving yards vs actual receiving yards
 petersenlab::accuracyOverall(
   predicted = projectionsWithActuals_weekly_wr$rec_yds,
   actual    = projectionsWithActuals_weekly_wr$receiving_yards,
-  dropUndefined = TRUE
-)
-```
-
-```{r}
-# WR: projected fantasy points vs actual fantasy points
-petersenlab::accuracyOverall(
-  predicted = projectionsWithActuals_weekly_wr$raw_points,
-  actual    = projectionsWithActuals_weekly_wr$fantasyPoints,
   dropUndefined = TRUE
 )
 ```
