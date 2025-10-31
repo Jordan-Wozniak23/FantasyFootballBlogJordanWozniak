@@ -2,7 +2,7 @@
 title: "Do Last-Game Receptions Beat Yardage for Predicting Next Week?"
 author: "Jordan Wozniak"
 date: "10/23/2025"
-categories: [ReceptionsBeatingYardage]
+categories: [welcome, ReceptionsBeatingYardage]
 image: "megatron.jpg"
 format: html
 ---
