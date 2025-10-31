@@ -1,5 +1,0 @@
-"0","petersenlab::accuracyOverall("
-"0","  predicted = projectionsWithActuals_weekly_wr$rec_tds,"
-"0","  actual    = projectionsWithActuals_weekly_wr$receiving_tds,"
-"0","  dropUndefined = TRUE"
-"0",")"

@@ -1,6 +1,0 @@
-[1,"==> quarto preview datavisulatization.qmd --to html --no-watch-inputs --no-browse\n\n"]
-[1,"\r[1/2] posts\\Data Visualization\\datavisulatization.qmd\n"]
-[1,"\r\n\r\nprocessing file: datavisulatization.qmd\r\n\r  |                                                          \r  |                                                    |   0%\r  |                                                          \r  |.............                                       |  25%                  \r  |                                                          \r  |..........................                          |  50% [unnamed-chunk-1]"]
-[1,"\r\n\r\n"]
-[1,"Error in `readChar()`:\r\n! cannot open the connection\r\nBacktrace:\r\n    ▆\r\n 1. └─base::load(\"../player_stats_weekly.Rdata\")\r\n 2.   └─base::readChar(con, 5L, useBytes = TRUE)\r\n"]
-[1,"\r\r\nQuitting from datavisulatization.qmd:43-45 [unnamed-chunk-1]\r\n                                                                                                            \r\nExecution halted\r\n"]
