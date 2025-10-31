@@ -1,9 +1,9 @@
 ---
-title: "Does last week fantasy points mislead? Baseline last game vs elastic net for WR next-game points"
+title: "Does last week fantasy points mislead? Should we use fantasy points as the first predictor, or use it as the base?"
 author: "Jordan Wozniak"
 date: "10/30/2025"
-categories: [misleadingweeks]
-image: ""
+categories: [continuousfantasypoints]
+image: "findings.jpg"
 format: html
 ---
 
@@ -123,7 +123,7 @@ When predicting fantasy points values from week to week, with the reference to t
 
 # Method {#sec-method}
 
-I created a few R code 
+I created a few analytics used from Chapter 17, "Evaluation of Prediction/Forecasting Accuracy" for continuous binary evaluation. I used one for fantasy points, one for TDs (touchdowns), and one for receiving yards. The main one is the first one, and then the other two to prove that the first one is a baseline only, and only should be used as such.
 
 # Results {#sec-results}
 
@@ -199,14 +199,55 @@ petersenlab::accuracyOverall(
 
 ## Findings
 
+1: Last-week points to next-game points
+MAE ≈ 5.05 pts, RMSE ≈ 7.95, R² ≈ 0.048, explains ~5% of variation; useful signal but weak as a stand-alone predictor.
+
+2: Projected WR receiving TDs tp actual TDs
+MAE ≈ 0.34 TDs, RMSE ≈ 0.51, R² ≈ 0.018, very low explanatory power; TDs are sparse/low-base-rate and hard to predict,
+
+3: Projected WR receiving yards tp actual yards
+MAE ≈ 22.5 yds, RMSE ≈ 30.6, R² ≈ 0.31, materially better discrimination than TDs and far stronger than “last week” for points.
+
 # Discussion {#sec-discussion}
+
+Our WR analyses show a clear pattern consistent with Chapter 17: low-base-rate events (TDs) are hard to predict, while continuous outcomes (yards, points) are more predictable. “Last-week points → next-game points” had small signal (R²≈.05), projected receiving yards → actual yards had moderate signal (R²≈.31), and projected TDs → actual TDs had minimal signal (R²≈.02). This aligns with the text’s emphasis on discrimination vs. calibration and on the difficulty of predicting rare outcomes.
+
+The hypothesis that “last week misleads” is partly supported: last-game points beat guessing but are far weaker than a richer projection for yards. Practically, using only last week risks overreacting to noise.
+
+What is the takeaway? Treat “last week” as a baseline, not a strategy; prioritize volume metrics (targets, routes, air yards) and calibrated projection systems for WR decisions, and avoid over-weighting TDs in weekly start/sit calls.
 
 # Strengths and Limitations {#sec-strengthsAndLimitations}
 
+**Strengths**: 
+-Position/metric-specific analysis connects directly to base-rate theory (yards vs. TDs).
+-Plain, cutoff-free evaluation for continuous outcomes
+
+-No cross-validated modeling or elastic-net comparison yet—only baseline/projection accuracy summaries.
+-No clustering or calibration diagnostics; injuries/roles/opponents and reliability curves aren’t modeled or shown.
+
 # Conclusion {#sec-conclusion}
+“Last week” has signal but not much: it predicts WR next-game points weakly (low R² ≈ .05) and TDs are especially noisy (very low
+R² ≈ .02; large MAPE). Yardage/volume metrics are far more stable (receiving-yards projections explain ~30% of variance), so treat “last week” as a baseline and favor multi-feature models and target/yard volume over touchdown spikes when making decisions.
+
+# Visulization {#sec-Visulization}
+```{r}
+ggplot2::ggplot(wr_baseline, ggplot2::aes(x = last_fp, y = next_fp)) +
+  ggplot2::geom_point(alpha = 0.25) +
+  ggplot2::geom_smooth(method = "lm", se = FALSE) +
+  ggplot2::labs(
+    title = "WR: Last Game vs Next Game Fantasy Points",
+    x = "Last game fantasy points",
+    y = "Next game fantasy points"
+  ) +
+  ggplot2::theme_minimal()
+```
+There’s a weak, noisy positive relationship—last week’s WR points carry some signal, but variance is huge and most big games regress toward the mean next week.
 
 # Citation {#sec-citation}
 
 https://arxiv.org/pdf/1505.06918
 
 # Session Info {#sec-sessionInfo}
+```{r}
+sessionInfo()
+```
