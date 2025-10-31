@@ -2,7 +2,7 @@
 title: "Does last week fantasy points mislead? Should we use fantasy points as the first predictor, or use it as the base?"
 author: "Jordan Wozniak"
 date: "10/30/2025"
-categories: [continuousfantasypoints]
+categories: [welcome, myfantasyteam, continuousfantasypoints]
 image: "findings.jpg"
 format: html
 ---
@@ -100,10 +100,13 @@ Link to AI Transcript: not applicable
 
 # Absract {#sec-abstract}
 
-**Background**:
-**Method**:
-**Results**:
-**Discussion**:
+**Background**: Fantasy evaluations often overweight the last game and TDs, which are low-base-rate and noisy. We test whether richer WR projections outperform “last-week” heuristics.
+
+**Method**: Using Chapter 17 accuracy metrics, we compared (1) last-week points, next-game points, (2) projected WR TDs,  actual TDs, and (3) projected WR receiving yards → actual yards (MAE, RMSE, R²).
+
+**Results**: (1) MAE≈5.05, RMSE≈7.95, R²≈0.048—small signal; (2) MAE≈0.34 TDs, RMSE≈0.51, R²≈0.018—minimal signal; (3) MAE≈22.5 yds, RMSE≈30.6, R²≈0.31—materially stronger discrimination.
+
+**Discussion**: “Last week” helps only as a baseline and TDs are hard to predict; prioritize volume-based projections (e.g., yards/targets) and avoid over-weighting TDs in WR start/sit decisions.
 
 # Background {#sec-background}
 
