@@ -1,0 +1,5 @@
+"0","petersenlab::accuracyAtCutoff("
+"0","  predicted = player_stats_weekly_example$receptions_priorGame,"
+"0","  actual    = player_stats_weekly_example$rec5_next,"
+"0","  cutoff    = 4"
+"0",")"

@@ -1,0 +1,21 @@
+{
+  "hash": "078dff9aa92eaeedfef83a3c932080b9",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Data Visulization\"\nauthor: \"Jordan Wozniak\"\ndate: \"9/18/2025\"\ncategories: [welcome, fantasyteam, blog2]\nimage: \"\"\nformat: html\n---\n\n\n\n# A.I. Disclosure {#sec-aiDisclosure}\n\nAI Disclosure: AI was not used.\n\nLink to AI Transcript: not applicable\n\n# Abstract {#sec-abstract}\n\n**Question**: \n\n# Background {#sec-background}\n\n## Research Questions {#researchQuestion} \n\nDoes age matter when it comes to fantasy performance?\n\n## Hypothesis {#sec-hyptothesis}\n\nI believe that age does play a factor into a player's fantasy performance. The older they get, the less they get.\n\n## Justification {#sec-justification}\n\nYou have dominate players like Aaron Rodgers, Tom Brady, and Matthew Stafford, who in their \"hay-days,\" where fantasy point machines. During their last seasons in the league, around or over the age of 40, have significantly slowed down. There are some outliers and the difference of who is on that team at the time. Is there a correct assumption to say that the older the player is, the worse they get, or is it irrelevant?\n\n## Method {#sec-method}\n\nThe method that I want to use here is to use a table with all players and their seasonal fantasy point numbers, compared to their age, all in a histogram. A histogram is better for this, in my opinion, is that you get the average fantasy point numbers by the x and y that is chosen, in this case it would be age and season fantasy points. This is also cleaner and produces an average, which is what we want to create a correct answer. What we are trying to find here is that there is a positive skew, leaning towards the younger age versus the older age.\n\n#Results {#sec-results}\nWe are going to load player stats weekly, where it will look at all the fantasy points each week for a player, with the added information of their age, and compare.\n\n## Install Libraries\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)\n```\n:::\n\n\n\n## Load Libraries\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(\"nflplotR\")\nlibrary(\"plotly\")\nlibrary(\"gghighlight\")\nlibrary(\"ggridges\")\nlibrary(\"ggExtra\")\nlibrary(\"patchwork\")\nlibrary(\"tidyverse\")\n```\n:::\n\n\n\n## Load Data\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nload(file = \"../../data/player_stats_weekly.Rdata\")\n```\n:::\n\n\n\n# Create Histogram\n\nThis will display our trusty histogram.\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nggplot2::ggplot(\n  data = player_stats_weekly,\n  mapping = aes(x = fantasyPoints)   # ONLY x\n) +\n  geom_histogram(\n    bins = 30,\n    color = \"black\",\n    fill = \"green\"\n  ) +\n  labs(\n    x = \"Fantasy Points\",\n    y = \"Count\",\n    title = \"Distribution of Fantasy Points\"\n  )\n```\n\n::: {.cell-output .cell-output-stderr}\n\n```\nWarning: Removed 23782 rows containing non-finite outside the scale range\n(`stat_bin()`).\n```\n\n\n:::\n\n::: {.cell-output-display}\n![](datavisulatization_files/figure-html/unnamed-chunk-4-1.png){width=672}\n:::\n:::",
+    "supporting": [
+      "datavisulatization_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {
+      "include-in-header": [
+        "<link href=\"../../site_libs/pagedtable-1.1/css/pagedtable.css\" rel=\"stylesheet\" />\n<script src=\"../../site_libs/pagedtable-1.1/js/pagedtable.js\"></script>\n"
+      ]
+    },
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

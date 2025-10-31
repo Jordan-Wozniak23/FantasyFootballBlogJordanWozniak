@@ -1,0 +1,53 @@
+{
+  "posts/quarto-instructions/index.qmd": {
+    "index.html": "656117bf"
+  },
+  "about.qmd": {
+    "about.html": "9a527c6c"
+  },
+  "posts/example/index.qmd": {
+    "index.html": "fe51b116"
+  },
+  "posts/template/index.qmd": {
+    "index.html": "f3af5131"
+  },
+  "posts/welcome/index.qmd": {
+    "index.html": "89f192b3"
+  },
+  "index.qmd": {
+    "index.html": "f2c33378"
+  },
+  "posts/myfantasyteam/myfantasyteam.qmd": {
+    "myfantasyteam.html": "712d3947"
+  },
+  "posts/Data Visualization/datavisulatization.qmd": {
+    "datavisulatization.html": "72bf55ef"
+  },
+  "posts/datavisulization/datavisulatization.qmd": {
+    "datavisulatization.html": "6b2e6e00"
+  },
+  "posts/placeholderblog3/placeholderblog3.qmd": {
+    "placeholderblog3.html": "27c151fe"
+  },
+  "posts/qbandcarries/qbandcarries.qmd": {
+    "qbandcarries.html": "8ee37a90"
+  },
+  "posts/agevsqb/agevsqb.qmd": {
+    "agevsqb.html": "8db62a30"
+  },
+  "posts/blogpost4/blogpost4.qmd": {
+    "blogpost4.html": "09a8f901"
+  },
+  "posts/qbandcarries/qbandcarries.rmarkdown": {
+    "qbandcarries.html": "df3e0057"
+  },
+  "posts/fallaciesandbiases/fallaciesandbiases.qmd": {
+    "fallaciesandbiases.html": "92adfa09"
+  },
+  "posts/wrandtargetswithyards/wrandcategories.qmd": {
+    "wrandcategories.html": "b12b5c3d"
+  },
+  "posts/blogpost6/LastWeekMisleading.qmd": {
+    "LastWeekMisleading.html": "e3628aff"
+  }
+}
