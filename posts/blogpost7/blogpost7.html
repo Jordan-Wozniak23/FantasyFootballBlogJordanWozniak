@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>My Blog</title>
+<title>blogpost7 – My Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,26 +23,24 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-0b37c64f34216b628666a8dac638b53b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-0b37c64f34216b628666a8dac638b53b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -70,67 +68,9 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
 
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -140,9 +80,9 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
     </a>
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">My Blog</span>
     </a>
   </div>
@@ -153,7 +93,7 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
@@ -176,13 +116,13 @@ window.Quarto = {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page-left">
-      <h1 class="title">My Blog</h1>
+    <div class="quarto-title column-body">
+      <h1 class="title">blogpost7</h1>
                       </div>
   </div>
     
   
-  <div class="quarto-title-meta column-page-left">
+  <div class="quarto-title-meta">
 
       
     
@@ -190,14 +130,14 @@ window.Quarto = {
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(8)</span></div><div class="category" data-category="YWdldnNmYW50YXN5cG9pbnRz">agevsfantasypoints <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Y29udGludW91c2ZhbnRhc3lwb2ludHM=">continuousfantasypoints <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Y29ycmVsYXRpb25RQmFuZEZQcw==">correlationQBandFPs <span class="quarto-category-count">(1)</span></div><div class="category" data-category="RmFsbGFjaWVzQW5kQmlhc2Vz">FallaciesAndBiases <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZmFudGFzeXRlYW0=">fantasyteam <span class="quarto-category-count">(2)</span></div><div class="category" data-category="bXlmYW50YXN5dGVhbQ==">myfantasyteam <span class="quarto-category-count">(1)</span></div><div class="category" data-category="UmVjZXB0aW9uc0JlYXRpbmdZYXJkYWdl">ReceptionsBeatingYardage <span class="quarto-category-count">(1)</span></div><div class="category" data-category="d2VsY29tZQ==">welcome <span class="quarto-category-count">(5)</span></div></div></div>
+    </div>
 <!-- main -->
-<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
@@ -206,253 +146,7 @@ window.Quarto = {
 
 
 
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-file-modified-sort="1762370753078" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
-<div class="thumbnail"><a href="./posts/blogpost7/blogpost7.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/blogpost7/blogpost7.html" class="no-external">blogpost7</a>
-</h3>
-<div class="delink listing-description"><a href="./posts/blogpost7/blogpost7.html" class="no-external">
-
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/blogpost7/blogpost7.html" class="no-external">
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="d2VsY29tZSUyQ215ZmFudGFzeXRlYW0lMkNjb250aW51b3VzZmFudGFzeXBvaW50cw==" data-listing-date-sort="1761782400000" data-listing-file-modified-sort="1762370753078" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1248">
-<div class="thumbnail"><a href="./posts/blogpost6/LastWeekMisleading.html" class="no-external">
-
-<img loading="lazy" src="./posts/blogpost6/findings.jpg" class="thumbnail-image">
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/blogpost6/LastWeekMisleading.html" class="no-external">Does last week fantasy points mislead? Should we use fantasy points as the first predictor, or use it as the base?</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('d2VsY29tZQ=='); return false;">welcome</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('bXlmYW50YXN5dGVhbQ=='); return false;">myfantasyteam</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('Y29udGludW91c2ZhbnRhc3lwb2ludHM='); return false;">continuousfantasypoints</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/blogpost6/LastWeekMisleading.html" class="no-external">
-AI Disclosure: AI was not used.
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/blogpost6/LastWeekMisleading.html" class="no-external">
-<div class="listing-date">
-Oct 30, 2025
-</div>
-<div class="listing-author">
-Jordan Wozniak
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="d2VsY29tZSUyQ1JlY2VwdGlvbnNCZWF0aW5nWWFyZGFnZQ==" data-listing-date-sort="1761177600000" data-listing-file-modified-sort="1762370753151" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1227">
-<div class="thumbnail"><a href="./posts/wrandtargetswithyards/wrandcategories.html" class="no-external">
-
-<img loading="lazy" src="./posts/wrandtargetswithyards/megatron.jpg" class="thumbnail-image">
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/wrandtargetswithyards/wrandcategories.html" class="no-external">Do Last-Game Receptions Beat Yardage for Predicting Next Week?</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('d2VsY29tZQ=='); return false;">welcome</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('UmVjZXB0aW9uc0JlYXRpbmdZYXJkYWdl'); return false;">ReceptionsBeatingYardage</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/wrandtargetswithyards/wrandcategories.html" class="no-external">
-AI Disclosure: AI was not used.
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/wrandtargetswithyards/wrandcategories.html" class="no-external">
-<div class="listing-date">
-Oct 23, 2025
-</div>
-<div class="listing-author">
-Jordan Wozniak
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-categories="RmFsbGFjaWVzQW5kQmlhc2Vz" data-listing-date-sort="1759968000000" data-listing-file-modified-sort="1762370753079" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1463">
-<div class="thumbnail"><a href="./posts/fallaciesandbiases/fallaciesandbiases.html" class="no-external">
-
-<img loading="lazy" src="./posts/fallaciesandbiases/fallacies.jpg" class="thumbnail-image">
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/fallaciesandbiases/fallaciesandbiases.html" class="no-external">Fallacies and biases created from analyzing one specific pieces data in positions in fantasy football</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('RmFsbGFjaWVzQW5kQmlhc2Vz'); return false;">FallaciesAndBiases</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/fallaciesandbiases/fallaciesandbiases.html" class="no-external">
-AI Disclosure: AI was not used.
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/fallaciesandbiases/fallaciesandbiases.html" class="no-external">
-<div class="listing-date">
-Oct 9, 2025
-</div>
-<div class="listing-author">
-Jordan Wozniak
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="4" data-categories="Y29ycmVsYXRpb25RQmFuZEZQcw==" data-listing-date-sort="1759190400000" data-listing-file-modified-sort="1762370753149" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="718">
-<div class="thumbnail"><a href="./posts/qbandcarries/qbandcarries.html" class="no-external">
-
-<img loading="lazy" src="./posts/qbandcarries/download.jpg" class="thumbnail-image">
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/qbandcarries/qbandcarries.html" class="no-external">Correlation between the amount of carries for a QB compared to their fantasy point production</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('Y29ycmVsYXRpb25RQmFuZEZQcw=='); return false;">correlationQBandFPs</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/qbandcarries/qbandcarries.html" class="no-external">
-AI Disclosure: AI was not used.
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/qbandcarries/qbandcarries.html" class="no-external">
-<div class="listing-date">
-Sep 30, 2025
-</div>
-<div class="listing-author">
-Jordan Wozniak
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="5" data-categories="d2VsY29tZSUyQ2ZhbnRhc3l0ZWFtJTJDYWdldnNmYW50YXN5cG9pbnRz" data-listing-date-sort="1758153600000" data-listing-file-modified-sort="1762370752998" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="713">
-<div class="thumbnail"><a href="./posts/agevsqb/agevsqb.html" class="no-external">
-
-<img loading="lazy" src="./posts/agevsqb/qo1hbloml85d1.jpg" class="thumbnail-image">
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/agevsqb/agevsqb.html" class="no-external">Visulalization If Age Plays An Impact On Their Fantasy Point Production</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('d2VsY29tZQ=='); return false;">welcome</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZmFudGFzeXRlYW0='); return false;">fantasyteam</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('YWdldnNmYW50YXN5cG9pbnRz'); return false;">agevsfantasypoints</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/agevsqb/agevsqb.html" class="no-external">
-AI Disclosure: AI was not used.
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/agevsqb/agevsqb.html" class="no-external">
-<div class="listing-date">
-Sep 18, 2025
-</div>
-<div class="listing-author">
-Jordan Wozniak
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="6" data-categories="d2VsY29tZSUyQ2ZhbnRhc3l0ZWFt" data-listing-date-sort="1757548800000" data-listing-file-modified-sort="1762370753079" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1289">
-<div class="thumbnail"><a href="./posts/myfantasyteam/myfantasyteam.html" class="no-external">
-
-<img loading="lazy" src="./posts/myfantasyteam/il_fullxfull.5165482813_3fig.jpg" class="thumbnail-image">
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/myfantasyteam/myfantasyteam.html" class="no-external">My Fantasy Team</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('d2VsY29tZQ=='); return false;">welcome</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZmFudGFzeXRlYW0='); return false;">fantasyteam</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/myfantasyteam/myfantasyteam.html" class="no-external">
-I have had the opportunity to participate in my class’ fantasy football draft, where we drafted a whole team with 5 people, 1 extra bot player, with a QB, 2 RB, 2 WR, 1 TE…
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/myfantasyteam/myfantasyteam.html" class="no-external">
-<div class="listing-date">
-Sep 11, 2025
-</div>
-<div class="listing-author">
-Jordan Wozniak
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="7" data-categories="d2VsY29tZQ==" data-listing-date-sort="1756771200000" data-listing-file-modified-sort="1762370753149" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="89">
-<div class="thumbnail"><a href="./posts/welcome/index.html" class="no-external">
-
-<img loading="lazy" src="./posts/welcome/welcomephoto.jpg" class="thumbnail-image">
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/welcome/index.html" class="no-external">Welcome To My Blog</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('d2VsY29tZQ=='); return false;">welcome</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/welcome/index.html" class="no-external">
-Hello there, it is me, Jordan Wozniak. I am currently in my fourth year at the University of Iowa, majoring in Psychology. I also plan on going into a fifth year where I go…
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/welcome/index.html" class="no-external">
-<div class="listing-date">
-Sep 2, 2025
-</div>
-<div class="listing-author">
-Jordan Wozniak
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
