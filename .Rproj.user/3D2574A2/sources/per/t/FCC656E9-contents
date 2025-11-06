@@ -1,0 +1,256 @@
+---
+title: "Does last week fantasy points mislead? Should we use fantasy points as the first predictor, or use it as the base?"
+author: "Jordan Wozniak"
+date: "10/30/2025"
+categories: [welcome, myfantasyteam, continuousfantasypoints]
+image: "findings.jpg"
+format: html
+---
+
+# Preamble {#sec-preamble}
+
+## Install Libraries
+```{r}
+#install.packages("remotes")
+#remotes::install_github("DevPsyLab/petersenlab")
+#remotes::install_github("FantasyFootballAnalytics/ffanalytics")
+
+#update.packages(ask = FALSE)
+```
+
+## Load Libraries
+```{r}
+#| message: false
+#| warning: false
+
+library("petersenlab")
+library("tidyverse")
+```
+
+## Load Data
+
+```{r}
+load(file = "../../data/player_stats_weekly.RData")
+load(file = "../../data/players_projections_weekly.RData")
+load(file = "../../data/nfl_playerIDs.RData")
+load(file = "../../data/projectionsWithActuals_weekly.RData")
+```
+
+```{r}
+player_stats_weekly_subset <- player_stats_weekly %>% 
+  filter(!is.na(player_id))
+
+nfl_playerIDs_subset <- nfl_playerIDs %>% 
+  filter(!is.na(gsis_id)) %>% 
+  distinct(gsis_id, .keep_all = TRUE) %>% # keep only rows that do not have duplicate values of gsis_id
+  select(-all_of(c("team", "position", "height", "weight", "age")))
+
+players_projectedPoints_weekly_combined$season <- as.integer(players_projectedPoints_weekly_combined$season)
+players_projections_weekly_average_merged$season <- as.integer(players_projections_weekly_average_merged$season)
+
+player_stats_weekly_subset_IDs <- left_join(
+  player_stats_weekly_subset,
+  nfl_playerIDs_subset,
+  by = c("player_id" = "gsis_id")
+) %>% 
+  filter(!is.na(mfl_id))
+
+projectionsWithActuals_weekly <- full_join(
+  player_stats_weekly_subset_IDs,
+  players_projectedPoints_weekly_combined,
+  by = c("mfl_id" = "id", "season", "week"),
+  suffix = c("", "_proj"),
+)
+
+crowdAveragedProjectionsWithActuals_weekly <- full_join(
+  player_stats_weekly_subset_IDs,
+  players_projections_weekly_average_merged,
+  by = c("mfl_id" = "id", "season", "week"),
+  suffix = c("", "_proj"),
+)
+
+projectionsWithActuals_weekly <- projectionsWithActuals_weekly %>% 
+  unite(
+    "player_id_season_week",
+    player_id,
+    season,
+    week,
+    remove = FALSE
+  )
+
+crowdAveragedProjectionsWithActuals_weekly <- crowdAveragedProjectionsWithActuals_weekly %>% 
+  unite(
+    "player_id_season_week",
+    player_id,
+    season,
+    week,
+    remove = FALSE
+  )
+```
+
+```{r}
+options(scipen = 999) # prevent scientific notation
+```
+
+# A.I. Disclosure {#sec-aiDisclosure}
+
+AI Disclosure: AI was not used.
+
+Link to AI Transcript: not applicable
+
+# Absract {#sec-abstract}
+
+**Background**: Fantasy evaluations often overweight the last game and TDs, which are low-base-rate and noisy. We test whether richer WR projections outperform “last-week” heuristics.
+
+**Method**: Using Chapter 17 accuracy metrics, we compared (1) last-week points, next-game points, (2) projected WR TDs,  actual TDs, and (3) projected WR receiving yards → actual yards (MAE, RMSE, R²).
+
+**Results**: (1) MAE≈5.05, RMSE≈7.95, R²≈0.048—small signal; (2) MAE≈0.34 TDs, RMSE≈0.51, R²≈0.018—minimal signal; (3) MAE≈22.5 yds, RMSE≈30.6, R²≈0.31—materially stronger discrimination.
+
+**Discussion**: “Last week” helps only as a baseline and TDs are hard to predict; prioritize volume-based projections (e.g., yards/targets) and avoid over-weighting TDs in WR start/sit decisions.
+
+# Background {#sec-background}
+
+One of our popular evaluations to value a player's next week fantasy point production is to analyze their previous week's performance. However, we can over-predict these values. I think of this as the Ryan Fitzpatrick problem that I once occured upon when playing fantasy football. To set the scene, Ryan Fitzpatrick was the starting quarterback over the suspended Jameis Winston. Fitzpatrick was electric, hense the name "Fitzmagic." He threw for over 1200 yards, 12 TDs passing, 1 rushing, and only 3 interceptions. He was 2-1 in that span, and scored 40+, 30+, and 25+ in that span. Then, we over-predicted his performance in the next week, and strayed away from the light, he was 0-5 in the next games, and had a negative ratio of TD/INT. This is just one of many examples where we look at the last game, or previous game, and overpredict how well they do.
+ 
+## Research Question
+
+Can last week fantasy point performances predict well, or create over-prediction for valuing next week performances. Are there other factors that we should consider following different statistics to convince us to start a player over another player? In other words, should be only rely on the fantasy point numbers? Or does it blind us?
+
+## Hypothesis
+
+“Last week” is a useful but limited predictor—better than guessing, but often overconfident; a simple elastic-net that blends targets, yards, TDs, etc. usually beats it, so treat “last week” as a baseline, not the final word.
+
+## Justification
+
+When predicting fantasy points values from week to week, with the reference to the previous week, it can become really hard to do so. There are countless factors and confounding variables that can play into predicting values. If a WR for instance scores 30 points, one would predict that they would score maybe 20, or 25. Wouldn't that in turn create recency bias?
+
+# Method {#sec-method}
+
+I created a few analytics used from Chapter 17, "Evaluation of Prediction/Forecasting Accuracy" for continuous binary evaluation. I used one for fantasy points, one for TDs (touchdowns), and one for receiving yards. The main one is the first one, and then the other two to prove that the first one is a baseline only, and only should be used as such.
+
+# Results {#sec-results}
+
+## Code
+
+```{r}
+# WR next-game target and "last-week" baseline
+wr_baseline <- projectionsWithActuals_weekly %>%
+  filter(position_group == "WR") %>%
+  arrange(player_id, season, week) %>%
+  group_by(player_id, season) %>%
+  mutate(
+    next_fp = lead(fantasyPoints),
+    last_fp = lag(fantasyPoints)
+  ) %>%
+  ungroup() %>%
+  select(player_id, season, week, next_fp, last_fp) %>%
+  drop_na(next_fp, last_fp)
+
+# Evaluate baseline (last game -> next game)
+petersenlab::accuracyOverall(
+  predicted = wr_baseline$last_fp,
+  actual    = wr_baseline$next_fp,
+  dropUndefined = TRUE
+)
+```
+```{r}
+player_stats_weekly_subset <- player_stats_weekly %>%
+  dplyr::filter(!is.na(player_id))
+
+nfl_playerIDs_subset <- nfl_playerIDs %>%
+  dplyr::filter(!is.na(gsis_id)) %>%
+  dplyr::distinct(gsis_id, .keep_all = TRUE) %>%
+  dplyr::select(-dplyr::all_of(c("team","position","height","weight","age")))
+
+players_projectedPoints_weekly_combined$season <- as.integer(players_projectedPoints_weekly_combined$season)
+players_projections_weekly_average_merged$season <- as.integer(players_projections_weekly_average_merged$season)
+
+player_stats_weekly_subset_IDs <- dplyr::left_join(
+  player_stats_weekly_subset, nfl_playerIDs_subset,
+  by = c("player_id" = "gsis_id")
+) %>% dplyr::filter(!is.na(mfl_id))
+
+projectionsWithActuals_weekly <- dplyr::full_join(
+  player_stats_weekly_subset_IDs,
+  players_projectedPoints_weekly_combined,
+  by = c("mfl_id" = "id", "season", "week"),
+  suffix = c("", "_proj")
+)
+```
+
+
+```{r}
+projectionsWithActuals_weekly_wr <- projectionsWithActuals_weekly %>%
+  dplyr::filter(position_group == "WR")
+```  
+
+```{r}
+petersenlab::accuracyOverall(
+  predicted = projectionsWithActuals_weekly_wr$rec_tds,
+  actual    = projectionsWithActuals_weekly_wr$receiving_tds,
+  dropUndefined = TRUE
+)
+```
+
+```{r}
+petersenlab::accuracyOverall(
+  predicted = projectionsWithActuals_weekly_wr$rec_yds,
+  actual    = projectionsWithActuals_weekly_wr$receiving_yards,
+  dropUndefined = TRUE
+)
+```
+
+## Findings
+
+1: Last-week points to next-game points
+MAE ≈ 5.05 pts, RMSE ≈ 7.95, R² ≈ 0.048, explains ~5% of variation; useful signal but weak as a stand-alone predictor.
+
+2: Projected WR receiving TDs tp actual TDs
+MAE ≈ 0.34 TDs, RMSE ≈ 0.51, R² ≈ 0.018, very low explanatory power; TDs are sparse/low-base-rate and hard to predict,
+
+3: Projected WR receiving yards tp actual yards
+MAE ≈ 22.5 yds, RMSE ≈ 30.6, R² ≈ 0.31, materially better discrimination than TDs and far stronger than “last week” for points.
+
+# Discussion {#sec-discussion}
+
+Our WR analyses show a clear pattern consistent with Chapter 17: low-base-rate events (TDs) are hard to predict, while continuous outcomes (yards, points) are more predictable. “Last-week points → next-game points” had small signal (R²≈.05), projected receiving yards → actual yards had moderate signal (R²≈.31), and projected TDs → actual TDs had minimal signal (R²≈.02). This aligns with the text’s emphasis on discrimination vs. calibration and on the difficulty of predicting rare outcomes.
+
+The hypothesis that “last week misleads” is partly supported: last-game points beat guessing but are far weaker than a richer projection for yards. Practically, using only last week risks overreacting to noise.
+
+What is the takeaway? Treat “last week” as a baseline, not a strategy; prioritize volume metrics (targets, routes, air yards) and calibrated projection systems for WR decisions, and avoid over-weighting TDs in weekly start/sit calls.
+
+# Strengths and Limitations {#sec-strengthsAndLimitations}
+
+**Strengths**: 
+-Position/metric-specific analysis connects directly to base-rate theory (yards vs. TDs).
+-Plain, cutoff-free evaluation for continuous outcomes
+
+-No cross-validated modeling or elastic-net comparison yet—only baseline/projection accuracy summaries.
+-No clustering or calibration diagnostics; injuries/roles/opponents and reliability curves aren’t modeled or shown.
+
+# Conclusion {#sec-conclusion}
+“Last week” has signal but not much: it predicts WR next-game points weakly (low R² ≈ .05) and TDs are especially noisy (very low
+R² ≈ .02; large MAPE). Yardage/volume metrics are far more stable (receiving-yards projections explain ~30% of variance), so treat “last week” as a baseline and favor multi-feature models and target/yard volume over touchdown spikes when making decisions.
+
+# Visulization {#sec-Visulization}
+```{r}
+ggplot2::ggplot(wr_baseline, ggplot2::aes(x = last_fp, y = next_fp)) +
+  ggplot2::geom_point(alpha = 0.25) +
+  ggplot2::geom_smooth(method = "lm", se = FALSE) +
+  ggplot2::labs(
+    title = "WR: Last Game vs Next Game Fantasy Points",
+    x = "Last game fantasy points",
+    y = "Next game fantasy points"
+  ) +
+  ggplot2::theme_minimal()
+```
+There’s a weak, noisy positive relationship—last week’s WR points carry some signal, but variance is huge and most big games regress toward the mean next week.
+
+# Citation {#sec-citation}
+
+https://arxiv.org/pdf/1505.06918
+
+# Session Info {#sec-sessionInfo}
+```{r}
+sessionInfo()
+```
