@@ -1,7 +1,0 @@
-"0","set.seed(52242)"
-"0",""
-"0","folds_kFold <- rsample::group_vfold_cv("
-"0","  qb_season,"
-"0","  group = player_id,"
-"0","  v = 10"
-"0",")"
