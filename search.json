@@ -333,7 +333,7 @@
     "href": "index.html",
     "title": "My Blog",
     "section": "",
-    "text": "blogpost7\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDoes last week fantasy points mislead? Should we use fantasy points as the first predictor, or use it as the base?\n\n\n\nwelcome\n\nmyfantasyteam\n\ncontinuousfantasypoints\n\n\n\n\n\n\n\n\n\nOct 30, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nDo Last-Game Receptions Beat Yardage for Predicting Next Week?\n\n\n\nwelcome\n\nReceptionsBeatingYardage\n\n\n\n\n\n\n\n\n\nOct 23, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nFallacies and biases created from analyzing one specific pieces data in positions in fantasy football\n\n\n\nFallaciesAndBiases\n\n\n\n\n\n\n\n\n\nOct 9, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nCorrelation between the amount of carries for a QB compared to their fantasy point production\n\n\n\ncorrelationQBandFPs\n\n\n\n\n\n\n\n\n\nSep 30, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nVisulalization If Age Plays An Impact On Their Fantasy Point Production\n\n\n\nwelcome\n\nfantasyteam\n\nagevsfantasypoints\n\n\n\n\n\n\n\n\n\nSep 18, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nMy Fantasy Team\n\n\n\nwelcome\n\nfantasyteam\n\n\n\n\n\n\n\n\n\nSep 11, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\nwelcome\n\n\n\n\n\n\n\n\n\nSep 2, 2025\n\n\nJordan Wozniak\n\n\n\n\n\nNo matching items"
+    "text": "Do last season’s fantasy points beat a basic ML model for QBs\n\n\n\nmachine learning\n\n\n\n\n\n\n\n\n\nNov 6, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nDoes last week fantasy points mislead? Should we use fantasy points as the first predictor, or use it as the base?\n\n\n\nwelcome\n\nmyfantasyteam\n\ncontinuousfantasypoints\n\n\n\n\n\n\n\n\n\nOct 30, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nDo Last-Game Receptions Beat Yardage for Predicting Next Week?\n\n\n\nwelcome\n\nReceptionsBeatingYardage\n\n\n\n\n\n\n\n\n\nOct 23, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nFallacies and biases created from analyzing one specific pieces data in positions in fantasy football\n\n\n\nFallaciesAndBiases\n\n\n\n\n\n\n\n\n\nOct 9, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nCorrelation between the amount of carries for a QB compared to their fantasy point production\n\n\n\ncorrelationQBandFPs\n\n\n\n\n\n\n\n\n\nSep 30, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nVisulalization If Age Plays An Impact On Their Fantasy Point Production\n\n\n\nwelcome\n\nfantasyteam\n\nagevsfantasypoints\n\n\n\n\n\n\n\n\n\nSep 18, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nMy Fantasy Team\n\n\n\nwelcome\n\nfantasyteam\n\n\n\n\n\n\n\n\n\nSep 11, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\nwelcome\n\n\n\n\n\n\n\n\n\nSep 2, 2025\n\n\nJordan Wozniak\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/wrandtargetswithyards/wrandcategories.html",
@@ -383,6 +383,83 @@
     "title": "Do Last-Game Receptions Beat Yardage for Predicting Next Week?",
     "section": "4.3 Justification",
     "text": "4.3 Justification\nFrom a fundamental point of view, receptions can be more of a consistent measure when analyzing past games, and within PPR (Points Per Reception) leagues, this number is very valuable. Let’s look at an example. Player A has 3 receptions for 70 yards, versus, Player B with 6 receptions 40 yards. Which is a better statline? From a fantasy point line, they both have 10 (excluding other statistical measures, like touchdowns and rushing yards, et cetera). We can view that since receptions is a flat 1 point, versus 0.1 for yards, we can say that receptions, on a prediction accuracy model, can tell us that this could be more reliable."
+  },
+  {
+    "objectID": "posts/blogpost7/blogpost7.html",
+    "href": "posts/blogpost7/blogpost7.html",
+    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
+    "section": "",
+    "text": "Code\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)\n\n\n\n\n\n\n\nCode\nlibrary(\"petersenlab\")\nlibrary(\"future\")\nlibrary(\"missRanger\")\nlibrary(\"powerjoin\")\nlibrary(\"tidymodels\")\nlibrary(\"LongituRF\")\nlibrary(\"gpboost\")\nlibrary(\"effectsize\")\nlibrary(\"tidyverse\")\nlibrary(\"knitr\")\n\n\n\n\n\n\n\nCode\nload(file = \"../../data/player_stats_weekly.RData\")\nload(file = \"../../data/players_projections_weekly.RData\")\nload(file = \"../../data/nfl_playerIDs.RData\")\nload(file = \"../../data/projectionsWithActuals_weekly.RData\")\n\n\n\n\nCode\noptions(scipen = 999) # prevent scientific notation\n\n\n\n\n\nAI Disclosure: AI was not used.\nLink to AI Transcript: not applicable"
+  },
+  {
+    "objectID": "posts/blogpost7/blogpost7.html#install-libraries",
+    "href": "posts/blogpost7/blogpost7.html#install-libraries",
+    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
+    "section": "",
+    "text": "Code\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)"
+  },
+  {
+    "objectID": "posts/blogpost7/blogpost7.html#load-libraries",
+    "href": "posts/blogpost7/blogpost7.html#load-libraries",
+    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
+    "section": "",
+    "text": "Code\nlibrary(\"petersenlab\")\nlibrary(\"future\")\nlibrary(\"missRanger\")\nlibrary(\"powerjoin\")\nlibrary(\"tidymodels\")\nlibrary(\"LongituRF\")\nlibrary(\"gpboost\")\nlibrary(\"effectsize\")\nlibrary(\"tidyverse\")\nlibrary(\"knitr\")"
+  },
+  {
+    "objectID": "posts/blogpost7/blogpost7.html#load-data",
+    "href": "posts/blogpost7/blogpost7.html#load-data",
+    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
+    "section": "",
+    "text": "Code\nload(file = \"../../data/player_stats_weekly.RData\")\nload(file = \"../../data/players_projections_weekly.RData\")\nload(file = \"../../data/nfl_playerIDs.RData\")\nload(file = \"../../data/projectionsWithActuals_weekly.RData\")\n\n\n\n\nCode\noptions(scipen = 999) # prevent scientific notation"
+  },
+  {
+    "objectID": "posts/blogpost7/blogpost7.html#a.i.-disclosure",
+    "href": "posts/blogpost7/blogpost7.html#a.i.-disclosure",
+    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
+    "section": "",
+    "text": "AI Disclosure: AI was not used.\nLink to AI Transcript: not applicable"
+  },
+  {
+    "objectID": "posts/blogpost7/blogpost7.html#research-questions",
+    "href": "posts/blogpost7/blogpost7.html#research-questions",
+    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
+    "section": "3.1 Research Questions",
+    "text": "3.1 Research Questions\nFor NFL quarterbacks, does a tuned elastic-net model using prior-season stats predict this season’s total fantasy points better than a simple baseline that just uses last season’s points?"
+  },
+  {
+    "objectID": "posts/blogpost7/blogpost7.html#hypothesis",
+    "href": "posts/blogpost7/blogpost7.html#hypothesis",
+    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
+    "section": "3.2 Hypothesis",
+    "text": "3.2 Hypothesis\nThe Machine Learning model will perform about the same as the simple last-season-only baseline for QBs, but a little better. In other words, using a more complex ML model will not dramatically improve accuracy (R², MAE, or RMSE) compared to just using last season’s fantasy points."
+  },
+  {
+    "objectID": "posts/blogpost7/blogpost7.html#justification",
+    "href": "posts/blogpost7/blogpost7.html#justification",
+    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
+    "section": "3.3 Justification",
+    "text": "3.3 Justification\nFrom an outside point of view, player statistics are very hard to predict. If we could, that would leverage us into making a bunch of money by just simply predicting the outcomes of statistics that each player has. Machine learning, as the name suggests, learns about all statistics and prints out accurate projections that a player will have. There are so many statistics that we would have to remember and calculate, and making a machine to do it for us makes it simpler.\nWhy would we say that machine learning isn’t perfect? Fantasy football is one of the most hardest objects to have perfect predictions. Machines only know the past, not the future. For example, the Golden State Warriors were a dominate team in 2015-16, where they won 73 of 82 games. Over the next few seasons, the Warriors would win less and less games, because teams figured them out. Would a machine learn that, not initially. That’s the same with football, a team would figure someone out the next week and dominate based off that. Football players are also prone to injuries, and they are very unpredictable.\nAll in all, machine learning will always get better, and will always have a better prediction that us, but don’t take it to heart."
+  },
+  {
+    "objectID": "posts/blogpost7/blogpost7.html#code",
+    "href": "posts/blogpost7/blogpost7.html#code",
+    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
+    "section": "5.1 Code",
+    "text": "5.1 Code\n\n\nCode\nseason_agg_QB &lt;- player_stats_weekly %&gt;%\n  dplyr::filter(position == \"QB\") %&gt;%\n  dplyr::group_by(player_id, season) %&gt;%\n  dplyr::summarise(fp_season = sum(fantasyPoints, na.rm = TRUE),\n                   fp_pg_season = mean(fantasyPoints, na.rm = TRUE), .groups = \"drop_last\") %&gt;%\n  dplyr::arrange(season, .by_group = TRUE) %&gt;%\n  dplyr::mutate(fp_prev_season = dplyr::lag(fp_season),\n                fp_pg_prev_season = dplyr::lag(fp_pg_season)) %&gt;%\n  dplyr::ungroup()\n\nplayer_stats_weekly_QB_example &lt;- player_stats_weekly %&gt;%\n  dplyr::filter(position == \"QB\") %&gt;%\n  dplyr::arrange(player_id, season, week) %&gt;%\n  dplyr::group_by(player_id, season) %&gt;%\n  dplyr::mutate(fantasyPoints_nextGame = dplyr::lead(fantasyPoints)) %&gt;%\n  dplyr::ungroup() %&gt;%\n  dplyr::left_join(season_agg_QB %&gt;% dplyr::select(player_id, season, fp_prev_season, fp_pg_prev_season),\n                   by = c(\"player_id\",\"season\")) %&gt;%\n  dplyr::select(player_id, season, week, fantasyPoints, fantasyPoints_nextGame,\n                fp_prev_season, fp_pg_prev_season,\n                ageCentered20, ageCentered20Quadratic, years_of_experience,\n                rushing_yards, rushing_tds, receiving_yards, receiving_tds,\n                receiving_air_yards, receiving_yards_after_catch, racr, targets, target_share) %&gt;%\n  stats::na.omit()\n\nmodel_predictions_QB &lt;- data.frame(actual = player_stats_weekly_QB_example$fantasyPoints_nextGame)\n\n\n\n\nCode\nqb_season &lt;- player_stats_weekly %&gt;%\n  filter(position == \"QB\") %&gt;%\n  group_by(player_id, season) %&gt;%\n  summarize(seasonPoints = sum(fantasyPoints, na.rm = TRUE), .groups = \"drop_last\") %&gt;%\n  arrange(player_id, season) %&gt;%\n  mutate(lastSeasonPoints = dplyr::lag(seasonPoints)) %&gt;%\n  ungroup() %&gt;%\n  drop_na(lastSeasonPoints)\n\nmodel_predictions &lt;- data.frame(\n  actual = qb_season$seasonPoints\n)\n\n\n\n\nCode\nlinearRegression_onePredictor &lt;- lm(\n  seasonPoints ~ lastSeasonPoints,\n  data = qb_season,\n  na.action = \"na.exclude\"\n)\n\nsummary(linearRegression_onePredictor)\n\n\n\nCall:\nlm(formula = seasonPoints ~ lastSeasonPoints, data = qb_season, \n    na.action = \"na.exclude\")\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-314.86  -43.21  -16.58   47.11  392.76 \n\nCoefficients:\n                 Estimate Std. Error t value            Pr(&gt;|t|)    \n(Intercept)      29.40480    2.96696   9.911 &lt;0.0000000000000002 ***\nlastSeasonPoints  0.72118    0.01788  40.325 &lt;0.0000000000000002 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 80.91 on 1604 degrees of freedom\nMultiple R-squared:  0.5034,    Adjusted R-squared:  0.5031 \nF-statistic:  1626 on 1 and 1604 DF,  p-value: &lt; 0.00000000000000022\n\n\nCode\nprint(effectsize::standardize_parameters(linearRegression_onePredictor), digits = 2)\n\n\n# Standardization method: refit\n\nParameter        | Std. Coef. |        95% CI\n---------------------------------------------\n(Intercept)      |   2.74e-17 | [-0.03, 0.03]\nlastSeasonPoints |       0.71 | [ 0.68, 0.74]\n\n\nCode\nmodel_predictions$linearRegression_onePredictor &lt;- predict(linearRegression_onePredictor)\n\n# Evaluate Accuracy of Predictions\npetersenlab::accuracyOverall(\n  predicted = model_predictions$linearRegression_onePredictor,\n  actual = model_predictions$actual,\n  dropUndefined = TRUE\n)\n\n\nWarning in log(actual + 1): NaNs produced\n\n\n\n  \n\n\n\n\n\nCode\nset.seed(52242)\n\nfolds_kFold &lt;- rsample::group_vfold_cv(\n  qb_season,\n  group = player_id,\n  v = 10\n)\n\n\n\n\nCode\nplayer_stats_weekly_example &lt;- player_stats_weekly %&gt;%\n  dplyr::filter(position == \"QB\") %&gt;%\n  dplyr::arrange(player_id, season, week) %&gt;%\n  dplyr::group_by(player_id, season) %&gt;%\n  dplyr::mutate(fantasyPoints_nextGame = dplyr::lead(fantasyPoints)) %&gt;%\n  dplyr::ungroup() %&gt;%\n  dplyr::select(\n    player_id, season, week,\n    fantasyPoints_nextGame,              # outcome\n    # predictors (only from your screenshots)\n    completions, attempts,\n    passing_yards, passing_tds, passing_interceptions,\n    sacks_suffered, sack_yards_lost, sack_fumbles, sack_fumbles_lost,\n    passing_air_yards, passing_yards_after_catch,\n    passing_first_downs, passing_epa, passing_cpoe, passing_2pt_conversions,\n    pacr,\n    carries, rushing_yards, rushing_tds,\n    ageCentered20, ageCentered20Quadratic\n  ) %&gt;%\n  tidyr::drop_na()\n\nset.seed(52242)\nfolds_kFold &lt;- rsample::group_vfold_cv(\n  player_stats_weekly_example,\n  group = player_id,\n  v = 10\n)\n\nrec &lt;- recipes::recipe(\n  fantasyPoints_nextGame ~\n    completions + attempts +\n    passing_yards + passing_tds + passing_interceptions +\n    sacks_suffered + sack_yards_lost + sack_fumbles + sack_fumbles_lost +\n    passing_air_yards + passing_yards_after_catch +\n    passing_first_downs + passing_epa + passing_cpoe + passing_2pt_conversions +\n    pacr +\n    carries + rushing_yards + rushing_tds +\n    ageCentered20 + ageCentered20Quadratic,\n  data = player_stats_weekly_example\n)\n\nenet_spec &lt;- parsnip::linear_reg(penalty = tune::tune(), mixture = tune::tune()) %&gt;%\n  parsnip::set_engine(\"glmnet\")\n\nenet_wf &lt;- workflows::workflow() %&gt;%\n  workflows::add_recipe(rec) %&gt;%\n  workflows::add_model(enet_spec)\n\ngrid_enet &lt;- dials::grid_regular(\n  dials::penalty(range = c(-4, -1)),\n  dials::mixture(range = c(0, 1)),\n  levels = c(20, 5)\n)\n\ncv_results &lt;- tune::tune_grid(\n  enet_wf,\n  resamples = folds_kFold,\n  grid = grid_enet,\n  metrics = yardstick::metric_set(rmse, mae, rsq),\n  control = tune::control_grid(save_pred = TRUE)\n)\n\nbest &lt;- tune::select_best(cv_results, metric = \"mae\")\nfinal_wf &lt;- tune::finalize_workflow(enet_wf, best)\n\nfinal_model &lt;- workflows::fit(final_wf, data = player_stats_weekly_example)\n\npreds &lt;- predict(final_model, new_data = player_stats_weekly_example)$.pred\npetersenlab::accuracyOverall(predicted = preds,\n                             actual = player_stats_weekly_example$fantasyPoints_nextGame,\n                             dropUndefined = TRUE)\n\n\nWarning in log(actual + 1): NaNs produced"
+  },
+  {
+    "objectID": "posts/blogpost7/blogpost7.html#findings",
+    "href": "posts/blogpost7/blogpost7.html#findings",
+    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
+    "section": "5.2 Findings",
+    "text": "5.2 Findings\nFirst Model ME: ~0.0000000000000285 MAE: 61.77 MdAE: 44.62 MSE: 6537.85 RMSE: 80.86 MPE: -12.89 MAPE: 2882.71 sMAPE: 41.99 MASE: 0.61 RMSLE: 1.62 R^2: 0.503 Adjusted R^2: 0.503 Predictive R^2: 0.502\nSecond Model ME: ~0.0000000000000105 MAE: 6.39 MdAE: 5.54 MSE: 63.43 RMSE: 7.96 MPE: -44.61 MAPE: 327.81 sMAPE: 25.52 MASE: 0.93 RMSLE: 0.78 R^2: 0.139 Adjusted R^2: 0.139 Predictive R^2: 0.139"
+  },
+  {
+    "objectID": "posts/blogpost7/blogpost7.html#visualization",
+    "href": "posts/blogpost7/blogpost7.html#visualization",
+    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
+    "section": "5.3 Visualization",
+    "text": "5.3 Visualization\n\n\nCode\nqb_weekly &lt;- player_stats_weekly %&gt;%\n  dplyr::filter(position == \"QB\") %&gt;%\n  dplyr::arrange(player_id, season, week) %&gt;%\n  dplyr::group_by(player_id, season) %&gt;%\n  dplyr::mutate(fantasyPoints_nextGame = dplyr::lead(fantasyPoints)) %&gt;%\n  dplyr::ungroup()\n\nqb_last_ppg &lt;- qb_weekly %&gt;%\n  dplyr::group_by(player_id, season) %&gt;%\n  dplyr::summarise(lastSeasonPoints = mean(fantasyPoints, na.rm = TRUE), .groups = \"drop\") %&gt;%\n  dplyr::mutate(season = season + 1)\n\nqb_lastSeason &lt;- qb_weekly %&gt;%\n  dplyr::left_join(qb_last_ppg, by = c(\"player_id\", \"season\")) %&gt;%\n  dplyr::select(player_id, season, week, fantasyPoints, fantasyPoints_nextGame, lastSeasonPoints) %&gt;%\n  tidyr::drop_na(lastSeasonPoints, fantasyPoints_nextGame)\n\nggplot2::ggplot(qb_lastSeason, ggplot2::aes(x = lastSeasonPoints, y = fantasyPoints_nextGame)) +\n  ggplot2::geom_point(alpha = 0.25) +\n  ggplot2::geom_smooth(method = \"lm\", se = FALSE) +\n  ggplot2::labs(\n    title = \"QB: Last-Season Points vs Next-Game Fantasy Points\",\n    x = \"Last-season fantasy points (per game)\",\n    y = \"Next-game fantasy points\"\n  ) +\n  ggplot2::theme_minimal()\n\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\nIt shows a clear positive relationship: QBs who scored more last season (per game) tend to score more next game now (upward blue line)."
   },
   {
     "objectID": "posts/welcome/index.html",
