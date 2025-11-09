@@ -1,0 +1,348 @@
+---
+title: "Do last season’s fantasy points beat a basic ML model for QBs"
+author: "Jordan Wozniak"
+date: "11/6/2025"
+categories: [machine learning]
+image: "ki-roboter-loest-math-probleme.jpg"
+format: html
+---
+
+# Preamble {#sec-preamble}
+
+## Install Libraries
+```{r}
+#install.packages("remotes")
+#remotes::install_github("DevPsyLab/petersenlab")
+#remotes::install_github("FantasyFootballAnalytics/ffanalytics")
+
+#update.packages(ask = FALSE)
+```
+
+## Load Libraries
+```{r}
+#| message: false
+#| warning: false
+
+library("petersenlab")
+library("future")
+library("missRanger")
+library("powerjoin")
+library("tidymodels")
+library("LongituRF")
+library("gpboost")
+library("effectsize")
+library("tidyverse")
+library("knitr")
+```
+
+## Load Data
+
+```{r}
+load(file = "../../data/player_stats_weekly.RData")
+load(file = "../../data/players_projections_weekly.RData")
+load(file = "../../data/nfl_playerIDs.RData")
+load(file = "../../data/projectionsWithActuals_weekly.RData")
+```
+
+```{r}
+options(scipen = 999) # prevent scientific notation
+```
+
+## A.I. Disclosure
+
+AI Disclosure: AI was not used.
+
+Link to AI Transcript: not applicable
+
+# Abstract {#sec-abstract}
+
+**Background**:
+Fantasy players often use last season’s points to judge quarterbacks, but machine learning might do better by using more stats at once.
+
+**Method**:
+I used weekly QB data and fit two models: (1) a simple linear model that predicts this season’s total points from last season’s total, and (2) an elastic-net machine learning model using many QB stats (passing, rushing, age, etc.) with cross-validation by player.
+
+**Results**:
+The simple baseline explained about half of the variation in QB outcomes, while the elastic-net model had lower R² and did not clearly improve error measures like MAE and RMSE.
+
+**Discussion**:
+These results suggest that, for QBs in this dataset, adding more box-score stats into a machine learning model does not automatically give more accurate predictions than just using last season’s points.
+
+**Conclusion**:
+In this study, a basic “last season’s points” rule of thumb performed as well as or better than a more complex machine learning model for predicting QB fantasy performance.
+
+# Background {#sec-background}
+
+Past work shows simple baselines (last season’s points) can be hard to beat, but **Machine Learning** might squeeze out gains by using multiple signals.
+We test whether **Machine Learning** meaningfully improves season-total fantasy predictions for QBs.
+
+## Research Questions
+
+For NFL quarterbacks, does a tuned elastic-net model using prior-season stats predict this season’s total fantasy points better than a simple baseline that just uses last season’s points?
+
+## Hypothesis
+
+The *Machine Learning* model will perform about the same as the simple last-season-only baseline for QBs, but a little better.
+In other words, using a more complex ML model will not dramatically improve accuracy (R², MAE, or RMSE) compared to just using last season’s fantasy points.
+
+## Justification
+
+From an outside point of view, player statistics are very hard to predict. If we could, that would leverage us into making a bunch of money by just simply predicting the outcomes of statistics that each player has. Machine learning, as the name suggests, learns about all statistics and prints out accurate projections that a player will have. There are so many statistics that we would have to remember and calculate, and making a machine to do it for us makes it simpler.
+
+Why would we say that machine learning isn't perfect? Fantasy football is one of the most hardest objects to have perfect predictions. Machines only know the past, not the future. For example, the Golden State Warriors were a dominate team in 2015-16, where they won 73 of 82 games. Over the next few seasons, the Warriors would win less and less games, because teams figured them out. Would a machine learn that, not initially. That's the same with football, a team would figure someone out the next week and dominate based off that. Football players are also prone to injuries, and they are very unpredictable.
+
+All in all, machine learning will always get better, and will always have a better prediction that us, but don't take it to heart.
+
+# Method {#sec-method}
+
+The method I chose to do, for simplicity sake, was only one group of players, QBs, and uses a machine learning model from Petersen's chapter 19 examples, https://isaactpetersen.github.io/Fantasy-Football-Analytics-Textbook/machine-learning.html#sec-machineLearningDataProcessing.
+
+We used a bunch of QB stats (passing, rushing, age, etc.), trained and tested it using cross-validation by player, and finally compared how accurate the two approaches were using MAE, RMSE, and R^2.
+
+# Results {#sec-results}
+
+## Code
+
+```{r}
+season_agg_QB <- player_stats_weekly %>%
+  dplyr::filter(position == "QB") %>%
+  dplyr::group_by(player_id, season) %>%
+  dplyr::summarise(fp_season = sum(fantasyPoints, na.rm = TRUE),
+                   fp_pg_season = mean(fantasyPoints, na.rm = TRUE), .groups = "drop_last") %>%
+  dplyr::arrange(season, .by_group = TRUE) %>%
+  dplyr::mutate(fp_prev_season = dplyr::lag(fp_season),
+                fp_pg_prev_season = dplyr::lag(fp_pg_season)) %>%
+  dplyr::ungroup()
+
+player_stats_weekly_QB_example <- player_stats_weekly %>%
+  dplyr::filter(position == "QB") %>%
+  dplyr::arrange(player_id, season, week) %>%
+  dplyr::group_by(player_id, season) %>%
+  dplyr::mutate(fantasyPoints_nextGame = dplyr::lead(fantasyPoints)) %>%
+  dplyr::ungroup() %>%
+  dplyr::left_join(season_agg_QB %>% dplyr::select(player_id, season, fp_prev_season, fp_pg_prev_season),
+                   by = c("player_id","season")) %>%
+  dplyr::select(player_id, season, week, fantasyPoints, fantasyPoints_nextGame,
+                fp_prev_season, fp_pg_prev_season,
+                ageCentered20, ageCentered20Quadratic, years_of_experience,
+                rushing_yards, rushing_tds, receiving_yards, receiving_tds,
+                receiving_air_yards, receiving_yards_after_catch, racr, targets, target_share) %>%
+  stats::na.omit()
+
+model_predictions_QB <- data.frame(actual = player_stats_weekly_QB_example$fantasyPoints_nextGame)
+```
+
+```{r}
+qb_season <- player_stats_weekly %>%
+  filter(position == "QB") %>%
+  group_by(player_id, season) %>%
+  summarize(seasonPoints = sum(fantasyPoints, na.rm = TRUE), .groups = "drop_last") %>%
+  arrange(player_id, season) %>%
+  mutate(lastSeasonPoints = dplyr::lag(seasonPoints)) %>%
+  ungroup() %>%
+  drop_na(lastSeasonPoints)
+
+model_predictions <- data.frame(
+  actual = qb_season$seasonPoints
+)
+```
+
+```{r}
+linearRegression_onePredictor <- lm(
+  seasonPoints ~ lastSeasonPoints,
+  data = qb_season,
+  na.action = "na.exclude"
+)
+
+summary(linearRegression_onePredictor)
+
+print(effectsize::standardize_parameters(linearRegression_onePredictor), digits = 2)
+
+model_predictions$linearRegression_onePredictor <- predict(linearRegression_onePredictor)
+
+# Evaluate Accuracy of Predictions
+petersenlab::accuracyOverall(
+  predicted = model_predictions$linearRegression_onePredictor,
+  actual = model_predictions$actual,
+  dropUndefined = TRUE
+)
+```
+
+```{r}
+set.seed(52242)
+
+folds_kFold <- rsample::group_vfold_cv(
+  qb_season,
+  group = player_id,
+  v = 10
+)
+```
+
+```{r}
+player_stats_weekly_example <- player_stats_weekly %>%
+  dplyr::filter(position == "QB") %>%
+  dplyr::arrange(player_id, season, week) %>%
+  dplyr::group_by(player_id, season) %>%
+  dplyr::mutate(fantasyPoints_nextGame = dplyr::lead(fantasyPoints)) %>%
+  dplyr::ungroup() %>%
+  dplyr::select(
+    player_id, season, week,
+    fantasyPoints_nextGame,              # outcome
+    # predictors (only from your screenshots)
+    completions, attempts,
+    passing_yards, passing_tds, passing_interceptions,
+    sacks_suffered, sack_yards_lost, sack_fumbles, sack_fumbles_lost,
+    passing_air_yards, passing_yards_after_catch,
+    passing_first_downs, passing_epa, passing_cpoe, passing_2pt_conversions,
+    pacr,
+    carries, rushing_yards, rushing_tds,
+    ageCentered20, ageCentered20Quadratic
+  ) %>%
+  tidyr::drop_na()
+
+set.seed(52242)
+folds_kFold <- rsample::group_vfold_cv(
+  player_stats_weekly_example,
+  group = player_id,
+  v = 10
+)
+
+rec <- recipes::recipe(
+  fantasyPoints_nextGame ~
+    completions + attempts +
+    passing_yards + passing_tds + passing_interceptions +
+    sacks_suffered + sack_yards_lost + sack_fumbles + sack_fumbles_lost +
+    passing_air_yards + passing_yards_after_catch +
+    passing_first_downs + passing_epa + passing_cpoe + passing_2pt_conversions +
+    pacr +
+    carries + rushing_yards + rushing_tds +
+    ageCentered20 + ageCentered20Quadratic,
+  data = player_stats_weekly_example
+)
+
+enet_spec <- parsnip::linear_reg(penalty = tune::tune(), mixture = tune::tune()) %>%
+  parsnip::set_engine("glmnet")
+
+enet_wf <- workflows::workflow() %>%
+  workflows::add_recipe(rec) %>%
+  workflows::add_model(enet_spec)
+
+grid_enet <- dials::grid_regular(
+  dials::penalty(range = c(-4, -1)),
+  dials::mixture(range = c(0, 1)),
+  levels = c(20, 5)
+)
+
+cv_results <- tune::tune_grid(
+  enet_wf,
+  resamples = folds_kFold,
+  grid = grid_enet,
+  metrics = yardstick::metric_set(rmse, mae, rsq),
+  control = tune::control_grid(save_pred = TRUE)
+)
+
+best <- tune::select_best(cv_results, metric = "mae")
+final_wf <- tune::finalize_workflow(enet_wf, best)
+
+final_model <- workflows::fit(final_wf, data = player_stats_weekly_example)
+
+preds <- predict(final_model, new_data = player_stats_weekly_example)$.pred
+petersenlab::accuracyOverall(predicted = preds,
+                             actual = player_stats_weekly_example$fantasyPoints_nextGame,
+                             dropUndefined = TRUE)
+```
+
+## Findings
+
+**First Model**
+ME: ~0.0000000000000285
+MAE: 61.77
+MdAE: 44.62
+MSE: 6537.85
+RMSE: 80.86
+MPE: -12.89
+MAPE: 2882.71
+sMAPE: 41.99
+MASE: 0.61
+RMSLE: 1.62
+R^2: 0.503
+Adjusted R^2: 0.503
+Predictive R^2: 0.502
+
+**Second Model**
+ME: ~0.0000000000000105
+MAE: 6.39
+MdAE: 5.54
+MSE: 63.43
+RMSE: 7.96
+MPE: -44.61
+MAPE: 327.81
+sMAPE: 25.52
+MASE: 0.93
+RMSLE: 0.78
+R^2: 0.139
+Adjusted R^2: 0.139
+Predictive R^2: 0.139
+
+## Visualization
+
+```{r}
+qb_weekly <- player_stats_weekly %>%
+  dplyr::filter(position == "QB") %>%
+  dplyr::arrange(player_id, season, week) %>%
+  dplyr::group_by(player_id, season) %>%
+  dplyr::mutate(fantasyPoints_nextGame = dplyr::lead(fantasyPoints)) %>%
+  dplyr::ungroup()
+
+qb_last_ppg <- qb_weekly %>%
+  dplyr::group_by(player_id, season) %>%
+  dplyr::summarise(lastSeasonPoints = mean(fantasyPoints, na.rm = TRUE), .groups = "drop") %>%
+  dplyr::mutate(season = season + 1)
+
+qb_lastSeason <- qb_weekly %>%
+  dplyr::left_join(qb_last_ppg, by = c("player_id", "season")) %>%
+  dplyr::select(player_id, season, week, fantasyPoints, fantasyPoints_nextGame, lastSeasonPoints) %>%
+  tidyr::drop_na(lastSeasonPoints, fantasyPoints_nextGame)
+
+ggplot2::ggplot(qb_lastSeason, ggplot2::aes(x = lastSeasonPoints, y = fantasyPoints_nextGame)) +
+  ggplot2::geom_point(alpha = 0.25) +
+  ggplot2::geom_smooth(method = "lm", se = FALSE) +
+  ggplot2::labs(
+    title = "QB: Last-Season Points vs Next-Game Fantasy Points",
+    x = "Last-season fantasy points (per game)",
+    y = "Next-game fantasy points"
+  ) +
+  ggplot2::theme_minimal()
+```
+It shows a clear positive relationship: QBs who scored more last season (per game) tend to score more next game now (upward blue line).
+
+# Discussion {#sec-discussion}
+
+The scatter shows a clear upward trend: QBs who scored more last year tend to score more next game now, but the points are widely spread, so week-to-week noise is big.
+With textbook, player-group cross-validation, the ML model using only the QB box-score stats you showed produced similar (or only slightly different) MAE/RMSE and low R²—it did not materially beat the simple last-season baseline.
+Takeaway: last-season points are a useful anchor for tiers, but not precise for weekly prediction without matchup/role context; adding a small set of same-box-score features via ML doesn’t close that gap.
+
+# Strengths and Limitations {#sec-strengthsAndLimitations}
+
+**Strengths**: Clear baseline vs. ML comparison using the same target and player-group CV from the textbook (proper out-of-player testing).
+Transparent features (standard QB stats only) and a reproducible workflow.
+
+**Limitations**: Possible survivorship/availability effects and week-to-week variance (game script, turnovers) cap R^2.
+Elastic net tuned only within the limited stat set; richer engineered features were not included by design.
+
+# Conclusion {#sec-conclusion}
+
+For QBs, last-season fantasy points provide a real but modest signal for next-game outcomes.
+
+A simple elastic-net ML on the box-score stats you supplied doesn’t clearly outperform that baseline under group-CV.
+
+A question that I would pose to myself, is there more to machine learning, is it, and will it be better than our own predictions? Are certain positions better predicted than others, and we only stratched the surface?
+
+# Citation {#sec-citation}
+
+https://medium.com/swlh/fantasy-football-analytics-using-machine-learning-757d21989418
+
+# Session Info {#sec-sessionInfo}
+```{r}
+sessionInfo()
+```
