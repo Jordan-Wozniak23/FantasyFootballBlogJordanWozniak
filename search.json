@@ -312,7 +312,7 @@
     "href": "index.html",
     "title": "My Blog",
     "section": "",
-    "text": "Preamble\n\n\n\n\n\n\n\n\n\n\n\nNov 13, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nDo last season’s fantasy points beat a basic ML model for QBs\n\n\n\nmachine learning\n\n\n\n\n\n\n\n\n\nNov 6, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nDoes last week fantasy points mislead? Should we use fantasy points as the first predictor, or use it as the base?\n\n\n\nwelcome\n\nmyfantasyteam\n\ncontinuousfantasypoints\n\n\n\n\n\n\n\n\n\nOct 30, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nDo Last-Game Receptions Beat Yardage for Predicting Next Week?\n\n\n\nwelcome\n\nReceptionsBeatingYardage\n\n\n\n\n\n\n\n\n\nOct 23, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nFallacies and biases created from analyzing one specific pieces data in positions in fantasy football\n\n\n\nFallaciesAndBiases\n\n\n\n\n\n\n\n\n\nOct 9, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nCorrelation between the amount of carries for a QB compared to their fantasy point production\n\n\n\ncorrelationQBandFPs\n\n\n\n\n\n\n\n\n\nSep 30, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nVisulalization If Age Plays An Impact On Their Fantasy Point Production\n\n\n\nwelcome\n\nfantasyteam\n\nagevsfantasypoints\n\n\n\n\n\n\n\n\n\nSep 18, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nMy Fantasy Team\n\n\n\nwelcome\n\nfantasyteam\n\n\n\n\n\n\n\n\n\nSep 11, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\nwelcome\n\n\n\n\n\n\n\n\n\nSep 2, 2025\n\n\nJordan Wozniak\n\n\n\n\n\nNo matching items"
+    "text": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football\n\n\n\nmodernportfoliotheory\n\n\n\n\n\n\n\n\n\nNov 13, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nDo last season’s fantasy points beat a basic ML model for QBs\n\n\n\nmachine learning\n\n\n\n\n\n\n\n\n\nNov 6, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nDoes last week fantasy points mislead? Should we use fantasy points as the first predictor, or use it as the base?\n\n\n\nwelcome\n\nmyfantasyteam\n\ncontinuousfantasypoints\n\n\n\n\n\n\n\n\n\nOct 30, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nDo Last-Game Receptions Beat Yardage for Predicting Next Week?\n\n\n\nwelcome\n\nReceptionsBeatingYardage\n\n\n\n\n\n\n\n\n\nOct 23, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nFallacies and biases created from analyzing one specific pieces data in positions in fantasy football\n\n\n\nFallaciesAndBiases\n\n\n\n\n\n\n\n\n\nOct 9, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nCorrelation between the amount of carries for a QB compared to their fantasy point production\n\n\n\ncorrelationQBandFPs\n\n\n\n\n\n\n\n\n\nSep 30, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nVisulalization If Age Plays An Impact On Their Fantasy Point Production\n\n\n\nwelcome\n\nfantasyteam\n\nagevsfantasypoints\n\n\n\n\n\n\n\n\n\nSep 18, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nMy Fantasy Team\n\n\n\nwelcome\n\nfantasyteam\n\n\n\n\n\n\n\n\n\nSep 11, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\nwelcome\n\n\n\n\n\n\n\n\n\nSep 2, 2025\n\n\nJordan Wozniak\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/fallaciesandbiases/fallaciesandbiases.html",
@@ -387,72 +387,72 @@
   {
     "objectID": "posts/blogpost8/blogpost8.html",
     "href": "posts/blogpost8/blogpost8.html",
-    "title": "1 Preamble",
+    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
     "section": "",
     "text": "Code\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)\n\n\n\n\n\n\n\nCode\nlibrary(\"petersenlab\")\nlibrary(\"future\")\nlibrary(\"missRanger\")\nlibrary(\"powerjoin\")\nlibrary(\"tidymodels\")\nlibrary(\"LongituRF\")\nlibrary(\"gpboost\")\nlibrary(\"effectsize\")\nlibrary(\"tidyverse\")\nlibrary(\"knitr\")\n\n\n\n\n\n\n\nCode\nload(file = \"../../data/player_stats_weekly.RData\")\nload(file = \"../../data/players_projections_weekly.RData\")\nload(file = \"../../data/nfl_playerIDs.RData\")\nload(file = \"../../data/projectionsWithActuals_weekly.RData\")\n\n\n\n\nCode\noptions(scipen = 999) # prevent scientific notation\n\n\n\n\n\nAI Disclosure: AI was not used.\nLink to AI Transcript: not applicable"
   },
   {
     "objectID": "posts/blogpost8/blogpost8.html#install-libraries",
     "href": "posts/blogpost8/blogpost8.html#install-libraries",
-    "title": "1 Preamble",
+    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
     "section": "",
     "text": "Code\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)"
   },
   {
     "objectID": "posts/blogpost8/blogpost8.html#load-libraries",
     "href": "posts/blogpost8/blogpost8.html#load-libraries",
-    "title": "1 Preamble",
+    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
     "section": "",
     "text": "Code\nlibrary(\"petersenlab\")\nlibrary(\"future\")\nlibrary(\"missRanger\")\nlibrary(\"powerjoin\")\nlibrary(\"tidymodels\")\nlibrary(\"LongituRF\")\nlibrary(\"gpboost\")\nlibrary(\"effectsize\")\nlibrary(\"tidyverse\")\nlibrary(\"knitr\")"
   },
   {
     "objectID": "posts/blogpost8/blogpost8.html#load-data",
     "href": "posts/blogpost8/blogpost8.html#load-data",
-    "title": "1 Preamble",
+    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
     "section": "",
     "text": "Code\nload(file = \"../../data/player_stats_weekly.RData\")\nload(file = \"../../data/players_projections_weekly.RData\")\nload(file = \"../../data/nfl_playerIDs.RData\")\nload(file = \"../../data/projectionsWithActuals_weekly.RData\")\n\n\n\n\nCode\noptions(scipen = 999) # prevent scientific notation"
   },
   {
     "objectID": "posts/blogpost8/blogpost8.html#a.i.-disclosure",
     "href": "posts/blogpost8/blogpost8.html#a.i.-disclosure",
-    "title": "1 Preamble",
+    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
     "section": "",
     "text": "AI Disclosure: AI was not used.\nLink to AI Transcript: not applicable"
   },
   {
     "objectID": "posts/blogpost8/blogpost8.html#research-question",
     "href": "posts/blogpost8/blogpost8.html#research-question",
-    "title": "1 Preamble",
+    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
     "section": "3.1 Research Question",
     "text": "3.1 Research Question\nWe, or myself, have two questions to pose and would like to seek answers to.\n\nHow strongly are players’ historical week-to-week fantasy point related to their historical volatility?\nDo lineups that lean more on safer, low-volatility players end up with better risk-adjusted performance than lineups that rely heavily on boom-bust players?"
   },
   {
     "objectID": "posts/blogpost8/blogpost8.html#hypothesis-and-testable-prediction",
     "href": "posts/blogpost8/blogpost8.html#hypothesis-and-testable-prediction",
-    "title": "1 Preamble",
+    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
     "section": "3.2 Hypothesis and Testable Prediction",
     "text": "3.2 Hypothesis and Testable Prediction\nLineups that rely more on safer, low-volatility players will sit closer to the efficient frontier and have better risk-adjusted performance than lineups that rely heavily on boom-bust players.\nWhen we compare portfolios, teams where most of the total weight is in low-volatility players will have lower overall risk and equal or higher mean fantasy points per week than teams where most of the weight is in high-volatility players."
   },
   {
     "objectID": "posts/blogpost8/blogpost8.html#justification",
     "href": "posts/blogpost8/blogpost8.html#justification",
-    "title": "1 Preamble",
+    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
     "section": "3.3 Justification",
     "text": "3.3 Justification\nModern Portfolio Theory says you can get good returns without taking unnecessary risk by diversifying and avoiding overly volatile assets. In fantasy football, boom-bust players create big swings that can sink a weekly matchup if several bust at once."
   },
   {
     "objectID": "posts/blogpost8/blogpost8.html#code",
     "href": "posts/blogpost8/blogpost8.html#code",
-    "title": "1 Preamble",
+    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
     "section": "5.1 Code",
     "text": "5.1 Code\n\n\nCode\nplayer_stats_weekly_recent &lt;- player_stats_weekly %&gt;%\n  dplyr::filter(season == max(season))\n\nplayer_stats_weekly_recent_summary &lt;- player_stats_weekly_recent %&gt;%\n  dplyr::group_by(player_id) %&gt;%\n  dplyr::summarise(\n    mean = mean(fantasyPoints, na.rm = TRUE),\n    sd   = sd(fantasyPoints, na.rm = TRUE),\n    var  = var(fantasyPoints, na.rm = TRUE),\n    .groups = \"drop\"\n  )\n\nplayer_stats_weekly_recent_summary &lt;- player_stats_weekly_recent_summary %&gt;%\n  dplyr::left_join(\n    nfl_playerIDs[, c(\"gsis_id\", \"name\", \"merge_name\", \"position\", \"team\")],\n    by = c(\"player_id\" = \"gsis_id\")\n  ) %&gt;%\n  dplyr::select(name, team, position, player_id, mean, sd, var) %&gt;%\n  dplyr::arrange(dplyr::desc(mean))\n\nsummary(player_stats_weekly_recent_summary$mean)\n\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's \n-0.1333  0.0000  0.0000  0.7648  0.0000 26.6106     268 \n\n\nCode\nsummary(player_stats_weekly_recent_summary$sd)\n\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's \n 0.0000  0.0000  0.0000  0.4914  0.0000 13.8621     400 \n\n\nCode\nggplot2::ggplot(player_stats_weekly_recent_summary,\n                ggplot2::aes(x = mean)) +\n  ggplot2::geom_histogram(bins = 30) +\n  ggplot2::labs(\n    x = \"Mean weekly fantasy points\",\n    y = \"Count\",\n    title = \"Distribution of players' mean weekly fantasy points\"\n  ) +\n  ggplot2::theme_classic()\n\n\nWarning: Removed 268 rows containing non-finite outside the scale range\n(`stat_bin()`).\n\n\n\n\n\n\n\n\n\nCode\nggplot2::ggplot(player_stats_weekly_recent_summary,\n                ggplot2::aes(x = sd)) +\n  ggplot2::geom_histogram(bins = 30) +\n  ggplot2::labs(\n    x = \"SD of weekly fantasy points (volatility)\",\n    y = \"Count\",\n    title = \"Distribution of players' week-to-week volatility\"\n  ) +\n  ggplot2::theme_classic()\n\n\nWarning: Removed 400 rows containing non-finite outside the scale range\n(`stat_bin()`).\n\n\n\n\n\n\n\n\n\nCode\ncor_test_mean_sd &lt;- cor.test(\n  ~ mean + sd,\n  data = player_stats_weekly_recent_summary\n)\n\ncor_test_mean_sd\n\n\n\n    Pearson's product-moment correlation\n\ndata:  mean and sd\nt = 237.93, df = 9007, p-value &lt; 0.00000000000000022\nalternative hypothesis: true correlation is not equal to 0\n95 percent confidence interval:\n 0.9259472 0.9316182\nsample estimates:\n      cor \n0.9288371 \n\n\nCode\nggplot2::ggplot(\n  data = player_stats_weekly_recent_summary,\n  ggplot2::aes(x = sd, y = mean)\n) +\n  ggplot2::geom_point(alpha = 0.5) +\n  ggplot2::coord_cartesian(xlim = c(0, NA), ylim = c(0, NA), expand = FALSE) +\n  ggplot2::labs(\n    x = \"SD of weekly fantasy points (volatility)\",\n    y = \"Mean weekly fantasy points\",\n    title = \"Mean vs SD of players' weekly fantasy points\"\n  ) +\n  ggplot2::theme_classic()\n\n\nWarning: Removed 400 rows containing missing values or values outside the scale range\n(`geom_point()`).\n\n\n\n\n\n\n\n\n\nCode\nsummary_noNA &lt;- player_stats_weekly_recent_summary %&gt;%\n  dplyr::filter(!is.na(mean), !is.na(var), var &gt; 0)\n\nsd_median &lt;- stats::median(summary_noNA$sd, na.rm = TRUE)\n\nlow_vol_players  &lt;- summary_noNA %&gt;% dplyr::filter(sd &lt;= sd_median)\nhigh_vol_players &lt;- summary_noNA %&gt;% dplyr::filter(sd &gt;  sd_median)\n\nconst_cor &lt;- function(rho, numAssets) {\n  C &lt;- matrix(rho, nrow = numAssets, ncol = numAssets)\n  diag(C) &lt;- 1\n  C\n}\n\nsd_low  &lt;- low_vol_players$sd\ncov_low &lt;- diag(sd_low) %*% const_cor(0, length(sd_low)) %*% diag(sd_low)\n\nefficientFrontier_low &lt;- NMOF::mvFrontier(\n  low_vol_players$mean,  # expected weekly points\n  cov_low,               # risk from historical SD\n  wmin = 0,\n  wmax = 1,\n  n    = 50\n)\n\nsd_high  &lt;- high_vol_players$sd\ncov_high &lt;- diag(sd_high) %*% const_cor(0, length(sd_high)) %*% diag(sd_high)\n\nefficientFrontier_high &lt;- NMOF::mvFrontier(\n  high_vol_players$mean,\n  cov_high,\n  wmin = 0,\n  wmax = 1,\n  n    = 50\n)\n\nplot(\n  efficientFrontier_low$volatility,\n  efficientFrontier_low$return,\n  type = \"o\",\n  pch  = 19,\n  cex  = 0.6,\n  xlab = \"Portfolio SD (weekly fantasy points)\",\n  ylab = \"Portfolio mean (weekly fantasy points)\",\n  main = \"Efficient frontiers: low-vol vs high-vol fantasy portfolios\",\n  xlim = range(c(efficientFrontier_low$volatility,\n                 efficientFrontier_high$volatility)),\n  ylim = range(c(efficientFrontier_low$return,\n                 efficientFrontier_high$return))\n)\n\nlines(\n  efficientFrontier_high$volatility,\n  efficientFrontier_high$return,\n  type = \"o\",\n  pch  = 17,\n  cex  = 0.6\n)\n\nlegend(\n  \"bottomright\",\n  legend = c(\"Low-volatility players\", \"High-volatility players\"),\n  pch    = c(19, 17),\n  bty    = \"n\"\n)"
   },
   {
     "objectID": "posts/blogpost8/blogpost8.html#findings",
     "href": "posts/blogpost8/blogpost8.html#findings",
-    "title": "1 Preamble",
+    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
     "section": "5.2 Findings",
-    "text": "5.2 Findings"
+    "text": "5.2 Findings\nGraph 1: Most players have very low average points\nGraph 2: Most players also have very low volatility, with a long right tail of players whose scores swing a lot from week to week.\nGraph 3: The scatterplot shows a strong upward trend: players who score more on average also tend to have higher week-to-week SD.\nGraph 4: At low levels of portfolio SD, on the left side, portfolios built from low-volatility players achieve similar or higher mean points than those built from only high-volatility players."
   },
   {
     "objectID": "posts/blogpost7/blogpost7.html",
