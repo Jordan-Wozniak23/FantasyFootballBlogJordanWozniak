@@ -1,9 +1,9 @@
 ---
-title: ""
+title: "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football"
 author: "Jordan Wozniak"
 date: "11/13/2025"
-categories: []
-image: ""
+categories: [modernportfoliotheory]
+image: "scales-justice-symbol-law-concept-600nw-2538419399.jpg"
 format: html
 ---
 
@@ -56,13 +56,13 @@ Link to AI Transcript: not applicable
 
 # Abstract {#sec-abstract}
 
-**Background**:
+**Background**: Competitive fantasy football managers must balance upside and week-to-week risk, but “hot hand” and recency bias can lead them to chase boom-bust players instead of steady scorers.
 
-**Method**:
+**Method**: Using weekly fantasy points from the most recent NFL season, we computed each player’s mean (expected return) and standard deviation (volatility), tested the correlation between them, and then built efficient frontiers for portfolios made from low-volatility vs high-volatility players.
 
-**Results**:
+**Results**: Higher-scoring players tended to be more volatile, and at low and moderate risk levels, portfolios built mostly from low-volatility players achieved similar or higher expected weekly points with clearly lower overall risk than portfolios relying on boom-bust players.
 
-**Discussion**:
+**Discussion**: Treating week-to-week volatility as portfolio risk suggests that fantasy managers should anchor lineups with consistent players and add only a few risky options, helping reduce the impact of recency bias while still allowing for upside.
 
 # Background {#sec-background}
 
@@ -87,6 +87,14 @@ When we compare portfolios, teams where most of the total weight is in low-volat
 Modern Portfolio Theory says you can get good returns without taking unnecessary risk by diversifying and avoiding overly volatile assets. In fantasy football, boom-bust players create big swings that can sink a weekly matchup if several bust at once.
 
 # Method {#sec-method}
+
+All information and guidance of code was provided from "Chapter 20: Modern Portfolio Theory," link displayed in citations.
+
+We used weekly fantasy scoring data from the most recent NFL season in player_stats_weekly. For each player, we calculated the mean (average weekly fantasy points) and standard deviation (week-to-week volatility) across all games. We then merged in player position and team information from nfl_playerIDs and created descriptive statistics (means, SDs, histograms) for both variables.
+
+Question 1, ran a Pearson correlation between players’ mean points and their SD
+
+Question 2, built portfolios of players to generate efficient frontiers where portfolio return was the weighted mean of weekly fantasy points and portfolio risk was the weighted SD.
 
 # Results {#sec-results}
 
@@ -224,12 +232,40 @@ legend(
 
 ## Findings
 
+**Graph 1**: Most players have very low average points
+
+**Graph 2**: Most players also have very low volatility, with a long right tail of players whose scores swing a lot from week to week.
+
+**Graph 3**: The scatterplot shows a strong upward trend: players who score more on average also tend to have higher week-to-week SD.
+
+**Graph 4**: At low levels of portfolio SD, on the left side, portfolios built from low-volatility players achieve similar or higher mean points than those built from only high-volatility players.
 
 
 # Discussion {#sec-discussion}
 
+These findings mostly support our hypothesis that fantasy teams built mainly from consistent, low-volatility players can perform better for their level of risk than teams that rely heavily on boom-bust players. The strong positive relationship between mean points and volatility means that chasing high scorers often also means accepting more week-to-week swings. However, when we look at the efficient frontiers, the low-volatility portfolios give good average points with much lower overall risk, especially in the low-risk region where most fantasy managers probably want to be.
+
 # Strengths and Limitations {#sec-strengthsAndLimitations}
+
+**Strengths:** This project uses real weekly fantasy data from an entire NFL season and applies a well-established framework to evaluate lineups, rather than relying on anecdotes.
+
+**Limitations:** There are outside "affectant" or plural, if you may, that can hurt this portfolio. This can't be directly analyzed from the graphs and code in general, but injuries and outside factors like coaching decisions, psychology of teams, and other factors that may not be football related. This can turn a consistent player into a inconsistent, but this can be said about anyone at anytime, so that is the added risk and limitation that sits inside these studies.
 
 # Conclusion {#sec-conclusion}
 
+In this article, we used historical week-to-week fantasy scores to treat players as financial assets and quantify risk as volatility. Our results showed a strong positive relationship between players’ average weekly points and their volatility, and efficient frontier comparisons suggested that lineups built mostly from safer, low-volatility players offer better risk-adjusted performance at low and moderate risk levels than lineups that rely heavily on boom-bust players.
+
+In my eyes, this is a great study to run for competitive fantasy football managers. Sure, we may want the top players per week, but sometimes that can be a random player. There are some names out there that we never heard of, and come out the woodwork and score 40+ points, then we pick them up for the boom, and then become a dud for the rest of the season. This, in turn, removes the "hot hand" and the "recency bias." If you have a guranteed 15 points, versus a chance of getting 30, you would still choose the 15, that's an average 130 points to your team. This would follow the "boom-bust" idea, but we need the steady idea.
+
 # Citation {#sec-citiation}
+
+https://isaactpetersen.github.io/Fantasy-Football-Analytics-Textbook/modern-portfolio-theory.html#sec-modernPortfolioTheoryGettingStarted
+
+https://eng.wealthfront.com/2012/01/17/moneyball-using-modern-portfolio-theory-to-win-your-fantasy-sports-league/
+
+https://bleacherreport.com/articles/44987-measuring-week-to-week-consistency-with-standard-deviation
+
+# Session Info {#sec-sessionInfo}
+```{r}
+sessionInfo()
+```
