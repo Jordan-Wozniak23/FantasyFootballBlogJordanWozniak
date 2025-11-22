@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jordan Wozniak">
-<meta name="dcterms.date" content="2025-11-20">
+<meta name="dcterms.date" content="2025-11-13">
 
-<title>Predicting Next Season’s Scoring: A One-Factor CFA Team Offense Quality Model for NFL Offenses – My Blog</title>
+<title>Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football – My Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -159,9 +159,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Predicting Next Season’s Scoring: A One-Factor CFA Team Offense Quality Model for NFL Offenses</h1>
+      <h1 class="title">Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football</h1>
                                 <div class="quarto-categories">
-                <div class="quarto-category">factoranalysis</div>
+                <div class="quarto-category">modernportfoliotheory</div>
               </div>
                   </div>
   </div>
@@ -179,7 +179,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">November 20, 2025</p>
+        <p class="date">November 13, 2025</p>
       </div>
     </div>
     
@@ -305,11 +305,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="sec-abstract" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Abstract</h1>
-<p><strong>Background</strong>: NFL offenses are usually evaluated with separate box-score stats (yards, touchdowns, interceptions), but these observed variables are noisy and influenced by schedule and luck. Using factor analysis, we can combine them into a single latent “team offense quality” factor that may predict future scoring better than any single stat.</p>
-<p><strong>Method</strong>: Using team-season data from <em>nfl_actualStats_team_seasonal</em>, we fit a one-factor confirmatory factor analysis (CFA) to passing, rushing, efficiency, and turnover variables to estimate a latent “team offense quality” factor. We then used each team’s factor score to predict its points per game in the following season.</p>
-<p><strong>Results</strong>: The one-factor CFA showed good loadings across the offensive variables, indicating that they share substantial common variance. Teams with higher offense-quality factor scores tended to score more points per game in the next season, consistent with the hypothesis.</p>
-<p><strong>Discussion</strong>: These findings suggest that the latent “team offense quality” factor captures meaningful underlying offensive strength that carries over from one season to the next. Compared with looking at individual box-score stats, using a single latent factor provides a more parsimonious and potentially more predictive summary of team offense.</p>
-<p><strong>Conclusion:</strong> Our results support the hypothesis that a one-factor CFA “team offense quality” measure, estimated from season-long offensive stats, can meaningfully predict which NFL teams will score more points per game in the following season. This illustrates how latent variable models from the textbook can be applied to real football data to improve prediction and understanding of team performance.</p>
+<p><strong>Background</strong>:</p>
+<p><strong>Method</strong>:</p>
+<p><strong>Results</strong>:</p>
+<p><strong>Discussion</strong>:</p>
+<p><strong>Conclusion:</strong></p>
 </section>
 <section id="sec-background" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Background</h1>
@@ -438,27 +438,27 @@ Statistics by number of factors
 1 0.67 0.00 0.111  35 2023.979768567
 2 0.77 0.84 0.057  26  772.576429366
 3 0.64 0.74 0.082  18  429.303192695
-4 0.55 0.69 0.115  11  245.906297242
+4 0.55 0.69 0.115  11  245.906297544
 5 0.47 0.56 0.150   5  129.920592266
-6 0.36 0.52 0.202   0   12.173729154
-7 0.37 0.50 0.301  -4    0.000000065
+6 0.36 0.52 0.202   0   12.173729153
+7 0.37 0.50 0.301  -4    0.000000068
 8 0.37 0.41 0.470  -7    0.000000115
                                                                                                                                                    prob
 1 0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 2 0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000041
 3 0.000000000000000000000000000000000000000000000000000000000000000000000000000000069624717500356224620069774654487701719253983662882214907363205265612
-4 0.000000000000000000000000000000000000000000000200980471690125183979041426478262173430062480400114022990422868459110513467368852663754406522925759108
-5 0.000000000000000000000000024741543448132888195385284064518403184698620204599877200860190788869524478044148452227091183885931968688964843750000000000
+4 0.000000000000000000000000000000000000000000000200980442396332375241984399781816647784415786566608683973890357616508974288803365673903411508772576120
+5 0.000000000000000000000000024741543448097502830771908075814168513058116568839369031145835712843638470870288870173681061714887619018554687500000000000
 6                                                                                                                                                    NA
 7                                                                                                                                                    NA
 8                                                                                                                                                    NA
   sqresid  fit RMSEA  BIC SABIC complex         eChisq       SRMR eCRMS eBIC
 1     7.8 0.67  0.26 1789  1900     1.0 2479.407614320 0.18218544 0.207 2244
-2     3.9 0.84  0.19  598   680     1.2  334.180479157 0.06688523 0.088  159
+2     3.9 0.84  0.19  598   680     1.2  334.180479156 0.06688523 0.088  159
 3     5.7 0.76  0.17  308   365     1.3  210.204829308 0.05304703 0.084   89
-4     6.6 0.72  0.16  172   207     1.5  166.414592823 0.04719928 0.095   92
-5     7.1 0.70  0.17   96   112     1.5   46.116372983 0.02484662 0.075   13
-6     7.9 0.67    NA   NA    NA     2.0    4.015365741 0.00733166    NA   NA
+4     6.6 0.72  0.16  172   207     1.5  166.411030986 0.04719878 0.095   92
+5     7.1 0.70  0.17   96   112     1.5   46.116373020 0.02484662 0.075   13
+6     7.9 0.67    NA   NA    NA     2.0    4.015365361 0.00733166    NA   NA
 7     8.6 0.64    NA   NA    NA     2.0    0.000000015 0.00000045    NA   NA
 8    10.4 0.57    NA   NA    NA     1.7    0.000000044 0.00000077    NA   NA</code></pre>
 </div>
@@ -497,10 +497,10 @@ Statistics by number of factors
 1  0.67 0.00 0.111  35 2023.979768567
 2  0.77 0.84 0.057  26  772.576429366
 3  0.64 0.74 0.082  18  429.303192695
-4  0.55 0.69 0.115  11  245.906297242
+4  0.55 0.69 0.115  11  245.906297544
 5  0.47 0.56 0.150   5  129.920592266
-6  0.36 0.52 0.202   0   12.173729154
-7  0.37 0.50 0.301  -4    0.000000065
+6  0.36 0.52 0.202   0   12.173729153
+7  0.37 0.50 0.301  -4    0.000000068
 8  0.37 0.41 0.470  -7    0.000000115
 9  0.33 0.40 1.000  -9    0.000000000
 10 0.57 0.67    NA -10  278.806388632
@@ -508,24 +508,24 @@ Statistics by number of factors
 1  0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 2  0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000041
 3  0.000000000000000000000000000000000000000000000000000000000000000000000000000000069624717500356224620069774654487701719253983662882214907363205265612
-4  0.000000000000000000000000000000000000000000000200980471690125183979041426478262173430062480400114022990422868459110513467368852663754406522925759108
-5  0.000000000000000000000000024741543448132888195385284064518403184698620204599877200860190788869524478044148452227091183885931968688964843750000000000
+4  0.000000000000000000000000000000000000000000000200980442396332375241984399781816647784415786566608683973890357616508974288803365673903411508772576120
+5  0.000000000000000000000000024741543448097502830771908075814168513058116568839369031145835712843638470870288870173681061714887619018554687500000000000
 6                                                                                                                                                     NA
 7                                                                                                                                                     NA
 8                                                                                                                                                     NA
 9                                                                                                                                                     NA
 10                                                                                                                                                    NA
    sqresid  fit RMSEA  BIC SABIC complex                  eChisq           SRMR
-1      7.8 0.67  0.26 1789  1900     1.0 2479.407614320163702359 0.182185439397
-2      3.9 0.84  0.19  598   680     1.2  334.180479156893625259 0.066885231996
-3      5.7 0.76  0.17  308   365     1.3  210.204829307943299455 0.053047026358
-4      6.6 0.72  0.16  172   207     1.5  166.414592823353387985 0.047199283119
-5      7.1 0.70  0.17   96   112     1.5   46.116372983221268100 0.024846617288
-6      7.9 0.67    NA   NA    NA     2.0    4.015365740811349227 0.007331658937
-7      8.6 0.64    NA   NA    NA     2.0    0.000000015065960546 0.000000449095
-8     10.4 0.57    NA   NA    NA     1.7    0.000000044158497331 0.000000768859
+1      7.8 0.67  0.26 1789  1900     1.0 2479.407614320178709022 0.182185439397
+2      3.9 0.84  0.19  598   680     1.2  334.180479156282444819 0.066885231996
+3      5.7 0.76  0.17  308   365     1.3  210.204829307936932992 0.053047026358
+4      6.6 0.72  0.16  172   207     1.5  166.411030986047109081 0.047198778004
+5      7.1 0.70  0.17   96   112     1.5   46.116373020035574370 0.024846617298
+6      7.9 0.67    NA   NA    NA     2.0    4.015365361433366864 0.007331658591
+7      8.6 0.64    NA   NA    NA     2.0    0.000000015212337373 0.000000451271
+8     10.4 0.57    NA   NA    NA     1.7    0.000000044158486653 0.000000768859
 9     12.2 0.49    NA   NA    NA     1.7    0.000000000000000013 0.000000000013
-10     6.4 0.73    NA   NA    NA     1.3   51.162101302044362683 0.026170612421
+10     6.4 0.73    NA   NA    NA     1.3   51.162101302044341367 0.026170612421
    eCRMS eBIC
 1  0.207 2244
 2  0.088  159
@@ -591,7 +591,7 @@ Statistics by number of factors
 
 Model Test User Model:
                                               Standard      Scaled
-  Test Statistic                              1953.516    1551.457
+  Test Statistic                              1953.516    1551.452
   Degrees of freedom                                35          35
   P-value (Chi-square)                           0.000       0.000
   Scaling correction factor                                  1.259
@@ -652,12 +652,12 @@ Parameter Estimates:
 Latent Variables:
                    Estimate    Std.Err   z-value  P(&gt;|z|)   Std.lv    Std.all
   f1 =~ efa1                                                                 
-    passing_yards     437.047    22.659   19.288    0.000    437.047    0.712
+    passing_yards     437.047    22.658   19.289    0.000    437.047    0.712
     passing_tds         6.008     0.247   24.356    0.000      6.008    0.803
     pssng_ntrcptns     -2.226     0.183  -12.187    0.000     -2.226   -0.452
     passing_epa        77.491     1.964   39.462    0.000     77.491    1.000
     passing_cpoe        2.644     0.111   23.923    0.000      2.644    0.771
-    rushing_yards      84.898    14.132    6.008    0.000     84.898    0.238
+    rushing_yards      84.898    14.131    6.008    0.000     84.898    0.238
     rushing_tds         2.390     0.162   14.752    0.000      2.390    0.458
     rushing_epa         9.900     0.992    9.977    0.000      9.900    0.328
     receiving_epa      54.740     3.522   15.541    0.000     54.740    0.534
@@ -678,12 +678,12 @@ Intercepts:
 
 Variances:
                    Estimate    Std.Err   z-value  P(&gt;|z|)   Std.lv    Std.all
-   .pssng_yrd      185251.466 10332.964   17.928    0.000 185251.466    0.492
+   .pssng_yrd      185251.466 10332.014   17.930    0.000 185251.466    0.492
    .pssng_tds          19.947     1.155   17.273    0.000     19.947    0.356
    .pssng_ntr          19.289     1.193   16.166    0.000     19.289    0.796
-   .passing_p (lb)      0.000    82.551    0.000               0.000    0.000
+   .passing_p (lb)      0.000    82.550    0.000               0.000    0.000
    .passng_cp           4.763     0.274   17.360    0.000      4.763    0.405
-   .rshng_yrd      119969.680  7134.572   16.815    0.000 119969.680    0.943
+   .rshng_yrd      119969.680  7134.581   16.815    0.000 119969.680    0.943
    .rshng_tds          21.487     1.187   18.095    0.000     21.487    0.790
    .rushing_p         811.339    43.463   18.667    0.000    811.339    0.892
    .recevng_p        7497.003   351.031   21.357    0.000   7497.003    0.714
@@ -713,8 +713,8 @@ R-Square:
 <span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
-<div class="grViz html-widget html-fill-item" id="htmlwidget-c2e60fa9b99f94652d7c" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-c2e60fa9b99f94652d7c">{"x":{"diagram":" digraph plot { \n graph [ overlap = true, fontsize = 10 ] \n node [ shape = box ] \n node [shape = box] \n passing_yards; passing_tds; passing_interceptions; passing_epa; passing_cpoe; rushing_yards; rushing_tds; rushing_epa; receiving_epa; fumbles_lost \n node [shape = oval] \n f1 \n \n edge [ color = black ] \n  f1->passing_yards [label = \"0.71\"] f1->passing_tds [label = \"0.8\"] f1->passing_interceptions [label = \"-0.45\"] f1->passing_epa [label = \"1\"] f1->passing_cpoe [label = \"0.77\"] f1->rushing_yards [label = \"0.24\"] f1->rushing_tds [label = \"0.46\"] f1->rushing_epa [label = \"0.33\"] f1->receiving_epa [label = \"0.53\"] f1->fumbles_lost [label = \"-0.24\"] \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div class="grViz html-widget html-fill-item" id="htmlwidget-1209612f05cefff06609" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-1209612f05cefff06609">{"x":{"diagram":" digraph plot { \n graph [ overlap = true, fontsize = 10 ] \n node [ shape = box ] \n node [shape = box] \n passing_yards; passing_tds; passing_interceptions; passing_epa; passing_cpoe; rushing_yards; rushing_tds; rushing_epa; receiving_epa; fumbles_lost \n node [shape = oval] \n f1 \n \n edge [ color = black ] \n  f1->passing_yards [label = \"0.71\"] f1->passing_tds [label = \"0.8\"] f1->passing_interceptions [label = \"-0.45\"] f1->passing_epa [label = \"1\"] f1->passing_cpoe [label = \"0.77\"] f1->rushing_yards [label = \"0.24\"] f1->rushing_tds [label = \"0.46\"] f1->rushing_epa [label = \"0.33\"] f1->receiving_epa [label = \"0.53\"] f1->fumbles_lost [label = \"-0.24\"] \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -757,8 +757,6 @@ R-Square:
 </section>
 <section id="results-and-findings" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="results-and-findings"><span class="header-section-number">4.2</span> Results and Findings</h2>
-<p>Our main research question was, “Does a one-factor CFA ‘team offense quality’ factor, estimated from season-long offensive stats, predict which NFL teams score the most points per game in the following season?” We first fit a one-factor CFA to passing, rushing, and turnover variables and obtained offense-quality factor scores for each team-season.</p>
-<p>These results support the hypothesis that a single latent “team offense quality” factor has predictive validity for future offensive scoring.</p>
 </section>
 </section>
 <section id="sec-discussion" class="level1" data-number="5">
