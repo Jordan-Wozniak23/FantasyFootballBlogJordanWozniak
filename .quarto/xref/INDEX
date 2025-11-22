@@ -1,0 +1,35 @@
+{
+  "posts/blogpost9/blogpost9.qmd": {
+    "blogpost9.html": "ca5758e6"
+  },
+  "about.qmd": {
+    "about.html": "50333164"
+  },
+  "posts/agevsqb/agevsqb.qmd": {
+    "agevsqb.html": "349108fd"
+  },
+  "posts/blogpost6/LastWeekMisleading.qmd": {
+    "LastWeekMisleading.html": "784128d7"
+  },
+  "posts/blogpost7/blogpost7.qmd": {
+    "blogpost7.html": "62893bde"
+  },
+  "posts/blogpost8/blogpost8.qmd": {
+    "blogpost8.html": "d02b4faf"
+  },
+  "posts/fallaciesandbiases/fallaciesandbiases.qmd": {
+    "fallaciesandbiases.html": "0536bce1"
+  },
+  "posts/myfantasyteam/myfantasyteam.qmd": {
+    "myfantasyteam.html": "ac6733c9"
+  },
+  "posts/qbandcarries/qbandcarries.qmd": {
+    "qbandcarries.html": "fcc5893c"
+  },
+  "posts/welcome/index.qmd": {
+    "index.html": "2b21c296"
+  },
+  "posts/wrandtargetswithyards/wrandcategories.qmd": {
+    "wrandcategories.html": "94489d6b"
+  }
+}

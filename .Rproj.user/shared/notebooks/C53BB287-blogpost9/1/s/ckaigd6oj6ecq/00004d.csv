@@ -1,0 +1,8 @@
+"0","screeDataEFA <- nFactors::nScree("
+"0","  x = cor("
+"0","    nfl_actualStats_team_seasonal_reg[faVars],"
+"0","    use = ""pairwise.complete.obs""),"
+"0","  model = ""factors"""
+"0",")"
+"0",""
+"0","nFactors::plotnScree(screeDataEFA)"
