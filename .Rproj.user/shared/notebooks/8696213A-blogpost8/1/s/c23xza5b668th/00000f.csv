@@ -1,5 +1,0 @@
-"0","#install.packages(""remotes"")"
-"0","#remotes::install_github(""DevPsyLab/petersenlab"")"
-"0","#remotes::install_github(""FantasyFootballAnalytics/ffanalytics"")"
-"0",""
-"0","#update.packages(ask = FALSE)"

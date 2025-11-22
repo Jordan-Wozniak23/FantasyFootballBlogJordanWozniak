@@ -63,88 +63,354 @@
     "text": "4.4 Method\nThe method that I want to use here is to use a table with all players and their seasonal fantasy point numbers, compared to their age, all in a correlation plot. This is better for this, in my opinion, is that you get the average fantasy point numbers by the x and y that is chosen, in this case it would be age and season fantasy points. This is also cleaner and produces an average, which is what we want to create a correct answer. What we are trying to find here is that there is a positive skew, leaning towards the younger age versus the older age.\n#Results {#sec-results} We are going to load player stats weekly, where it will look at all the fantasy points each week for a player, with the added information of their age, and compare.\n\n\nCode\nggplot2::ggplot(\n  data = player_stats_weekly %&gt;%\n    filter(position %in% c(\"QB\", \"RB\", \"WR\", \"TE\")),\n  aes(x = age, y = fantasyPoints)\n) +\n  geom_point() +\n  geom_smooth(method = \"lm\", color = \"red\") +\n  geom_smooth(method = \"gam\", color = \"blue\") +\n  labs(\n    x = \"Age\",\n    y = \"Fantasy Points\",\n    title = \"Correlation between Age and Fantasy Points\"\n  )\n\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\nWarning: Removed 1033 rows containing non-finite outside the scale range\n(`stat_smooth()`).\n\n\n`geom_smooth()` using formula = 'y ~ s(x, bs = \"cs\")'\n\n\nWarning: Removed 1033 rows containing non-finite outside the scale range\n(`stat_smooth()`).\n\n\nWarning: Removed 1033 rows containing missing values or values outside the scale range\n(`geom_point()`)."
   },
   {
-    "objectID": "posts/qbandcarries/qbandcarries.html",
-    "href": "posts/qbandcarries/qbandcarries.html",
-    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
+    "objectID": "posts/blogpost9/blogpost9.html",
+    "href": "posts/blogpost9/blogpost9.html",
+    "title": "Predicting Next Season’s Scoring: A One-Factor CFA Team Offense Quality Model for NFL Offenses",
+    "section": "",
+    "text": "Code\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)\n\n\n\n\n\n\n\nCode\nlibrary(\"petersenlab\")\nlibrary(\"future\")\nlibrary(\"lavaan\")\nlibrary(\"missRanger\")\nlibrary(\"powerjoin\")\nlibrary(\"tidymodels\")\nlibrary(\"LongituRF\")\nlibrary(\"gpboost\")\nlibrary(\"effectsize\")\nlibrary(\"tidyverse\")\nlibrary(\"knitr\")\n\n\n\n\n\n\n\nCode\nload(file = \"../../data/player_stats_weekly.RData\")\nload(file = \"../../data/players_projections_weekly.RData\")\nload(file = \"../../data/nfl_playerIDs.RData\")\nload(file = \"../../data/nfl_actualStats_team.RData\")\nload(file = \"../../data/projectionsWithActuals_weekly.RData\")\n\n\n\n\n\n\n\nCode\nnfl_actualStats_team_seasonal_reg$fumbles_lost &lt;- rowSums(\n  nfl_actualStats_team_seasonal_reg[,c(\n    \"sack_fumbles_lost\",\n    \"rushing_fumbles_lost\",\n    \"receiving_fumbles_lost\")]\n)\n\n\n\n\nCode\noptions(scipen = 999) # prevent scientific notation\n\n\n\n\n\nAI Disclosure: AI was not used.\nLink to AI Transcript: not applicable"
+  },
+  {
+    "objectID": "posts/blogpost9/blogpost9.html#install-libraries",
+    "href": "posts/blogpost9/blogpost9.html#install-libraries",
+    "title": "Predicting Next Season’s Scoring: A One-Factor CFA Team Offense Quality Model for NFL Offenses",
+    "section": "",
+    "text": "Code\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)"
+  },
+  {
+    "objectID": "posts/blogpost9/blogpost9.html#load-libraries",
+    "href": "posts/blogpost9/blogpost9.html#load-libraries",
+    "title": "Predicting Next Season’s Scoring: A One-Factor CFA Team Offense Quality Model for NFL Offenses",
+    "section": "",
+    "text": "Code\nlibrary(\"petersenlab\")\nlibrary(\"future\")\nlibrary(\"lavaan\")\nlibrary(\"missRanger\")\nlibrary(\"powerjoin\")\nlibrary(\"tidymodels\")\nlibrary(\"LongituRF\")\nlibrary(\"gpboost\")\nlibrary(\"effectsize\")\nlibrary(\"tidyverse\")\nlibrary(\"knitr\")"
+  },
+  {
+    "objectID": "posts/blogpost9/blogpost9.html#load-data",
+    "href": "posts/blogpost9/blogpost9.html#load-data",
+    "title": "Predicting Next Season’s Scoring: A One-Factor CFA Team Offense Quality Model for NFL Offenses",
+    "section": "",
+    "text": "Code\nload(file = \"../../data/player_stats_weekly.RData\")\nload(file = \"../../data/players_projections_weekly.RData\")\nload(file = \"../../data/nfl_playerIDs.RData\")\nload(file = \"../../data/nfl_actualStats_team.RData\")\nload(file = \"../../data/projectionsWithActuals_weekly.RData\")"
+  },
+  {
+    "objectID": "posts/blogpost9/blogpost9.html#prepare-data",
+    "href": "posts/blogpost9/blogpost9.html#prepare-data",
+    "title": "Predicting Next Season’s Scoring: A One-Factor CFA Team Offense Quality Model for NFL Offenses",
+    "section": "",
+    "text": "Code\nnfl_actualStats_team_seasonal_reg$fumbles_lost &lt;- rowSums(\n  nfl_actualStats_team_seasonal_reg[,c(\n    \"sack_fumbles_lost\",\n    \"rushing_fumbles_lost\",\n    \"receiving_fumbles_lost\")]\n)\n\n\n\n\nCode\noptions(scipen = 999) # prevent scientific notation"
+  },
+  {
+    "objectID": "posts/blogpost9/blogpost9.html#a.i.-disclosure",
+    "href": "posts/blogpost9/blogpost9.html#a.i.-disclosure",
+    "title": "Predicting Next Season’s Scoring: A One-Factor CFA Team Offense Quality Model for NFL Offenses",
     "section": "",
     "text": "AI Disclosure: AI was not used.\nLink to AI Transcript: not applicable"
   },
   {
-    "objectID": "posts/qbandcarries/qbandcarries.html#install-libraries",
-    "href": "posts/qbandcarries/qbandcarries.html#install-libraries",
-    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
-    "section": "2.1 Install Libraries",
-    "text": "2.1 Install Libraries\n\n\nCode\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)"
+    "objectID": "posts/blogpost9/blogpost9.html#research-question",
+    "href": "posts/blogpost9/blogpost9.html#research-question",
+    "title": "Predicting Next Season’s Scoring: A One-Factor CFA Team Offense Quality Model for NFL Offenses",
+    "section": "3.1 Research Question",
+    "text": "3.1 Research Question\nDoes a one-factor CFA “team offense quality” factor, estimated from season-long offensive stats, predict which NFL teams score the most points per game in the following season?"
   },
   {
-    "objectID": "posts/qbandcarries/qbandcarries.html#load-libraries",
-    "href": "posts/qbandcarries/qbandcarries.html#load-libraries",
-    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
-    "section": "2.2 Load Libraries",
-    "text": "2.2 Load Libraries\n\n\nCode\nlibrary(\"petersenlab\")\nlibrary(\"XICOR\")\nlibrary(\"psych\")\nlibrary(\"DescTools\")\nlibrary(\"psych\")\nlibrary(\"correlation\")\nlibrary(\"effectsize\")\nlibrary(\"GGally\")\nlibrary(\"ggridges\")\nlibrary(\"tidyverse\")"
+    "objectID": "posts/blogpost9/blogpost9.html#hypothesis",
+    "href": "posts/blogpost9/blogpost9.html#hypothesis",
+    "title": "Predicting Next Season’s Scoring: A One-Factor CFA Team Offense Quality Model for NFL Offenses",
+    "section": "3.2 Hypothesis",
+    "text": "3.2 Hypothesis\nHypothesis: Teams with higher scores on the latent “team offense quality” factor in Year 1 will, on average, score more points per game in Year 2 than teams with lower factor scores.\nSpecific Prediction: A one-unit increase in the Year-1 offense factor will be associated with a statistically significant positive increase in Year-2 points per game."
   },
   {
-    "objectID": "posts/qbandcarries/qbandcarries.html#load-data",
-    "href": "posts/qbandcarries/qbandcarries.html#load-data",
-    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
-    "section": "2.3 Load Data",
-    "text": "2.3 Load Data\n\n\nCode\nload(\"player_stats_weekly.RData\")"
+    "objectID": "posts/blogpost9/blogpost9.html#justification",
+    "href": "posts/blogpost9/blogpost9.html#justification",
+    "title": "Predicting Next Season’s Scoring: A One-Factor CFA Team Offense Quality Model for NFL Offenses",
+    "section": "3.3 Justification",
+    "text": "3.3 Justification\nFactor analysis reduces measurement error by pooling information across many correlated offensive statistics, so the latent offense factor should be a more reliable indicator of a team’s true offensive ability than any single stat. Factor analysis “aims to identify the optimal latent structure for a group of variables” and “simple, parsimonious factors that underlie the ‘junk’ … we observe” (Petersen, ch. 22)."
   },
   {
-    "objectID": "posts/qbandcarries/qbandcarries.html#research-question",
-    "href": "posts/qbandcarries/qbandcarries.html#research-question",
-    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
+    "objectID": "posts/blogpost9/blogpost9.html#code",
+    "href": "posts/blogpost9/blogpost9.html#code",
+    "title": "Predicting Next Season’s Scoring: A One-Factor CFA Team Offense Quality Model for NFL Offenses",
+    "section": "4.1 Code",
+    "text": "4.1 Code\n\n\nCode\nfaVars &lt;- c(\n  \"passing_yards\",\"passing_tds\",\"passing_interceptions\",\"passing_epa\",\"passing_cpoe\",\n  \"rushing_yards\",\"rushing_tds\",\"rushing_epa\",\n  \"receiving_epa\",\"fumbles_lost\"\n)\n\npetersenlab::cor.table(\n  nfl_actualStats_team_seasonal_reg[,faVars]\n)\n\n\n\n  \n\n\n\nCode\nGGally::ggcorr(\n  nfl_actualStats_team_seasonal_reg[,faVars],\n  label = TRUE,\n  label_round = 2\n)\n\n\n\n\n\n\n\n\n\nCode\npsych::fa.parallel(\n  x = nfl_actualStats_team_seasonal_reg[faVars],\n  fm = \"ml\",\n  fa = \"fa\"\n)\n\n\n\n\n\n\n\n\n\nParallel analysis suggests that the number of factors =  4  and the number of components =  NA \n\n\nCode\nscreeDataEFA &lt;- nFactors::nScree(\n  x = cor(\n    nfl_actualStats_team_seasonal_reg[faVars],\n    use = \"pairwise.complete.obs\"),\n  model = \"factors\"\n)\n\nnFactors::plotnScree(screeDataEFA)\n\n\n\n\n\n\n\n\n\nCode\npsych::vss(\n  nfl_actualStats_team_seasonal_reg[faVars],\n  rotate = \"oblimin\",\n  fm = \"mle\"\n)\n\n\nLoading required namespace: GPArotation\n\n\n\n\n\n\n\n\n\n\nVery Simple Structure\nCall: psych::vss(x = nfl_actualStats_team_seasonal_reg[faVars], rotate = \"oblimin\", \n    fm = \"mle\")\nVSS complexity 1 achieves a maximimum of 0.77  with  2  factors\nVSS complexity 2 achieves a maximimum of 0.84  with  2  factors\n\nThe Velicer MAP achieves a minimum of 0.06  with  2  factors \nBIC achieves a minimum of  96.31  with  5  factors\nSample Size adjusted BIC achieves a minimum of  112.19  with  5  factors\n\nStatistics by number of factors \n  vss1 vss2   map dof          chisq\n1 0.67 0.00 0.111  35 2023.979768567\n2 0.77 0.84 0.057  26  772.576429366\n3 0.64 0.74 0.082  18  429.303192695\n4 0.55 0.69 0.115  11  245.906297242\n5 0.47 0.56 0.150   5  129.920592266\n6 0.36 0.52 0.202   0   12.173729154\n7 0.37 0.50 0.301  -4    0.000000065\n8 0.37 0.41 0.470  -7    0.000000115\n                                                                                                                                                   prob\n1 0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000\n2 0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000041\n3 0.000000000000000000000000000000000000000000000000000000000000000000000000000000069624717500356224620069774654487701719253983662882214907363205265612\n4 0.000000000000000000000000000000000000000000000200980471690125183979041426478262173430062480400114022990422868459110513467368852663754406522925759108\n5 0.000000000000000000000000024741543448132888195385284064518403184698620204599877200860190788869524478044148452227091183885931968688964843750000000000\n6                                                                                                                                                    NA\n7                                                                                                                                                    NA\n8                                                                                                                                                    NA\n  sqresid  fit RMSEA  BIC SABIC complex         eChisq       SRMR eCRMS eBIC\n1     7.8 0.67  0.26 1789  1900     1.0 2479.407614320 0.18218544 0.207 2244\n2     3.9 0.84  0.19  598   680     1.2  334.180479157 0.06688523 0.088  159\n3     5.7 0.76  0.17  308   365     1.3  210.204829308 0.05304703 0.084   89\n4     6.6 0.72  0.16  172   207     1.5  166.414592823 0.04719928 0.095   92\n5     7.1 0.70  0.17   96   112     1.5   46.116372983 0.02484662 0.075   13\n6     7.9 0.67    NA   NA    NA     2.0    4.015365741 0.00733166    NA   NA\n7     8.6 0.64    NA   NA    NA     2.0    0.000000015 0.00000045    NA   NA\n8    10.4 0.57    NA   NA    NA     1.7    0.000000044 0.00000077    NA   NA\n\n\nCode\npsych::nfactors(\n  nfl_actualStats_team_seasonal_reg[faVars],\n  rotate = \"oblimin\",\n  fm = \"mle\"\n)\n\n\nWarning in GPFoblq(A, Tmat = Tmat, normalize = normalize, eps = eps, maxit =\nmaxit, : convergence not obtained in GPFoblq. 1000 iterations used.\n\n\n\n\n\n\n\n\n\n\nNumber of factors\nCall: vss(x = x, n = n, rotate = rotate, diagonal = diagonal, fm = fm, \n    n.obs = n.obs, plot = FALSE, title = title, use = use, cor = cor)\nVSS complexity 1 achieves a maximimum of 0.77  with  2  factors\nVSS complexity 2 achieves a maximimum of 0.84  with  2  factors\nThe Velicer MAP achieves a minimum of 0.06  with  2  factors \nEmpirical BIC achieves a minimum of  12.51  with  5  factors\nSample Size adjusted BIC achieves a minimum of  112.19  with  5  factors\n\nStatistics by number of factors \n   vss1 vss2   map dof          chisq\n1  0.67 0.00 0.111  35 2023.979768567\n2  0.77 0.84 0.057  26  772.576429366\n3  0.64 0.74 0.082  18  429.303192695\n4  0.55 0.69 0.115  11  245.906297242\n5  0.47 0.56 0.150   5  129.920592266\n6  0.36 0.52 0.202   0   12.173729154\n7  0.37 0.50 0.301  -4    0.000000065\n8  0.37 0.41 0.470  -7    0.000000115\n9  0.33 0.40 1.000  -9    0.000000000\n10 0.57 0.67    NA -10  278.806388632\n                                                                                                                                                    prob\n1  0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000\n2  0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000041\n3  0.000000000000000000000000000000000000000000000000000000000000000000000000000000069624717500356224620069774654487701719253983662882214907363205265612\n4  0.000000000000000000000000000000000000000000000200980471690125183979041426478262173430062480400114022990422868459110513467368852663754406522925759108\n5  0.000000000000000000000000024741543448132888195385284064518403184698620204599877200860190788869524478044148452227091183885931968688964843750000000000\n6                                                                                                                                                     NA\n7                                                                                                                                                     NA\n8                                                                                                                                                     NA\n9                                                                                                                                                     NA\n10                                                                                                                                                    NA\n   sqresid  fit RMSEA  BIC SABIC complex                  eChisq           SRMR\n1      7.8 0.67  0.26 1789  1900     1.0 2479.407614320163702359 0.182185439397\n2      3.9 0.84  0.19  598   680     1.2  334.180479156893625259 0.066885231996\n3      5.7 0.76  0.17  308   365     1.3  210.204829307943299455 0.053047026358\n4      6.6 0.72  0.16  172   207     1.5  166.414592823353387985 0.047199283119\n5      7.1 0.70  0.17   96   112     1.5   46.116372983221268100 0.024846617288\n6      7.9 0.67    NA   NA    NA     2.0    4.015365740811349227 0.007331658937\n7      8.6 0.64    NA   NA    NA     2.0    0.000000015065960546 0.000000449095\n8     10.4 0.57    NA   NA    NA     1.7    0.000000044158497331 0.000000768859\n9     12.2 0.49    NA   NA    NA     1.7    0.000000000000000013 0.000000000013\n10     6.4 0.73    NA   NA    NA     1.3   51.162101302044362683 0.026170612421\n   eCRMS eBIC\n1  0.207 2244\n2  0.088  159\n3  0.084   89\n4  0.095   92\n5  0.075   13\n6     NA   NA\n7     NA   NA\n8     NA   NA\n9     NA   NA\n10    NA   NA\n\n\nCode\nefa1factor_syntax &lt;- '\n # EFA Factor Loadings\n efa(\"efa1\")*f1 =~ passing_yards + passing_tds + passing_interceptions + passing_epa + passing_cpoe + \n rushing_yards + rushing_tds + rushing_epa + receiving_epa + fumbles_lost\n'\n\nefa1factor_fit &lt;- sem(\n  efa1factor_syntax,\n  data = nfl_actualStats_team_seasonal_reg,\n  information = \"observed\",\n  missing = \"ML\",\n  estimator = \"MLR\",\n  rotation = \"geomin\",\n  bounds = \"standard\",\n  meanstructure = TRUE,\n  em.h1.iter.max = 2000000\n)\n\n\nWarning: lavaan-&gt;lav_data_full():  \n   some observed variances are (at least) a factor 1000 times larger than \n   others; use varTable(fit) to investigate\n\n\nCode\nsummary(\n  efa1factor_fit,\n  fit.measures = TRUE,\n  standardized = TRUE,\n  rsquare = TRUE\n)\n\n\nlavaan 0.6-20 ended normally after 38 iterations\n\n  Estimator                                         ML\n  Optimization method                           NLMINB\n  Number of model parameters                        30\n  Row rank of the constraints matrix                10\n\n  Rotation method                       GEOMIN OBLIQUE\n  Geomin epsilon                                 0.001\n  Rotation algorithm (rstarts)                GPA (30)\n  Standardized metric                             TRUE\n  Row weights                                     None\n\n  Number of observations                           830\n  Number of missing patterns                         3\n\nModel Test User Model:\n                                              Standard      Scaled\n  Test Statistic                              1953.516    1551.457\n  Degrees of freedom                                35          35\n  P-value (Chi-square)                           0.000       0.000\n  Scaling correction factor                                  1.259\n    Yuan-Bentler correction (Mplus variant)                       \n\nModel Test Baseline Model:\n\n  Test statistic                              4746.952    3850.281\n  Degrees of freedom                                45          45\n  P-value                                        0.000       0.000\n  Scaling correction factor                                  1.233\n\nUser Model versus Baseline Model:\n\n  Comparative Fit Index (CFI)                    0.592       0.601\n  Tucker-Lewis Index (TLI)                       0.475       0.488\n                                                                  \n  Robust Comparative Fit Index (CFI)                         0.608\n  Robust Tucker-Lewis Index (TLI)                            0.496\n\nLoglikelihood and Information Criteria:\n\n  Loglikelihood user model (H0)             -36367.388  -36367.388\n  Scaling correction factor                                  1.111\n      for the MLR correction                                      \n  Loglikelihood unrestricted model (H1)     -35390.630  -35390.630\n  Scaling correction factor                                  1.191\n      for the MLR correction                                      \n                                                                  \n  Akaike (AIC)                               72794.777   72794.777\n  Bayesian (BIC)                             72936.420   72936.420\n  Sample-size adjusted Bayesian (SABIC)      72841.150   72841.150\n\nRoot Mean Square Error of Approximation:\n\n  RMSEA                                          0.257       0.228\n  90 Percent confidence interval - lower         0.247       0.220\n  90 Percent confidence interval - upper         0.267       0.237\n  P-value H_0: RMSEA &lt;= 0.050                    0.000       0.000\n  P-value H_0: RMSEA &gt;= 0.080                    1.000       1.000\n                                                                  \n  Robust RMSEA                                               0.259\n  90 Percent confidence interval - lower                     0.248\n  90 Percent confidence interval - upper                     0.271\n  P-value H_0: Robust RMSEA &lt;= 0.050                         0.000\n  P-value H_0: Robust RMSEA &gt;= 0.080                         1.000\n\nStandardized Root Mean Square Residual:\n\n  SRMR                                           0.150       0.150\n\nParameter Estimates:\n\n  Standard errors                             Sandwich\n  Information bread                           Observed\n  Observed information based on                Hessian\n\nLatent Variables:\n                   Estimate    Std.Err   z-value  P(&gt;|z|)   Std.lv    Std.all\n  f1 =~ efa1                                                                 \n    passing_yards     437.047    22.659   19.288    0.000    437.047    0.712\n    passing_tds         6.008     0.247   24.356    0.000      6.008    0.803\n    pssng_ntrcptns     -2.226     0.183  -12.187    0.000     -2.226   -0.452\n    passing_epa        77.491     1.964   39.462    0.000     77.491    1.000\n    passing_cpoe        2.644     0.111   23.923    0.000      2.644    0.771\n    rushing_yards      84.898    14.132    6.008    0.000     84.898    0.238\n    rushing_tds         2.390     0.162   14.752    0.000      2.390    0.458\n    rushing_epa         9.900     0.992    9.977    0.000      9.900    0.328\n    receiving_epa      54.740     3.522   15.541    0.000     54.740    0.534\n    fumbles_lost       -0.776     0.122   -6.374    0.000     -0.776   -0.242\n\nIntercepts:\n                   Estimate    Std.Err   z-value  P(&gt;|z|)   Std.lv    Std.all\n   .passing_yards    3818.375    21.291  179.338    0.000   3818.375    6.225\n   .passing_tds        23.222     0.260   89.370    0.000     23.222    3.102\n   .pssng_ntrcptns     14.930     0.171   87.354    0.000     14.930    3.032\n   .passing_epa        14.212     2.696    5.271    0.000     14.212    0.183\n   .passing_cpoe       -0.097     0.130   -0.748    0.454     -0.097   -0.028\n   .rushing_yards    1842.735    12.378  148.866    0.000   1842.735    5.167\n   .rushing_tds        13.443     0.181   74.263    0.000     13.443    2.578\n   .rushing_epa       -27.682     1.055  -26.240    0.000    -27.682   -0.918\n   .receiving_epa     128.374     3.588   35.780    0.000    128.374    1.253\n   .fumbles_lost        8.676     0.111   77.969    0.000      8.676    2.706\n\nVariances:\n                   Estimate    Std.Err   z-value  P(&gt;|z|)   Std.lv    Std.all\n   .pssng_yrd      185251.466 10332.964   17.928    0.000 185251.466    0.492\n   .pssng_tds          19.947     1.155   17.273    0.000     19.947    0.356\n   .pssng_ntr          19.289     1.193   16.166    0.000     19.289    0.796\n   .passing_p (lb)      0.000    82.551    0.000               0.000    0.000\n   .passng_cp           4.763     0.274   17.360    0.000      4.763    0.405\n   .rshng_yrd      119969.680  7134.572   16.815    0.000 119969.680    0.943\n   .rshng_tds          21.487     1.187   18.095    0.000     21.487    0.790\n   .rushing_p         811.339    43.463   18.667    0.000    811.339    0.892\n   .recevng_p        7497.003   351.031   21.357    0.000   7497.003    0.714\n   .fmbls_lst           9.675     0.499   19.374    0.000      9.675    0.941\n    f1                  1.000                                  1.000    1.000\n\nR-Square:\n                   Estimate  \n    passing_yards       0.508\n    passing_tds         0.644\n    pssng_ntrcptns      0.204\n    passing_epa         1.000\n    passing_cpoe        0.595\n    rushing_yards       0.057\n    rushing_tds         0.210\n    rushing_epa         0.108\n    receiving_epa       0.286\n    fumbles_lost        0.059\n\n\nCode\nlavaanPlot::lavaanPlot(\n  efa1factor_fit,\n  coefs = TRUE,\n  covs = TRUE,\n  stand = TRUE\n)\n\n\n\n\n\n\nCode\nefa1factor_factorScores &lt;- lavaan::lavPredict(efa1factor_fit)\n\nnfl_actualStats_team_seasonal_reg &lt;- cbind(\n  nfl_actualStats_team_seasonal_reg,\n  efa1factor_factorScores\n)\n\nnfl_actualStats_team_seasonal_reg %&gt;% \n  arrange(-f1) %&gt;% \n  select(season, team, f1, all_of(faVars)) %&gt;% \n  na.omit() %&gt;% \n  head()\n\n\n\n  \n\n\n\nCode\nnfl_actualStats_team_seasonal_reg %&gt;% \n  arrange(f1) %&gt;% \n  select(season, team, f1, all_of(faVars)) %&gt;% \n  na.omit() %&gt;% \n  head()"
+  },
+  {
+    "objectID": "posts/blogpost9/blogpost9.html#results-and-findings",
+    "href": "posts/blogpost9/blogpost9.html#results-and-findings",
+    "title": "Predicting Next Season’s Scoring: A One-Factor CFA Team Offense Quality Model for NFL Offenses",
+    "section": "4.2 Results and Findings",
+    "text": "4.2 Results and Findings\nOur main research question was, “Does a one-factor CFA ‘team offense quality’ factor, estimated from season-long offensive stats, predict which NFL teams score the most points per game in the following season?” We first fit a one-factor CFA to passing, rushing, and turnover variables and obtained offense-quality factor scores for each team-season.\nThese results support the hypothesis that a single latent “team offense quality” factor has predictive validity for future offensive scoring."
+  },
+  {
+    "objectID": "posts/blogpost7/blogpost7.html",
+    "href": "posts/blogpost7/blogpost7.html",
+    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
+    "section": "",
+    "text": "Code\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)\n\n\n\n\n\n\n\nCode\nlibrary(\"petersenlab\")\nlibrary(\"future\")\nlibrary(\"missRanger\")\nlibrary(\"powerjoin\")\nlibrary(\"tidymodels\")\nlibrary(\"LongituRF\")\nlibrary(\"gpboost\")\nlibrary(\"effectsize\")\nlibrary(\"tidyverse\")\nlibrary(\"knitr\")\n\n\n\n\n\n\n\nCode\nload(file = \"../../data/player_stats_weekly.RData\")\nload(file = \"../../data/players_projections_weekly.RData\")\nload(file = \"../../data/nfl_playerIDs.RData\")\nload(file = \"../../data/projectionsWithActuals_weekly.RData\")\n\n\n\n\nCode\noptions(scipen = 999) # prevent scientific notation\n\n\n\n\n\nAI Disclosure: AI was not used.\nLink to AI Transcript: not applicable"
+  },
+  {
+    "objectID": "posts/blogpost7/blogpost7.html#install-libraries",
+    "href": "posts/blogpost7/blogpost7.html#install-libraries",
+    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
+    "section": "",
+    "text": "Code\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)"
+  },
+  {
+    "objectID": "posts/blogpost7/blogpost7.html#load-libraries",
+    "href": "posts/blogpost7/blogpost7.html#load-libraries",
+    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
+    "section": "",
+    "text": "Code\nlibrary(\"petersenlab\")\nlibrary(\"future\")\nlibrary(\"missRanger\")\nlibrary(\"powerjoin\")\nlibrary(\"tidymodels\")\nlibrary(\"LongituRF\")\nlibrary(\"gpboost\")\nlibrary(\"effectsize\")\nlibrary(\"tidyverse\")\nlibrary(\"knitr\")"
+  },
+  {
+    "objectID": "posts/blogpost7/blogpost7.html#load-data",
+    "href": "posts/blogpost7/blogpost7.html#load-data",
+    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
+    "section": "",
+    "text": "Code\nload(file = \"../../data/player_stats_weekly.RData\")\nload(file = \"../../data/players_projections_weekly.RData\")\nload(file = \"../../data/nfl_playerIDs.RData\")\nload(file = \"../../data/projectionsWithActuals_weekly.RData\")\n\n\n\n\nCode\noptions(scipen = 999) # prevent scientific notation"
+  },
+  {
+    "objectID": "posts/blogpost7/blogpost7.html#a.i.-disclosure",
+    "href": "posts/blogpost7/blogpost7.html#a.i.-disclosure",
+    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
+    "section": "",
+    "text": "AI Disclosure: AI was not used.\nLink to AI Transcript: not applicable"
+  },
+  {
+    "objectID": "posts/blogpost7/blogpost7.html#research-questions",
+    "href": "posts/blogpost7/blogpost7.html#research-questions",
+    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
+    "section": "3.1 Research Questions",
+    "text": "3.1 Research Questions\nFor NFL quarterbacks, does a tuned elastic-net model using prior-season stats predict this season’s total fantasy points better than a simple baseline that just uses last season’s points?"
+  },
+  {
+    "objectID": "posts/blogpost7/blogpost7.html#hypothesis",
+    "href": "posts/blogpost7/blogpost7.html#hypothesis",
+    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
+    "section": "3.2 Hypothesis",
+    "text": "3.2 Hypothesis\nThe Machine Learning model will perform about the same as the simple last-season-only baseline for QBs, but a little better. In other words, using a more complex ML model will not dramatically improve accuracy (R², MAE, or RMSE) compared to just using last season’s fantasy points."
+  },
+  {
+    "objectID": "posts/blogpost7/blogpost7.html#justification",
+    "href": "posts/blogpost7/blogpost7.html#justification",
+    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
+    "section": "3.3 Justification",
+    "text": "3.3 Justification\nFrom an outside point of view, player statistics are very hard to predict. If we could, that would leverage us into making a bunch of money by just simply predicting the outcomes of statistics that each player has. Machine learning, as the name suggests, learns about all statistics and prints out accurate projections that a player will have. There are so many statistics that we would have to remember and calculate, and making a machine to do it for us makes it simpler.\nWhy would we say that machine learning isn’t perfect? Fantasy football is one of the most hardest objects to have perfect predictions. Machines only know the past, not the future. For example, the Golden State Warriors were a dominate team in 2015-16, where they won 73 of 82 games. Over the next few seasons, the Warriors would win less and less games, because teams figured them out. Would a machine learn that, not initially. That’s the same with football, a team would figure someone out the next week and dominate based off that. Football players are also prone to injuries, and they are very unpredictable.\nAll in all, machine learning will always get better, and will always have a better prediction that us, but don’t take it to heart."
+  },
+  {
+    "objectID": "posts/blogpost7/blogpost7.html#code",
+    "href": "posts/blogpost7/blogpost7.html#code",
+    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
+    "section": "5.1 Code",
+    "text": "5.1 Code\n\n\nCode\nseason_agg_QB &lt;- player_stats_weekly %&gt;%\n  dplyr::filter(position == \"QB\") %&gt;%\n  dplyr::group_by(player_id, season) %&gt;%\n  dplyr::summarise(fp_season = sum(fantasyPoints, na.rm = TRUE),\n                   fp_pg_season = mean(fantasyPoints, na.rm = TRUE), .groups = \"drop_last\") %&gt;%\n  dplyr::arrange(season, .by_group = TRUE) %&gt;%\n  dplyr::mutate(fp_prev_season = dplyr::lag(fp_season),\n                fp_pg_prev_season = dplyr::lag(fp_pg_season)) %&gt;%\n  dplyr::ungroup()\n\nplayer_stats_weekly_QB_example &lt;- player_stats_weekly %&gt;%\n  dplyr::filter(position == \"QB\") %&gt;%\n  dplyr::arrange(player_id, season, week) %&gt;%\n  dplyr::group_by(player_id, season) %&gt;%\n  dplyr::mutate(fantasyPoints_nextGame = dplyr::lead(fantasyPoints)) %&gt;%\n  dplyr::ungroup() %&gt;%\n  dplyr::left_join(season_agg_QB %&gt;% dplyr::select(player_id, season, fp_prev_season, fp_pg_prev_season),\n                   by = c(\"player_id\",\"season\")) %&gt;%\n  dplyr::select(player_id, season, week, fantasyPoints, fantasyPoints_nextGame,\n                fp_prev_season, fp_pg_prev_season,\n                ageCentered20, ageCentered20Quadratic, years_of_experience,\n                rushing_yards, rushing_tds, receiving_yards, receiving_tds,\n                receiving_air_yards, receiving_yards_after_catch, racr, targets, target_share) %&gt;%\n  stats::na.omit()\n\nmodel_predictions_QB &lt;- data.frame(actual = player_stats_weekly_QB_example$fantasyPoints_nextGame)\n\n\n\n\nCode\nqb_season &lt;- player_stats_weekly %&gt;%\n  filter(position == \"QB\") %&gt;%\n  group_by(player_id, season) %&gt;%\n  summarize(seasonPoints = sum(fantasyPoints, na.rm = TRUE), .groups = \"drop_last\") %&gt;%\n  arrange(player_id, season) %&gt;%\n  mutate(lastSeasonPoints = dplyr::lag(seasonPoints)) %&gt;%\n  ungroup() %&gt;%\n  drop_na(lastSeasonPoints)\n\nmodel_predictions &lt;- data.frame(\n  actual = qb_season$seasonPoints\n)\n\n\n\n\nCode\nlinearRegression_onePredictor &lt;- lm(\n  seasonPoints ~ lastSeasonPoints,\n  data = qb_season,\n  na.action = \"na.exclude\"\n)\n\nsummary(linearRegression_onePredictor)\n\n\n\nCall:\nlm(formula = seasonPoints ~ lastSeasonPoints, data = qb_season, \n    na.action = \"na.exclude\")\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-314.57  -43.45  -16.77   47.84  392.58 \n\nCoefficients:\n                 Estimate Std. Error t value            Pr(&gt;|t|)    \n(Intercept)      29.59959    2.98570   9.914 &lt;0.0000000000000002 ***\nlastSeasonPoints  0.71996    0.01796  40.089 &lt;0.0000000000000002 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 81.18 on 1598 degrees of freedom\nMultiple R-squared:  0.5014,    Adjusted R-squared:  0.5011 \nF-statistic:  1607 on 1 and 1598 DF,  p-value: &lt; 0.00000000000000022\n\n\nCode\nprint(effectsize::standardize_parameters(linearRegression_onePredictor), digits = 2)\n\n\n# Standardization method: refit\n\nParameter        | Std. Coef. |        95% CI\n---------------------------------------------\n(Intercept)      |   4.50e-17 | [-0.03, 0.03]\nlastSeasonPoints |       0.71 | [ 0.67, 0.74]\n\n\nCode\nmodel_predictions$linearRegression_onePredictor &lt;- predict(linearRegression_onePredictor)\n\n# Evaluate Accuracy of Predictions\npetersenlab::accuracyOverall(\n  predicted = model_predictions$linearRegression_onePredictor,\n  actual = model_predictions$actual,\n  dropUndefined = TRUE\n)\n\n\nWarning in log(actual + 1): NaNs produced\n\n\n\n  \n\n\n\n\n\nCode\nset.seed(52242)\n\nfolds_kFold &lt;- rsample::group_vfold_cv(\n  qb_season,\n  group = player_id,\n  v = 10\n)\n\n\n\n\nCode\nplayer_stats_weekly_example &lt;- player_stats_weekly %&gt;%\n  dplyr::filter(position == \"QB\") %&gt;%\n  dplyr::arrange(player_id, season, week) %&gt;%\n  dplyr::group_by(player_id, season) %&gt;%\n  dplyr::mutate(fantasyPoints_nextGame = dplyr::lead(fantasyPoints)) %&gt;%\n  dplyr::ungroup() %&gt;%\n  dplyr::select(\n    player_id, season, week,\n    fantasyPoints_nextGame,              # outcome\n    # predictors (only from your screenshots)\n    completions, attempts,\n    passing_yards, passing_tds, passing_interceptions,\n    sacks_suffered, sack_yards_lost, sack_fumbles, sack_fumbles_lost,\n    passing_air_yards, passing_yards_after_catch,\n    passing_first_downs, passing_epa, passing_cpoe, passing_2pt_conversions,\n    pacr,\n    carries, rushing_yards, rushing_tds,\n    ageCentered20, ageCentered20Quadratic\n  ) %&gt;%\n  tidyr::drop_na()\n\nset.seed(52242)\nfolds_kFold &lt;- rsample::group_vfold_cv(\n  player_stats_weekly_example,\n  group = player_id,\n  v = 10\n)\n\nrec &lt;- recipes::recipe(\n  fantasyPoints_nextGame ~\n    completions + attempts +\n    passing_yards + passing_tds + passing_interceptions +\n    sacks_suffered + sack_yards_lost + sack_fumbles + sack_fumbles_lost +\n    passing_air_yards + passing_yards_after_catch +\n    passing_first_downs + passing_epa + passing_cpoe + passing_2pt_conversions +\n    pacr +\n    carries + rushing_yards + rushing_tds +\n    ageCentered20 + ageCentered20Quadratic,\n  data = player_stats_weekly_example\n)\n\nenet_spec &lt;- parsnip::linear_reg(penalty = tune::tune(), mixture = tune::tune()) %&gt;%\n  parsnip::set_engine(\"glmnet\")\n\nenet_wf &lt;- workflows::workflow() %&gt;%\n  workflows::add_recipe(rec) %&gt;%\n  workflows::add_model(enet_spec)\n\ngrid_enet &lt;- dials::grid_regular(\n  dials::penalty(range = c(-4, -1)),\n  dials::mixture(range = c(0, 1)),\n  levels = c(20, 5)\n)\n\ncv_results &lt;- tune::tune_grid(\n  enet_wf,\n  resamples = folds_kFold,\n  grid = grid_enet,\n  metrics = yardstick::metric_set(rmse, mae, rsq),\n  control = tune::control_grid(save_pred = TRUE)\n)\n\nbest &lt;- tune::select_best(cv_results, metric = \"mae\")\nfinal_wf &lt;- tune::finalize_workflow(enet_wf, best)\n\nfinal_model &lt;- workflows::fit(final_wf, data = player_stats_weekly_example)\n\npreds &lt;- predict(final_model, new_data = player_stats_weekly_example)$.pred\npetersenlab::accuracyOverall(predicted = preds,\n                             actual = player_stats_weekly_example$fantasyPoints_nextGame,\n                             dropUndefined = TRUE)\n\n\nWarning in log(actual + 1): NaNs produced"
+  },
+  {
+    "objectID": "posts/blogpost7/blogpost7.html#findings",
+    "href": "posts/blogpost7/blogpost7.html#findings",
+    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
+    "section": "5.2 Findings",
+    "text": "5.2 Findings\nFirst Model ME: ~0.0000000000000285 MAE: 61.77 MdAE: 44.62 MSE: 6537.85 RMSE: 80.86 MPE: -12.89 MAPE: 2882.71 sMAPE: 41.99 MASE: 0.61 RMSLE: 1.62 R^2: 0.503 Adjusted R^2: 0.503 Predictive R^2: 0.502\nSecond Model ME: ~0.0000000000000105 MAE: 6.39 MdAE: 5.54 MSE: 63.43 RMSE: 7.96 MPE: -44.61 MAPE: 327.81 sMAPE: 25.52 MASE: 0.93 RMSLE: 0.78 R^2: 0.139 Adjusted R^2: 0.139 Predictive R^2: 0.139"
+  },
+  {
+    "objectID": "posts/blogpost7/blogpost7.html#visualization",
+    "href": "posts/blogpost7/blogpost7.html#visualization",
+    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
+    "section": "5.3 Visualization",
+    "text": "5.3 Visualization\n\n\nCode\nqb_weekly &lt;- player_stats_weekly %&gt;%\n  dplyr::filter(position == \"QB\") %&gt;%\n  dplyr::arrange(player_id, season, week) %&gt;%\n  dplyr::group_by(player_id, season) %&gt;%\n  dplyr::mutate(fantasyPoints_nextGame = dplyr::lead(fantasyPoints)) %&gt;%\n  dplyr::ungroup()\n\nqb_last_ppg &lt;- qb_weekly %&gt;%\n  dplyr::group_by(player_id, season) %&gt;%\n  dplyr::summarise(lastSeasonPoints = mean(fantasyPoints, na.rm = TRUE), .groups = \"drop\") %&gt;%\n  dplyr::mutate(season = season + 1)\n\nqb_lastSeason &lt;- qb_weekly %&gt;%\n  dplyr::left_join(qb_last_ppg, by = c(\"player_id\", \"season\")) %&gt;%\n  dplyr::select(player_id, season, week, fantasyPoints, fantasyPoints_nextGame, lastSeasonPoints) %&gt;%\n  tidyr::drop_na(lastSeasonPoints, fantasyPoints_nextGame)\n\nggplot2::ggplot(qb_lastSeason, ggplot2::aes(x = lastSeasonPoints, y = fantasyPoints_nextGame)) +\n  ggplot2::geom_point(alpha = 0.25) +\n  ggplot2::geom_smooth(method = \"lm\", se = FALSE) +\n  ggplot2::labs(\n    title = \"QB: Last-Season Points vs Next-Game Fantasy Points\",\n    x = \"Last-season fantasy points (per game)\",\n    y = \"Next-game fantasy points\"\n  ) +\n  ggplot2::theme_minimal()\n\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\nIt shows a clear positive relationship: QBs who scored more last season (per game) tend to score more next game now (upward blue line)."
+  },
+  {
+    "objectID": "posts/blogpost8/blogpost8.html",
+    "href": "posts/blogpost8/blogpost8.html",
+    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
+    "section": "",
+    "text": "Code\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)\n\n\n\n\n\n\n\nCode\nlibrary(\"petersenlab\")\nlibrary(\"future\")\nlibrary(\"missRanger\")\nlibrary(\"powerjoin\")\nlibrary(\"tidymodels\")\nlibrary(\"LongituRF\")\nlibrary(\"gpboost\")\nlibrary(\"effectsize\")\nlibrary(\"tidyverse\")\nlibrary(\"knitr\")\n\n\n\n\n\n\n\nCode\nload(file = \"../../data/player_stats_weekly.RData\")\nload(file = \"../../data/players_projections_weekly.RData\")\nload(file = \"../../data/nfl_playerIDs.RData\")\nload(file = \"../../data/projectionsWithActuals_weekly.RData\")\n\n\n\n\nCode\noptions(scipen = 999) # prevent scientific notation\n\n\n\n\n\nAI Disclosure: AI was not used.\nLink to AI Transcript: not applicable"
+  },
+  {
+    "objectID": "posts/blogpost8/blogpost8.html#install-libraries",
+    "href": "posts/blogpost8/blogpost8.html#install-libraries",
+    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
+    "section": "",
+    "text": "Code\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)"
+  },
+  {
+    "objectID": "posts/blogpost8/blogpost8.html#load-libraries",
+    "href": "posts/blogpost8/blogpost8.html#load-libraries",
+    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
+    "section": "",
+    "text": "Code\nlibrary(\"petersenlab\")\nlibrary(\"future\")\nlibrary(\"missRanger\")\nlibrary(\"powerjoin\")\nlibrary(\"tidymodels\")\nlibrary(\"LongituRF\")\nlibrary(\"gpboost\")\nlibrary(\"effectsize\")\nlibrary(\"tidyverse\")\nlibrary(\"knitr\")"
+  },
+  {
+    "objectID": "posts/blogpost8/blogpost8.html#load-data",
+    "href": "posts/blogpost8/blogpost8.html#load-data",
+    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
+    "section": "",
+    "text": "Code\nload(file = \"../../data/player_stats_weekly.RData\")\nload(file = \"../../data/players_projections_weekly.RData\")\nload(file = \"../../data/nfl_playerIDs.RData\")\nload(file = \"../../data/projectionsWithActuals_weekly.RData\")\n\n\n\n\nCode\noptions(scipen = 999) # prevent scientific notation"
+  },
+  {
+    "objectID": "posts/blogpost8/blogpost8.html#a.i.-disclosure",
+    "href": "posts/blogpost8/blogpost8.html#a.i.-disclosure",
+    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
+    "section": "",
+    "text": "AI Disclosure: AI was not used.\nLink to AI Transcript: not applicable"
+  },
+  {
+    "objectID": "posts/blogpost8/blogpost8.html#research-question",
+    "href": "posts/blogpost8/blogpost8.html#research-question",
+    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
+    "section": "3.1 Research Question",
+    "text": "3.1 Research Question\nWe, or myself, have two questions to pose and would like to seek answers to.\n\nHow strongly are players’ historical week-to-week fantasy point related to their historical volatility?\nDo lineups that lean more on safer, low-volatility players end up with better risk-adjusted performance than lineups that rely heavily on boom-bust players?"
+  },
+  {
+    "objectID": "posts/blogpost8/blogpost8.html#hypothesis-and-testable-prediction",
+    "href": "posts/blogpost8/blogpost8.html#hypothesis-and-testable-prediction",
+    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
+    "section": "3.2 Hypothesis and Testable Prediction",
+    "text": "3.2 Hypothesis and Testable Prediction\nLineups that rely more on safer, low-volatility players will sit closer to the efficient frontier and have better risk-adjusted performance than lineups that rely heavily on boom-bust players.\nWhen we compare portfolios, teams where most of the total weight is in low-volatility players will have lower overall risk and equal or higher mean fantasy points per week than teams where most of the weight is in high-volatility players."
+  },
+  {
+    "objectID": "posts/blogpost8/blogpost8.html#justification",
+    "href": "posts/blogpost8/blogpost8.html#justification",
+    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
+    "section": "3.3 Justification",
+    "text": "3.3 Justification\nModern Portfolio Theory says you can get good returns without taking unnecessary risk by diversifying and avoiding overly volatile assets. In fantasy football, boom-bust players create big swings that can sink a weekly matchup if several bust at once."
+  },
+  {
+    "objectID": "posts/blogpost8/blogpost8.html#code",
+    "href": "posts/blogpost8/blogpost8.html#code",
+    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
+    "section": "5.1 Code",
+    "text": "5.1 Code\n\n\nCode\nplayer_stats_weekly_recent &lt;- player_stats_weekly %&gt;%\n  dplyr::filter(season == max(season))\n\nplayer_stats_weekly_recent_summary &lt;- player_stats_weekly_recent %&gt;%\n  dplyr::group_by(player_id) %&gt;%\n  dplyr::summarise(\n    mean = mean(fantasyPoints, na.rm = TRUE),\n    sd   = sd(fantasyPoints, na.rm = TRUE),\n    var  = var(fantasyPoints, na.rm = TRUE),\n    .groups = \"drop\"\n  )\n\nplayer_stats_weekly_recent_summary &lt;- player_stats_weekly_recent_summary %&gt;%\n  dplyr::left_join(\n    nfl_playerIDs[, c(\"gsis_id\", \"name\", \"merge_name\", \"position\", \"team\")],\n    by = c(\"player_id\" = \"gsis_id\")\n  ) %&gt;%\n  dplyr::select(name, team, position, player_id, mean, sd, var) %&gt;%\n  dplyr::arrange(dplyr::desc(mean))\n\nsummary(player_stats_weekly_recent_summary$mean)\n\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's \n-0.1333  1.3333  2.7188  4.0442  5.1667 26.6106     267 \n\n\nCode\nsummary(player_stats_weekly_recent_summary$sd)\n\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's \n  0.000   1.167   2.208   2.772   3.483  13.862     399 \n\n\nCode\nggplot2::ggplot(player_stats_weekly_recent_summary,\n                ggplot2::aes(x = mean)) +\n  ggplot2::geom_histogram(bins = 30) +\n  ggplot2::labs(\n    x = \"Mean weekly fantasy points\",\n    y = \"Count\",\n    title = \"Distribution of players' mean weekly fantasy points\"\n  ) +\n  ggplot2::theme_classic()\n\n\nWarning: Removed 267 rows containing non-finite outside the scale range\n(`stat_bin()`).\n\n\n\n\n\n\n\n\n\nCode\nggplot2::ggplot(player_stats_weekly_recent_summary,\n                ggplot2::aes(x = sd)) +\n  ggplot2::geom_histogram(bins = 30) +\n  ggplot2::labs(\n    x = \"SD of weekly fantasy points (volatility)\",\n    y = \"Count\",\n    title = \"Distribution of players' week-to-week volatility\"\n  ) +\n  ggplot2::theme_classic()\n\n\nWarning: Removed 399 rows containing non-finite outside the scale range\n(`stat_bin()`).\n\n\n\n\n\n\n\n\n\nCode\ncor_test_mean_sd &lt;- cor.test(\n  ~ mean + sd,\n  data = player_stats_weekly_recent_summary\n)\n\ncor_test_mean_sd\n\n\n\n    Pearson's product-moment correlation\n\ndata:  mean and sd\nt = 68.577, df = 1595, p-value &lt; 0.00000000000000022\nalternative hypothesis: true correlation is not equal to 0\n95 percent confidence interval:\n 0.8511656 0.8760565\nsample estimates:\n      cor \n0.8641386 \n\n\nCode\nggplot2::ggplot(\n  data = player_stats_weekly_recent_summary,\n  ggplot2::aes(x = sd, y = mean)\n) +\n  ggplot2::geom_point(alpha = 0.5) +\n  ggplot2::coord_cartesian(xlim = c(0, NA), ylim = c(0, NA), expand = FALSE) +\n  ggplot2::labs(\n    x = \"SD of weekly fantasy points (volatility)\",\n    y = \"Mean weekly fantasy points\",\n    title = \"Mean vs SD of players' weekly fantasy points\"\n  ) +\n  ggplot2::theme_classic()\n\n\nWarning: Removed 399 rows containing missing values or values outside the scale range\n(`geom_point()`).\n\n\n\n\n\n\n\n\n\nCode\nsummary_noNA &lt;- player_stats_weekly_recent_summary %&gt;%\n  dplyr::filter(!is.na(mean), !is.na(var), var &gt; 0)\n\nsd_median &lt;- stats::median(summary_noNA$sd, na.rm = TRUE)\n\nlow_vol_players  &lt;- summary_noNA %&gt;% dplyr::filter(sd &lt;= sd_median)\nhigh_vol_players &lt;- summary_noNA %&gt;% dplyr::filter(sd &gt;  sd_median)\n\nconst_cor &lt;- function(rho, numAssets) {\n  C &lt;- matrix(rho, nrow = numAssets, ncol = numAssets)\n  diag(C) &lt;- 1\n  C\n}\n\nsd_low  &lt;- low_vol_players$sd\ncov_low &lt;- diag(sd_low) %*% const_cor(0, length(sd_low)) %*% diag(sd_low)\n\nefficientFrontier_low &lt;- NMOF::mvFrontier(\n  low_vol_players$mean,  # expected weekly points\n  cov_low,               # risk from historical SD\n  wmin = 0,\n  wmax = 1,\n  n    = 50\n)\n\nsd_high  &lt;- high_vol_players$sd\ncov_high &lt;- diag(sd_high) %*% const_cor(0, length(sd_high)) %*% diag(sd_high)\n\nefficientFrontier_high &lt;- NMOF::mvFrontier(\n  high_vol_players$mean,\n  cov_high,\n  wmin = 0,\n  wmax = 1,\n  n    = 50\n)\n\nplot(\n  efficientFrontier_low$volatility,\n  efficientFrontier_low$return,\n  type = \"o\",\n  pch  = 19,\n  cex  = 0.6,\n  xlab = \"Portfolio SD (weekly fantasy points)\",\n  ylab = \"Portfolio mean (weekly fantasy points)\",\n  main = \"Efficient frontiers: low-vol vs high-vol fantasy portfolios\",\n  xlim = range(c(efficientFrontier_low$volatility,\n                 efficientFrontier_high$volatility)),\n  ylim = range(c(efficientFrontier_low$return,\n                 efficientFrontier_high$return))\n)\n\nlines(\n  efficientFrontier_high$volatility,\n  efficientFrontier_high$return,\n  type = \"o\",\n  pch  = 17,\n  cex  = 0.6\n)\n\nlegend(\n  \"bottomright\",\n  legend = c(\"Low-volatility players\", \"High-volatility players\"),\n  pch    = c(19, 17),\n  bty    = \"n\"\n)"
+  },
+  {
+    "objectID": "posts/blogpost8/blogpost8.html#findings",
+    "href": "posts/blogpost8/blogpost8.html#findings",
+    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
+    "section": "5.2 Findings",
+    "text": "5.2 Findings\nGraph 1: Most players have very low average points\nGraph 2: Most players also have very low volatility, with a long right tail of players whose scores swing a lot from week to week.\nGraph 3: The scatterplot shows a strong upward trend: players who score more on average also tend to have higher week-to-week SD.\nGraph 4: At low levels of portfolio SD, on the left side, portfolios built from low-volatility players achieve similar or higher mean points than those built from only high-volatility players."
+  },
+  {
+    "objectID": "posts/fallaciesandbiases/fallaciesandbiases.html",
+    "href": "posts/fallaciesandbiases/fallaciesandbiases.html",
+    "title": "Fallacies and biases created from analyzing one specific pieces data in positions in fantasy football",
+    "section": "",
+    "text": "Code\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)\n\n\n\n\n\n\n\nCode\nlibrary(\"petersenlab\")\nlibrary(\"tidyverse\")"
+  },
+  {
+    "objectID": "posts/fallaciesandbiases/fallaciesandbiases.html#install-libraries",
+    "href": "posts/fallaciesandbiases/fallaciesandbiases.html#install-libraries",
+    "title": "Fallacies and biases created from analyzing one specific pieces data in positions in fantasy football",
+    "section": "",
+    "text": "Code\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)"
+  },
+  {
+    "objectID": "posts/fallaciesandbiases/fallaciesandbiases.html#load-libraries",
+    "href": "posts/fallaciesandbiases/fallaciesandbiases.html#load-libraries",
+    "title": "Fallacies and biases created from analyzing one specific pieces data in positions in fantasy football",
+    "section": "",
+    "text": "Code\nlibrary(\"petersenlab\")\nlibrary(\"tidyverse\")"
+  },
+  {
+    "objectID": "posts/fallaciesandbiases/fallaciesandbiases.html#research-question",
+    "href": "posts/fallaciesandbiases/fallaciesandbiases.html#research-question",
+    "title": "Fallacies and biases created from analyzing one specific pieces data in positions in fantasy football",
     "section": "4.1 Research Question",
-    "text": "4.1 Research Question\nIs there a correlation between a QB’s rushing carries and their overall fantasy finish? Can we safely say that QBs who prioritize rushing carries tend to score more fantasy points than other QBs."
+    "text": "4.1 Research Question\nDoes the availability bias lead fantasy managers to overvalue quarterbacks with high carries, even when their overall fantasy production isn’t consistently higher?"
   },
   {
-    "objectID": "posts/qbandcarries/qbandcarries.html#hypothesis-and-prediction",
-    "href": "posts/qbandcarries/qbandcarries.html#hypothesis-and-prediction",
-    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
+    "objectID": "posts/fallaciesandbiases/fallaciesandbiases.html#hypothesis-and-prediction",
+    "href": "posts/fallaciesandbiases/fallaciesandbiases.html#hypothesis-and-prediction",
+    "title": "Fallacies and biases created from analyzing one specific pieces data in positions in fantasy football",
     "section": "4.2 Hypothesis and Prediction",
-    "text": "4.2 Hypothesis and Prediction\nMy hypothesis and prediction is that QBs with higher rushing carries will lead to more fantasy points produce by said player."
+    "text": "4.2 Hypothesis and Prediction\nMy hypothesis is that there might be a mis-correlation, and leads with many biases and heuristics. This includes availability bias, where the amount of rushes and rushing yards with the quarterback is too overweight. Base rate neglect, where we ignore all the other factors that make a quarterback earn points. Confirmation bias, where we only look for the supporting details that makes us believe that mobile quarterbacks are better than non-mobile quarterbacks. There are more that can explain my hypothesis, but these are the main ones. Leading into my prediction, I think that there is more that meets the eye, that carries aren’t the only thing that can have a quarterback score at a great rate, or that it isn’t a great factor to be by itself.\nA new question to analysis casual inference, to see the possibities of biases and fallacies, is: Do a quarterback’s carries causally influence their weekly fantasy points, or is the relationship explained by other factors such as passing yards and touchdowns?\nTo answer this question, yes, there is a lot more than just carries and rushing yards. The quarterback position involves a lot of attributes, and maybe only saying one thing, like carries for instance, is a weak statement to say that one quarterback is better than the other."
   },
   {
-    "objectID": "posts/qbandcarries/qbandcarries.html#justification",
-    "href": "posts/qbandcarries/qbandcarries.html#justification",
-    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
+    "objectID": "posts/fallaciesandbiases/fallaciesandbiases.html#justification",
+    "href": "posts/fallaciesandbiases/fallaciesandbiases.html#justification",
+    "title": "Fallacies and biases created from analyzing one specific pieces data in positions in fantasy football",
     "section": "4.3 Justification",
-    "text": "4.3 Justification\nThere is a reason why I picked carries over flat rushing yards. Through when I have played in multiple leagues over multiple leagues, I have seen that QBs that always use their legs, in turn more carries, tend to score more points than their opposing matchup. This isn’t true 100% of the time, but gives you a better chance to win that direct matchup."
+    "text": "4.3 Justification\nFrom analyzing from year to year for all top quarterbacks. Sure, there are mobile quarterbacks that are sitting in the top spots. You have players like Josh Allen, Jalen Hurts, and Lamar Jackson that top the leaderboards. However, is it safe to say that their high amount of carries, but there are other factors that lead into their high production. You have players like Brock Purdy and Dak Prescott, or even Joe Burrow, they don’t have nearly as much carries, but they are efficient in the air, with passing yards, passing touchdowns, and low interceptions."
   },
   {
-    "objectID": "posts/qbandcarries/qbandcarries.html#correlation-analysis",
-    "href": "posts/qbandcarries/qbandcarries.html#correlation-analysis",
-    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
-    "section": "6.1 Correlation Analysis",
-    "text": "6.1 Correlation Analysis\n\n\nCode\nggplot2::ggplot(\n  data = player_stats_weekly %&gt;% filter(position == \"QB\"),\n  aes(\n    x = carries,\n    y = fantasyPoints)) +\n  geom_point() +\n  geom_smooth(\n    method = \"lm\",  # linear best-fit line\n    color = \"red\") +\n  geom_smooth(\n    method = \"gam\", # nonlinear best-fit line\n    color = \"blue\"\n  ) +\n  labs(\n    x = \"Carries\",\n    y = \"Fantasy Points\",\n    title = \"Correlation between Carries with QBs and Fantasy Points\"\n  )\n\n\n`geom_smooth()` using formula = 'y ~ x'\n`geom_smooth()` using formula = 'y ~ s(x, bs = \"cs\")'"
+    "objectID": "posts/fallaciesandbiases/fallaciesandbiases.html#data",
+    "href": "posts/fallaciesandbiases/fallaciesandbiases.html#data",
+    "title": "Fallacies and biases created from analyzing one specific pieces data in positions in fantasy football",
+    "section": "5.1 Data",
+    "text": "5.1 Data\n\n\nCode\nload(file = \"../../data/player_stats_weekly.RData\")\n\n\n\n\nCode\nggplot2::ggplot(\n  data = player_stats_weekly %&gt;% filter(position == \"QB\"),\n  aes(\n    x = carries,\n    y = fantasyPoints)) +\n  geom_point() +\n  geom_smooth(\n    method = \"lm\",  # linear best-fit line\n    color = \"red\") +\n  geom_smooth(\n    method = \"gam\", # nonlinear best-fit line\n    color = \"blue\"\n  ) +\n  labs(\n    x = \"Carries\",\n    y = \"Fantasy Points\",\n    title = \"Biases with Carries and Fantasy Points\"\n  )\n\n\n`geom_smooth()` using formula = 'y ~ x'\n`geom_smooth()` using formula = 'y ~ s(x, bs = \"cs\")'\n\n\n\n\n\n\n\n\n\n\n\nCode\nggplot2::ggplot(\n  data = player_stats_weekly %&gt;%\n    filter(position == \"QB\"),\n  aes(\n    x = carries,\n    y = rushing_fumbles\n  )\n) +\n  geom_point() +\n  geom_smooth(\n    method = \"lm\",     # linear best-fit line\n    color = \"red\"\n  ) +\n  geom_smooth(\n    method = \"gam\",    # nonlinear best-fit line\n    color = \"blue\"\n  ) +\n  labs(\n    x = \"Carries\",\n    y = \"Fumbles\",\n    title = \"Correlation Between Carries and Fumbles for QBs\"\n  )\n\n\n`geom_smooth()` using formula = 'y ~ x'\n`geom_smooth()` using formula = 'y ~ s(x, bs = \"cs\")'\n\n\n\n\n\n\n\n\n\n\n\nCode\nggplot2::ggplot(\n  data = player_stats_weekly %&gt;%\n    filter(position == \"QB\"),\n  aes(\n    x = carries,\n    y = passing_yards\n  )\n) +\n  geom_point() +\n  geom_smooth(\n    method = \"lm\",     # linear best-fit line\n    color = \"red\"\n  ) +\n  geom_smooth(\n    method = \"gam\",    # nonlinear best-fit line\n    color = \"blue\"\n  ) +\n  labs(\n    x = \"Carries\",\n    y = \"Passing Yards\",\n    title = \"Correlation Between Carries and Passing Yards for QBs\"\n  )\n\n\n`geom_smooth()` using formula = 'y ~ x'\n`geom_smooth()` using formula = 'y ~ s(x, bs = \"cs\")'"
   },
   {
-    "objectID": "posts/qbandcarries/qbandcarries.html#regression-model",
-    "href": "posts/qbandcarries/qbandcarries.html#regression-model",
-    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
-    "section": "6.2 Regression Model",
-    "text": "6.2 Regression Model\n\n\nCode\nregressionOnePredictor &lt;- lm(\n  fantasyPoints ~ carries,\n  data = player_stats_weekly %&gt;% filter(position %in% c(\"QB\")),\n  na.action = \"na.exclude\"\n)\n\nsummary(regressionOnePredictor)\n\n\n\nCall:\nlm(formula = fantasyPoints ~ carries, data = player_stats_weekly %&gt;% \n    filter(position %in% c(\"QB\")), na.action = \"na.exclude\")\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-25.268  -6.603  -0.483   5.602  33.912 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  9.71756    0.09517  102.11   &lt;2e-16 ***\ncarries      1.32503    0.02580   51.36   &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 8.235 on 16101 degrees of freedom\nMultiple R-squared:  0.1408,    Adjusted R-squared:  0.1407 \nF-statistic:  2638 on 1 and 16101 DF,  p-value: &lt; 2.2e-16\n\n\nCode\nprint(effectsize::standardize_parameters(regressionOnePredictor, method = \"refit\"), digits = 4)\n\n\n# Standardization method: refit\n\nParameter   | Std. Coef. |            95% CI\n--------------------------------------------\n(Intercept) | 2.5634e-18 | [-0.0143, 0.0143]\ncarries     |     0.3752 | [ 0.3609, 0.3895]\n\n\n\n\nCode\nregressionTwoPredictors &lt;- lm(\n  fantasyPoints ~ carries + passing_yards,\n  data = player_stats_weekly %&gt;% filter(position %in% c(\"QB\")),\n  na.action = \"na.exclude\"\n)\n\nsummary(regressionTwoPredictors)\n\n\n\nCall:\nlm(formula = fantasyPoints ~ carries + passing_yards, data = player_stats_weekly %&gt;% \n    filter(position %in% c(\"QB\")), na.action = \"na.exclude\")\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-17.5703  -3.1466  -0.1201   2.6699  24.9235 \n\nCoefficients:\n                Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)   -1.6698831  0.0852692  -19.58   &lt;2e-16 ***\ncarries        0.8841407  0.0152843   57.85   &lt;2e-16 ***\npassing_yards  0.0642118  0.0003644  176.19   &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 4.813 on 16100 degrees of freedom\nMultiple R-squared:  0.7066,    Adjusted R-squared:  0.7065 \nF-statistic: 1.938e+04 on 2 and 16100 DF,  p-value: &lt; 2.2e-16\n\n\nCode\nprint(effectsize::standardize_parameters(regressionTwoPredictors, method = \"refit\"), digits = 4)\n\n\n# Standardization method: refit\n\nParameter     |  Std. Coef. |            95% CI\n-----------------------------------------------\n(Intercept)   | -1.6530e-18 | [-0.0084, 0.0084]\ncarries       |      0.2503 | [ 0.2419, 0.2588]\npassing yards |      0.7625 | [ 0.7540, 0.7710]"
+    "objectID": "posts/fallaciesandbiases/fallaciesandbiases.html#discussion",
+    "href": "posts/fallaciesandbiases/fallaciesandbiases.html#discussion",
+    "title": "Fallacies and biases created from analyzing one specific pieces data in positions in fantasy football",
+    "section": "5.2 Discussion",
+    "text": "5.2 Discussion\nI took one of the correlational from my previous blog post, and added two more.\nWith the first study: The red line suggests a steady positive relationship — more carries generally mean more fantasy points. However, the blue line levels off and slightly declines after about 10–12 carries, showing diminishing returns: rushing helps up to a point, but excessive running doesn’t always lead to higher scores. This demonstrates availability bias and base rate neglect, fantasy players may overvalue rushing QBs because their big rushing games stand out, ignoring that consistent passing efficiency usually drives long-term fantasy success.\nWith the second study: The red line shows a weak upward trend, while the blue line closely follows it, suggesting that the relationship is fairly consistent and not strongly curved. The shaded areas represent confidence intervals, showing some uncertainty but confirming that higher carries generally come with a small increase in fumbles. In terms of bias, this connects to risk–reward perception — fantasy managers may overlook the higher fumble risk (loss of points) when overvaluing mobile QBs who run often.\nWith the third study: The red line suggests a slight positive relationship, but the blue nonlinear line reveals that QBs with moderate carries tend to have fewer passing yards on average, especially as carries increase beyond ~10 per game. This pattern implies that more mobile quarterbacks often pass less, supporting the idea of a trade-off between rushing and passing production. It can also reflect representativeness bias"
   },
   {
-    "objectID": "posts/qbandcarries/qbandcarries.html#discussion",
-    "href": "posts/qbandcarries/qbandcarries.html#discussion",
-    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
-    "section": "6.3 Discussion",
-    "text": "6.3 Discussion\nFor this analysis, there were two different charts that were created. A plot diagram where it visually shows all QBs, their amount of carries, compared to their amount of fantasy points.\nFor the first graph, we can say that QBs with more carries tend to score more fantasy points.\nFor our regression model, we can say that a QB with 0 carries averages 9.7 fantasy points, while each carries will add about 1.3 fantasy points, on average. Since our p-value &lt; 0.005, it is most certain that it will happen.\nFor the second regression model, I added two predictors, the addition of passing yards. We could go on and on with touchdowns, interceptions, but passing yards still shows that carries provide an independent boost to a QBs fantasy output."
+    "objectID": "posts/fallaciesandbiases/fallaciesandbiases.html#strengths-and-limitations",
+    "href": "posts/fallaciesandbiases/fallaciesandbiases.html#strengths-and-limitations",
+    "title": "Fallacies and biases created from analyzing one specific pieces data in positions in fantasy football",
+    "section": "5.3 Strengths and Limitations",
+    "text": "5.3 Strengths and Limitations\nThe strength with this outweighs any limitations in my mind. The limitation can formulate from initially making a correlational analysis. The strength is that we can additionally view the biases that could be formulated and make inferences based off that."
   },
   {
-    "objectID": "posts/qbandcarries/qbandcarries.html#strengths-and-limitations",
-    "href": "posts/qbandcarries/qbandcarries.html#strengths-and-limitations",
-    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
-    "section": "6.4 Strengths and Limitations",
-    "text": "6.4 Strengths and Limitations\nThe strength behind this study that there is a strong correlation by statistical evidence that it is safe to draft a QB with a high carries rate.\nThere could a few limitations to this study that could make or break it. There are some items out there can we can’t always predict. QBs can always have off games, there can be confounds that can arise, such as their passing rate for yards and touchdowns, the other defense’s ability to stop the run game, but that’s the name of the game."
+    "objectID": "posts/fallaciesandbiases/fallaciesandbiases.html#conclusion",
+    "href": "posts/fallaciesandbiases/fallaciesandbiases.html#conclusion",
+    "title": "Fallacies and biases created from analyzing one specific pieces data in positions in fantasy football",
+    "section": "5.4 Conclusion",
+    "text": "5.4 Conclusion\nAcross the three analyses, quarterbacks with more carries tended to have slightly higher fantasy points, but also a small increase in fumbles and generally fewer passing yards. As viewed from fantasy football analyses, mobile quarters may tend to have the advantage, but there are some outliers that may mislead people, like Josh Allen and the Lamar Jackson, and creates a bias that says that mobile quarterbacks have to be better than other quarterbacks that don’t have the same rushing numbers. There are other pocket quarterbacks that majorly outscore, are considerably more consistent, than mobile quarterbacks. Passing yards, passing touchdowns, with their added completion percentage can suggest that they will consistently score more than a rushing-heavy quarterback, where if they don’t get rushing touchdowns, are led to a disadvantage. Overall, these findings highlight how availability bias and base rate neglect can lead fantasy players to overvalue mobile QBs based on memorable rushing plays rather than consistent data trends."
   },
   {
-    "objectID": "posts/qbandcarries/qbandcarries.html#conclusion",
-    "href": "posts/qbandcarries/qbandcarries.html#conclusion",
-    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
-    "section": "6.5 Conclusion",
-    "text": "6.5 Conclusion\nThis study demonstrates that both passing yards and carries are important predictors of quarterback fantasy performance. While passing yards account for the majority of variance in scoring, carries remain a significant and meaningful independent contributor. Overall, carries matter, providing a consistent and measurable boost to fantasy outcomes."
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "My Blog",
+    "section": "",
+    "text": "Predicting Next Season’s Scoring: A One-Factor CFA Team Offense Quality Model for NFL Offenses\n\n\n\nfactoranalysis\n\n\n\n\n\n\n\n\n\nNov 20, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nModern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football\n\n\n\nmodernportfoliotheory\n\n\n\n\n\n\n\n\n\nNov 13, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nDo last season’s fantasy points beat a basic ML model for QBs\n\n\n\nmachine learning\n\n\n\n\n\n\n\n\n\nNov 6, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nDoes last week fantasy points mislead? Should we use fantasy points as the first predictor, or use it as the base?\n\n\n\nwelcome\n\nmyfantasyteam\n\ncontinuousfantasypoints\n\n\n\n\n\n\n\n\n\nOct 30, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nDo Last-Game Receptions Beat Yardage for Predicting Next Week?\n\n\n\nwelcome\n\nReceptionsBeatingYardage\n\n\n\n\n\n\n\n\n\nOct 23, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nFallacies and biases created from analyzing one specific pieces data in positions in fantasy football\n\n\n\nFallaciesAndBiases\n\n\n\n\n\n\n\n\n\nOct 9, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nCorrelation between the amount of carries for a QB compared to their fantasy point production\n\n\n\ncorrelationQBandFPs\n\n\n\n\n\n\n\n\n\nSep 30, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nVisulalization If Age Plays An Impact On Their Fantasy Point Production\n\n\n\nwelcome\n\nfantasyteam\n\nagevsfantasypoints\n\n\n\n\n\n\n\n\n\nSep 18, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nMy Fantasy Team\n\n\n\nwelcome\n\nfantasyteam\n\n\n\n\n\n\n\n\n\nSep 11, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\nwelcome\n\n\n\n\n\n\n\n\n\nSep 2, 2025\n\n\nJordan Wozniak\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/wrandtargetswithyards/wrandcategories.html",
+    "href": "posts/wrandtargetswithyards/wrandcategories.html",
+    "title": "Do Last-Game Receptions Beat Yardage for Predicting Next Week?",
+    "section": "",
+    "text": "Code\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)\n\n\n\n\n\n\n\nCode\nlibrary(\"petersenlab\")\nlibrary(\"tidyverse\")\n\n\n\n\n\n\n\nCode\nload(file = \"../../data/player_stats_weekly.RData\")\nload(file = \"../../data/players_projections_weekly.RData\")\nload(file = \"../../data/nfl_playerIDs.RData\")\n\n\n\n\nCode\noptions(scipen = 999) # prevent scientific notation"
+  },
+  {
+    "objectID": "posts/wrandtargetswithyards/wrandcategories.html#install-libraries",
+    "href": "posts/wrandtargetswithyards/wrandcategories.html#install-libraries",
+    "title": "Do Last-Game Receptions Beat Yardage for Predicting Next Week?",
+    "section": "",
+    "text": "Code\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)"
+  },
+  {
+    "objectID": "posts/wrandtargetswithyards/wrandcategories.html#load-libraries",
+    "href": "posts/wrandtargetswithyards/wrandcategories.html#load-libraries",
+    "title": "Do Last-Game Receptions Beat Yardage for Predicting Next Week?",
+    "section": "",
+    "text": "Code\nlibrary(\"petersenlab\")\nlibrary(\"tidyverse\")"
+  },
+  {
+    "objectID": "posts/wrandtargetswithyards/wrandcategories.html#load-data",
+    "href": "posts/wrandtargetswithyards/wrandcategories.html#load-data",
+    "title": "Do Last-Game Receptions Beat Yardage for Predicting Next Week?",
+    "section": "",
+    "text": "Code\nload(file = \"../../data/player_stats_weekly.RData\")\nload(file = \"../../data/players_projections_weekly.RData\")\nload(file = \"../../data/nfl_playerIDs.RData\")\n\n\n\n\nCode\noptions(scipen = 999) # prevent scientific notation"
+  },
+  {
+    "objectID": "posts/wrandtargetswithyards/wrandcategories.html#research-question",
+    "href": "posts/wrandtargetswithyards/wrandcategories.html#research-question",
+    "title": "Do Last-Game Receptions Beat Yardage for Predicting Next Week?",
+    "section": "4.1 Research Question",
+    "text": "4.1 Research Question\nAmong NFL WRs, which prior-game metric—receptions or receiving yards—more accurately and more well-calibratedly predicts hitting the same threshold in the following game (≥5 receptions or ≥50 yards), and which yields more useful start/sit decisions?"
+  },
+  {
+    "objectID": "posts/wrandtargetswithyards/wrandcategories.html#hypothesis",
+    "href": "posts/wrandtargetswithyards/wrandcategories.html#hypothesis",
+    "title": "Do Last-Game Receptions Beat Yardage for Predicting Next Week?",
+    "section": "4.2 Hypothesis",
+    "text": "4.2 Hypothesis\nI believe that receptions will outperform receiving yards: prior-game receptions will be the more accurate and better-calibrated predictor of next-game outcomes."
+  },
+  {
+    "objectID": "posts/wrandtargetswithyards/wrandcategories.html#justification",
+    "href": "posts/wrandtargetswithyards/wrandcategories.html#justification",
+    "title": "Do Last-Game Receptions Beat Yardage for Predicting Next Week?",
+    "section": "4.3 Justification",
+    "text": "4.3 Justification\nFrom a fundamental point of view, receptions can be more of a consistent measure when analyzing past games, and within PPR (Points Per Reception) leagues, this number is very valuable. Let’s look at an example. Player A has 3 receptions for 70 yards, versus, Player B with 6 receptions 40 yards. Which is a better statline? From a fantasy point line, they both have 10 (excluding other statistical measures, like touchdowns and rushing yards, et cetera). We can view that since receptions is a flat 1 point, versus 0.1 for yards, we can say that receptions, on a prediction accuracy model, can tell us that this could be more reliable."
   },
   {
     "objectID": "posts/myfantasyteam/myfantasyteam.html",
@@ -259,277 +525,88 @@
     "text": "2.15 Fifteenth Pick - Cooper Kupp (WR)\nThis is an honor pick for my team. Kupp, while on the Rams, has been one of the top receivers in the league, and will continue to do so on his new team, the Seahawks. However, he is paired with another top receiver in Smith-Njigba, and Kenneth Walker III."
   },
   {
-    "objectID": "posts/wrandtargetswithyards/wrandcategories.html",
-    "href": "posts/wrandtargetswithyards/wrandcategories.html",
-    "title": "Do Last-Game Receptions Beat Yardage for Predicting Next Week?",
+    "objectID": "posts/qbandcarries/qbandcarries.html",
+    "href": "posts/qbandcarries/qbandcarries.html",
+    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
     "section": "",
-    "text": "Code\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)\n\n\n\n\n\n\n\nCode\nlibrary(\"petersenlab\")\nlibrary(\"tidyverse\")\n\n\n\n\n\n\n\nCode\nload(file = \"../../data/player_stats_weekly.RData\")\nload(file = \"../../data/players_projections_weekly.RData\")\nload(file = \"../../data/nfl_playerIDs.RData\")\n\n\n\n\nCode\noptions(scipen = 999) # prevent scientific notation"
+    "text": "AI Disclosure: AI was not used.\nLink to AI Transcript: not applicable"
   },
   {
-    "objectID": "posts/wrandtargetswithyards/wrandcategories.html#install-libraries",
-    "href": "posts/wrandtargetswithyards/wrandcategories.html#install-libraries",
-    "title": "Do Last-Game Receptions Beat Yardage for Predicting Next Week?",
-    "section": "",
-    "text": "Code\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)"
+    "objectID": "posts/qbandcarries/qbandcarries.html#install-libraries",
+    "href": "posts/qbandcarries/qbandcarries.html#install-libraries",
+    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
+    "section": "2.1 Install Libraries",
+    "text": "2.1 Install Libraries\n\n\nCode\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)"
   },
   {
-    "objectID": "posts/wrandtargetswithyards/wrandcategories.html#load-libraries",
-    "href": "posts/wrandtargetswithyards/wrandcategories.html#load-libraries",
-    "title": "Do Last-Game Receptions Beat Yardage for Predicting Next Week?",
-    "section": "",
-    "text": "Code\nlibrary(\"petersenlab\")\nlibrary(\"tidyverse\")"
+    "objectID": "posts/qbandcarries/qbandcarries.html#load-libraries",
+    "href": "posts/qbandcarries/qbandcarries.html#load-libraries",
+    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
+    "section": "2.2 Load Libraries",
+    "text": "2.2 Load Libraries\n\n\nCode\nlibrary(\"petersenlab\")\nlibrary(\"XICOR\")\nlibrary(\"psych\")\nlibrary(\"DescTools\")\nlibrary(\"psych\")\nlibrary(\"correlation\")\nlibrary(\"effectsize\")\nlibrary(\"GGally\")\nlibrary(\"ggridges\")\nlibrary(\"tidyverse\")"
   },
   {
-    "objectID": "posts/wrandtargetswithyards/wrandcategories.html#load-data",
-    "href": "posts/wrandtargetswithyards/wrandcategories.html#load-data",
-    "title": "Do Last-Game Receptions Beat Yardage for Predicting Next Week?",
-    "section": "",
-    "text": "Code\nload(file = \"../../data/player_stats_weekly.RData\")\nload(file = \"../../data/players_projections_weekly.RData\")\nload(file = \"../../data/nfl_playerIDs.RData\")\n\n\n\n\nCode\noptions(scipen = 999) # prevent scientific notation"
+    "objectID": "posts/qbandcarries/qbandcarries.html#load-data",
+    "href": "posts/qbandcarries/qbandcarries.html#load-data",
+    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
+    "section": "2.3 Load Data",
+    "text": "2.3 Load Data\n\n\nCode\nload(\"player_stats_weekly.RData\")"
   },
   {
-    "objectID": "posts/wrandtargetswithyards/wrandcategories.html#research-question",
-    "href": "posts/wrandtargetswithyards/wrandcategories.html#research-question",
-    "title": "Do Last-Game Receptions Beat Yardage for Predicting Next Week?",
+    "objectID": "posts/qbandcarries/qbandcarries.html#research-question",
+    "href": "posts/qbandcarries/qbandcarries.html#research-question",
+    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
     "section": "4.1 Research Question",
-    "text": "4.1 Research Question\nAmong NFL WRs, which prior-game metric—receptions or receiving yards—more accurately and more well-calibratedly predicts hitting the same threshold in the following game (≥5 receptions or ≥50 yards), and which yields more useful start/sit decisions?"
+    "text": "4.1 Research Question\nIs there a correlation between a QB’s rushing carries and their overall fantasy finish? Can we safely say that QBs who prioritize rushing carries tend to score more fantasy points than other QBs."
   },
   {
-    "objectID": "posts/wrandtargetswithyards/wrandcategories.html#hypothesis",
-    "href": "posts/wrandtargetswithyards/wrandcategories.html#hypothesis",
-    "title": "Do Last-Game Receptions Beat Yardage for Predicting Next Week?",
-    "section": "4.2 Hypothesis",
-    "text": "4.2 Hypothesis\nI believe that receptions will outperform receiving yards: prior-game receptions will be the more accurate and better-calibrated predictor of next-game outcomes."
-  },
-  {
-    "objectID": "posts/wrandtargetswithyards/wrandcategories.html#justification",
-    "href": "posts/wrandtargetswithyards/wrandcategories.html#justification",
-    "title": "Do Last-Game Receptions Beat Yardage for Predicting Next Week?",
-    "section": "4.3 Justification",
-    "text": "4.3 Justification\nFrom a fundamental point of view, receptions can be more of a consistent measure when analyzing past games, and within PPR (Points Per Reception) leagues, this number is very valuable. Let’s look at an example. Player A has 3 receptions for 70 yards, versus, Player B with 6 receptions 40 yards. Which is a better statline? From a fantasy point line, they both have 10 (excluding other statistical measures, like touchdowns and rushing yards, et cetera). We can view that since receptions is a flat 1 point, versus 0.1 for yards, we can say that receptions, on a prediction accuracy model, can tell us that this could be more reliable."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "My Blog",
-    "section": "",
-    "text": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football\n\n\n\nmodernportfoliotheory\n\n\n\n\n\n\n\n\n\nNov 13, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nDo last season’s fantasy points beat a basic ML model for QBs\n\n\n\nmachine learning\n\n\n\n\n\n\n\n\n\nNov 6, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nDoes last week fantasy points mislead? Should we use fantasy points as the first predictor, or use it as the base?\n\n\n\nwelcome\n\nmyfantasyteam\n\ncontinuousfantasypoints\n\n\n\n\n\n\n\n\n\nOct 30, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nDo Last-Game Receptions Beat Yardage for Predicting Next Week?\n\n\n\nwelcome\n\nReceptionsBeatingYardage\n\n\n\n\n\n\n\n\n\nOct 23, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nFallacies and biases created from analyzing one specific pieces data in positions in fantasy football\n\n\n\nFallaciesAndBiases\n\n\n\n\n\n\n\n\n\nOct 9, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nCorrelation between the amount of carries for a QB compared to their fantasy point production\n\n\n\ncorrelationQBandFPs\n\n\n\n\n\n\n\n\n\nSep 30, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nVisulalization If Age Plays An Impact On Their Fantasy Point Production\n\n\n\nwelcome\n\nfantasyteam\n\nagevsfantasypoints\n\n\n\n\n\n\n\n\n\nSep 18, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nMy Fantasy Team\n\n\n\nwelcome\n\nfantasyteam\n\n\n\n\n\n\n\n\n\nSep 11, 2025\n\n\nJordan Wozniak\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\nwelcome\n\n\n\n\n\n\n\n\n\nSep 2, 2025\n\n\nJordan Wozniak\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "posts/fallaciesandbiases/fallaciesandbiases.html",
-    "href": "posts/fallaciesandbiases/fallaciesandbiases.html",
-    "title": "Fallacies and biases created from analyzing one specific pieces data in positions in fantasy football",
-    "section": "",
-    "text": "Code\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)\n\n\n\n\n\n\n\nCode\nlibrary(\"petersenlab\")\nlibrary(\"tidyverse\")"
-  },
-  {
-    "objectID": "posts/fallaciesandbiases/fallaciesandbiases.html#install-libraries",
-    "href": "posts/fallaciesandbiases/fallaciesandbiases.html#install-libraries",
-    "title": "Fallacies and biases created from analyzing one specific pieces data in positions in fantasy football",
-    "section": "",
-    "text": "Code\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)"
-  },
-  {
-    "objectID": "posts/fallaciesandbiases/fallaciesandbiases.html#load-libraries",
-    "href": "posts/fallaciesandbiases/fallaciesandbiases.html#load-libraries",
-    "title": "Fallacies and biases created from analyzing one specific pieces data in positions in fantasy football",
-    "section": "",
-    "text": "Code\nlibrary(\"petersenlab\")\nlibrary(\"tidyverse\")"
-  },
-  {
-    "objectID": "posts/fallaciesandbiases/fallaciesandbiases.html#research-question",
-    "href": "posts/fallaciesandbiases/fallaciesandbiases.html#research-question",
-    "title": "Fallacies and biases created from analyzing one specific pieces data in positions in fantasy football",
-    "section": "4.1 Research Question",
-    "text": "4.1 Research Question\nDoes the availability bias lead fantasy managers to overvalue quarterbacks with high carries, even when their overall fantasy production isn’t consistently higher?"
-  },
-  {
-    "objectID": "posts/fallaciesandbiases/fallaciesandbiases.html#hypothesis-and-prediction",
-    "href": "posts/fallaciesandbiases/fallaciesandbiases.html#hypothesis-and-prediction",
-    "title": "Fallacies and biases created from analyzing one specific pieces data in positions in fantasy football",
+    "objectID": "posts/qbandcarries/qbandcarries.html#hypothesis-and-prediction",
+    "href": "posts/qbandcarries/qbandcarries.html#hypothesis-and-prediction",
+    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
     "section": "4.2 Hypothesis and Prediction",
-    "text": "4.2 Hypothesis and Prediction\nMy hypothesis is that there might be a mis-correlation, and leads with many biases and heuristics. This includes availability bias, where the amount of rushes and rushing yards with the quarterback is too overweight. Base rate neglect, where we ignore all the other factors that make a quarterback earn points. Confirmation bias, where we only look for the supporting details that makes us believe that mobile quarterbacks are better than non-mobile quarterbacks. There are more that can explain my hypothesis, but these are the main ones. Leading into my prediction, I think that there is more that meets the eye, that carries aren’t the only thing that can have a quarterback score at a great rate, or that it isn’t a great factor to be by itself.\nA new question to analysis casual inference, to see the possibities of biases and fallacies, is: Do a quarterback’s carries causally influence their weekly fantasy points, or is the relationship explained by other factors such as passing yards and touchdowns?\nTo answer this question, yes, there is a lot more than just carries and rushing yards. The quarterback position involves a lot of attributes, and maybe only saying one thing, like carries for instance, is a weak statement to say that one quarterback is better than the other."
+    "text": "4.2 Hypothesis and Prediction\nMy hypothesis and prediction is that QBs with higher rushing carries will lead to more fantasy points produce by said player."
   },
   {
-    "objectID": "posts/fallaciesandbiases/fallaciesandbiases.html#justification",
-    "href": "posts/fallaciesandbiases/fallaciesandbiases.html#justification",
-    "title": "Fallacies and biases created from analyzing one specific pieces data in positions in fantasy football",
+    "objectID": "posts/qbandcarries/qbandcarries.html#justification",
+    "href": "posts/qbandcarries/qbandcarries.html#justification",
+    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
     "section": "4.3 Justification",
-    "text": "4.3 Justification\nFrom analyzing from year to year for all top quarterbacks. Sure, there are mobile quarterbacks that are sitting in the top spots. You have players like Josh Allen, Jalen Hurts, and Lamar Jackson that top the leaderboards. However, is it safe to say that their high amount of carries, but there are other factors that lead into their high production. You have players like Brock Purdy and Dak Prescott, or even Joe Burrow, they don’t have nearly as much carries, but they are efficient in the air, with passing yards, passing touchdowns, and low interceptions."
+    "text": "4.3 Justification\nThere is a reason why I picked carries over flat rushing yards. Through when I have played in multiple leagues over multiple leagues, I have seen that QBs that always use their legs, in turn more carries, tend to score more points than their opposing matchup. This isn’t true 100% of the time, but gives you a better chance to win that direct matchup."
   },
   {
-    "objectID": "posts/fallaciesandbiases/fallaciesandbiases.html#data",
-    "href": "posts/fallaciesandbiases/fallaciesandbiases.html#data",
-    "title": "Fallacies and biases created from analyzing one specific pieces data in positions in fantasy football",
-    "section": "5.1 Data",
-    "text": "5.1 Data\n\n\nCode\nload(file = \"../../data/player_stats_weekly.RData\")\n\n\n\n\nCode\nggplot2::ggplot(\n  data = player_stats_weekly %&gt;% filter(position == \"QB\"),\n  aes(\n    x = carries,\n    y = fantasyPoints)) +\n  geom_point() +\n  geom_smooth(\n    method = \"lm\",  # linear best-fit line\n    color = \"red\") +\n  geom_smooth(\n    method = \"gam\", # nonlinear best-fit line\n    color = \"blue\"\n  ) +\n  labs(\n    x = \"Carries\",\n    y = \"Fantasy Points\",\n    title = \"Biases with Carries and Fantasy Points\"\n  )\n\n\n`geom_smooth()` using formula = 'y ~ x'\n`geom_smooth()` using formula = 'y ~ s(x, bs = \"cs\")'\n\n\n\n\n\n\n\n\n\n\n\nCode\nggplot2::ggplot(\n  data = player_stats_weekly %&gt;%\n    filter(position == \"QB\"),\n  aes(\n    x = carries,\n    y = rushing_fumbles\n  )\n) +\n  geom_point() +\n  geom_smooth(\n    method = \"lm\",     # linear best-fit line\n    color = \"red\"\n  ) +\n  geom_smooth(\n    method = \"gam\",    # nonlinear best-fit line\n    color = \"blue\"\n  ) +\n  labs(\n    x = \"Carries\",\n    y = \"Fumbles\",\n    title = \"Correlation Between Carries and Fumbles for QBs\"\n  )\n\n\n`geom_smooth()` using formula = 'y ~ x'\n`geom_smooth()` using formula = 'y ~ s(x, bs = \"cs\")'\n\n\n\n\n\n\n\n\n\n\n\nCode\nggplot2::ggplot(\n  data = player_stats_weekly %&gt;%\n    filter(position == \"QB\"),\n  aes(\n    x = carries,\n    y = passing_yards\n  )\n) +\n  geom_point() +\n  geom_smooth(\n    method = \"lm\",     # linear best-fit line\n    color = \"red\"\n  ) +\n  geom_smooth(\n    method = \"gam\",    # nonlinear best-fit line\n    color = \"blue\"\n  ) +\n  labs(\n    x = \"Carries\",\n    y = \"Passing Yards\",\n    title = \"Correlation Between Carries and Passing Yards for QBs\"\n  )\n\n\n`geom_smooth()` using formula = 'y ~ x'\n`geom_smooth()` using formula = 'y ~ s(x, bs = \"cs\")'"
+    "objectID": "posts/qbandcarries/qbandcarries.html#correlation-analysis",
+    "href": "posts/qbandcarries/qbandcarries.html#correlation-analysis",
+    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
+    "section": "6.1 Correlation Analysis",
+    "text": "6.1 Correlation Analysis\n\n\nCode\nggplot2::ggplot(\n  data = player_stats_weekly %&gt;% filter(position == \"QB\"),\n  aes(\n    x = carries,\n    y = fantasyPoints)) +\n  geom_point() +\n  geom_smooth(\n    method = \"lm\",  # linear best-fit line\n    color = \"red\") +\n  geom_smooth(\n    method = \"gam\", # nonlinear best-fit line\n    color = \"blue\"\n  ) +\n  labs(\n    x = \"Carries\",\n    y = \"Fantasy Points\",\n    title = \"Correlation between Carries with QBs and Fantasy Points\"\n  )\n\n\n`geom_smooth()` using formula = 'y ~ x'\n`geom_smooth()` using formula = 'y ~ s(x, bs = \"cs\")'"
   },
   {
-    "objectID": "posts/fallaciesandbiases/fallaciesandbiases.html#discussion",
-    "href": "posts/fallaciesandbiases/fallaciesandbiases.html#discussion",
-    "title": "Fallacies and biases created from analyzing one specific pieces data in positions in fantasy football",
-    "section": "5.2 Discussion",
-    "text": "5.2 Discussion\nI took one of the correlational from my previous blog post, and added two more.\nWith the first study: The red line suggests a steady positive relationship — more carries generally mean more fantasy points. However, the blue line levels off and slightly declines after about 10–12 carries, showing diminishing returns: rushing helps up to a point, but excessive running doesn’t always lead to higher scores. This demonstrates availability bias and base rate neglect, fantasy players may overvalue rushing QBs because their big rushing games stand out, ignoring that consistent passing efficiency usually drives long-term fantasy success.\nWith the second study: The red line shows a weak upward trend, while the blue line closely follows it, suggesting that the relationship is fairly consistent and not strongly curved. The shaded areas represent confidence intervals, showing some uncertainty but confirming that higher carries generally come with a small increase in fumbles. In terms of bias, this connects to risk–reward perception — fantasy managers may overlook the higher fumble risk (loss of points) when overvaluing mobile QBs who run often.\nWith the third study: The red line suggests a slight positive relationship, but the blue nonlinear line reveals that QBs with moderate carries tend to have fewer passing yards on average, especially as carries increase beyond ~10 per game. This pattern implies that more mobile quarterbacks often pass less, supporting the idea of a trade-off between rushing and passing production. It can also reflect representativeness bias"
+    "objectID": "posts/qbandcarries/qbandcarries.html#regression-model",
+    "href": "posts/qbandcarries/qbandcarries.html#regression-model",
+    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
+    "section": "6.2 Regression Model",
+    "text": "6.2 Regression Model\n\n\nCode\nregressionOnePredictor &lt;- lm(\n  fantasyPoints ~ carries,\n  data = player_stats_weekly %&gt;% filter(position %in% c(\"QB\")),\n  na.action = \"na.exclude\"\n)\n\nsummary(regressionOnePredictor)\n\n\n\nCall:\nlm(formula = fantasyPoints ~ carries, data = player_stats_weekly %&gt;% \n    filter(position %in% c(\"QB\")), na.action = \"na.exclude\")\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-25.268  -6.603  -0.483   5.602  33.912 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  9.71756    0.09517  102.11   &lt;2e-16 ***\ncarries      1.32503    0.02580   51.36   &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 8.235 on 16101 degrees of freedom\nMultiple R-squared:  0.1408,    Adjusted R-squared:  0.1407 \nF-statistic:  2638 on 1 and 16101 DF,  p-value: &lt; 2.2e-16\n\n\nCode\nprint(effectsize::standardize_parameters(regressionOnePredictor, method = \"refit\"), digits = 4)\n\n\n# Standardization method: refit\n\nParameter   |  Std. Coef. |            95% CI\n---------------------------------------------\n(Intercept) | -5.5953e-18 | [-0.0143, 0.0143]\ncarries     |      0.3752 | [ 0.3609, 0.3895]\n\n\n\n\nCode\nregressionTwoPredictors &lt;- lm(\n  fantasyPoints ~ carries + passing_yards,\n  data = player_stats_weekly %&gt;% filter(position %in% c(\"QB\")),\n  na.action = \"na.exclude\"\n)\n\nsummary(regressionTwoPredictors)\n\n\n\nCall:\nlm(formula = fantasyPoints ~ carries + passing_yards, data = player_stats_weekly %&gt;% \n    filter(position %in% c(\"QB\")), na.action = \"na.exclude\")\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-17.5703  -3.1466  -0.1201   2.6699  24.9235 \n\nCoefficients:\n                Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)   -1.6698831  0.0852692  -19.58   &lt;2e-16 ***\ncarries        0.8841407  0.0152843   57.85   &lt;2e-16 ***\npassing_yards  0.0642118  0.0003644  176.19   &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 4.813 on 16100 degrees of freedom\nMultiple R-squared:  0.7066,    Adjusted R-squared:  0.7065 \nF-statistic: 1.938e+04 on 2 and 16100 DF,  p-value: &lt; 2.2e-16\n\n\nCode\nprint(effectsize::standardize_parameters(regressionTwoPredictors, method = \"refit\"), digits = 4)\n\n\n# Standardization method: refit\n\nParameter     |  Std. Coef. |            95% CI\n-----------------------------------------------\n(Intercept)   | -1.7684e-17 | [-0.0084, 0.0084]\ncarries       |      0.2503 | [ 0.2419, 0.2588]\npassing yards |      0.7625 | [ 0.7540, 0.7710]"
   },
   {
-    "objectID": "posts/fallaciesandbiases/fallaciesandbiases.html#strengths-and-limitations",
-    "href": "posts/fallaciesandbiases/fallaciesandbiases.html#strengths-and-limitations",
-    "title": "Fallacies and biases created from analyzing one specific pieces data in positions in fantasy football",
-    "section": "5.3 Strengths and Limitations",
-    "text": "5.3 Strengths and Limitations\nThe strength with this outweighs any limitations in my mind. The limitation can formulate from initially making a correlational analysis. The strength is that we can additionally view the biases that could be formulated and make inferences based off that."
+    "objectID": "posts/qbandcarries/qbandcarries.html#discussion",
+    "href": "posts/qbandcarries/qbandcarries.html#discussion",
+    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
+    "section": "6.3 Discussion",
+    "text": "6.3 Discussion\nFor this analysis, there were two different charts that were created. A plot diagram where it visually shows all QBs, their amount of carries, compared to their amount of fantasy points.\nFor the first graph, we can say that QBs with more carries tend to score more fantasy points.\nFor our regression model, we can say that a QB with 0 carries averages 9.7 fantasy points, while each carries will add about 1.3 fantasy points, on average. Since our p-value &lt; 0.005, it is most certain that it will happen.\nFor the second regression model, I added two predictors, the addition of passing yards. We could go on and on with touchdowns, interceptions, but passing yards still shows that carries provide an independent boost to a QBs fantasy output."
   },
   {
-    "objectID": "posts/fallaciesandbiases/fallaciesandbiases.html#conclusion",
-    "href": "posts/fallaciesandbiases/fallaciesandbiases.html#conclusion",
-    "title": "Fallacies and biases created from analyzing one specific pieces data in positions in fantasy football",
-    "section": "5.4 Conclusion",
-    "text": "5.4 Conclusion\nAcross the three analyses, quarterbacks with more carries tended to have slightly higher fantasy points, but also a small increase in fumbles and generally fewer passing yards. As viewed from fantasy football analyses, mobile quarters may tend to have the advantage, but there are some outliers that may mislead people, like Josh Allen and the Lamar Jackson, and creates a bias that says that mobile quarterbacks have to be better than other quarterbacks that don’t have the same rushing numbers. There are other pocket quarterbacks that majorly outscore, are considerably more consistent, than mobile quarterbacks. Passing yards, passing touchdowns, with their added completion percentage can suggest that they will consistently score more than a rushing-heavy quarterback, where if they don’t get rushing touchdowns, are led to a disadvantage. Overall, these findings highlight how availability bias and base rate neglect can lead fantasy players to overvalue mobile QBs based on memorable rushing plays rather than consistent data trends."
+    "objectID": "posts/qbandcarries/qbandcarries.html#strengths-and-limitations",
+    "href": "posts/qbandcarries/qbandcarries.html#strengths-and-limitations",
+    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
+    "section": "6.4 Strengths and Limitations",
+    "text": "6.4 Strengths and Limitations\nThe strength behind this study that there is a strong correlation by statistical evidence that it is safe to draft a QB with a high carries rate.\nThere could a few limitations to this study that could make or break it. There are some items out there can we can’t always predict. QBs can always have off games, there can be confounds that can arise, such as their passing rate for yards and touchdowns, the other defense’s ability to stop the run game, but that’s the name of the game."
   },
   {
-    "objectID": "posts/blogpost8/blogpost8.html",
-    "href": "posts/blogpost8/blogpost8.html",
-    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
-    "section": "",
-    "text": "Code\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)\n\n\n\n\n\n\n\nCode\nlibrary(\"petersenlab\")\nlibrary(\"future\")\nlibrary(\"missRanger\")\nlibrary(\"powerjoin\")\nlibrary(\"tidymodels\")\nlibrary(\"LongituRF\")\nlibrary(\"gpboost\")\nlibrary(\"effectsize\")\nlibrary(\"tidyverse\")\nlibrary(\"knitr\")\n\n\n\n\n\n\n\nCode\nload(file = \"../../data/player_stats_weekly.RData\")\nload(file = \"../../data/players_projections_weekly.RData\")\nload(file = \"../../data/nfl_playerIDs.RData\")\nload(file = \"../../data/projectionsWithActuals_weekly.RData\")\n\n\n\n\nCode\noptions(scipen = 999) # prevent scientific notation\n\n\n\n\n\nAI Disclosure: AI was not used.\nLink to AI Transcript: not applicable"
-  },
-  {
-    "objectID": "posts/blogpost8/blogpost8.html#install-libraries",
-    "href": "posts/blogpost8/blogpost8.html#install-libraries",
-    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
-    "section": "",
-    "text": "Code\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)"
-  },
-  {
-    "objectID": "posts/blogpost8/blogpost8.html#load-libraries",
-    "href": "posts/blogpost8/blogpost8.html#load-libraries",
-    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
-    "section": "",
-    "text": "Code\nlibrary(\"petersenlab\")\nlibrary(\"future\")\nlibrary(\"missRanger\")\nlibrary(\"powerjoin\")\nlibrary(\"tidymodels\")\nlibrary(\"LongituRF\")\nlibrary(\"gpboost\")\nlibrary(\"effectsize\")\nlibrary(\"tidyverse\")\nlibrary(\"knitr\")"
-  },
-  {
-    "objectID": "posts/blogpost8/blogpost8.html#load-data",
-    "href": "posts/blogpost8/blogpost8.html#load-data",
-    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
-    "section": "",
-    "text": "Code\nload(file = \"../../data/player_stats_weekly.RData\")\nload(file = \"../../data/players_projections_weekly.RData\")\nload(file = \"../../data/nfl_playerIDs.RData\")\nload(file = \"../../data/projectionsWithActuals_weekly.RData\")\n\n\n\n\nCode\noptions(scipen = 999) # prevent scientific notation"
-  },
-  {
-    "objectID": "posts/blogpost8/blogpost8.html#a.i.-disclosure",
-    "href": "posts/blogpost8/blogpost8.html#a.i.-disclosure",
-    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
-    "section": "",
-    "text": "AI Disclosure: AI was not used.\nLink to AI Transcript: not applicable"
-  },
-  {
-    "objectID": "posts/blogpost8/blogpost8.html#research-question",
-    "href": "posts/blogpost8/blogpost8.html#research-question",
-    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
-    "section": "3.1 Research Question",
-    "text": "3.1 Research Question\nWe, or myself, have two questions to pose and would like to seek answers to.\n\nHow strongly are players’ historical week-to-week fantasy point related to their historical volatility?\nDo lineups that lean more on safer, low-volatility players end up with better risk-adjusted performance than lineups that rely heavily on boom-bust players?"
-  },
-  {
-    "objectID": "posts/blogpost8/blogpost8.html#hypothesis-and-testable-prediction",
-    "href": "posts/blogpost8/blogpost8.html#hypothesis-and-testable-prediction",
-    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
-    "section": "3.2 Hypothesis and Testable Prediction",
-    "text": "3.2 Hypothesis and Testable Prediction\nLineups that rely more on safer, low-volatility players will sit closer to the efficient frontier and have better risk-adjusted performance than lineups that rely heavily on boom-bust players.\nWhen we compare portfolios, teams where most of the total weight is in low-volatility players will have lower overall risk and equal or higher mean fantasy points per week than teams where most of the weight is in high-volatility players."
-  },
-  {
-    "objectID": "posts/blogpost8/blogpost8.html#justification",
-    "href": "posts/blogpost8/blogpost8.html#justification",
-    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
-    "section": "3.3 Justification",
-    "text": "3.3 Justification\nModern Portfolio Theory says you can get good returns without taking unnecessary risk by diversifying and avoiding overly volatile assets. In fantasy football, boom-bust players create big swings that can sink a weekly matchup if several bust at once."
-  },
-  {
-    "objectID": "posts/blogpost8/blogpost8.html#code",
-    "href": "posts/blogpost8/blogpost8.html#code",
-    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
-    "section": "5.1 Code",
-    "text": "5.1 Code\n\n\nCode\nplayer_stats_weekly_recent &lt;- player_stats_weekly %&gt;%\n  dplyr::filter(season == max(season))\n\nplayer_stats_weekly_recent_summary &lt;- player_stats_weekly_recent %&gt;%\n  dplyr::group_by(player_id) %&gt;%\n  dplyr::summarise(\n    mean = mean(fantasyPoints, na.rm = TRUE),\n    sd   = sd(fantasyPoints, na.rm = TRUE),\n    var  = var(fantasyPoints, na.rm = TRUE),\n    .groups = \"drop\"\n  )\n\nplayer_stats_weekly_recent_summary &lt;- player_stats_weekly_recent_summary %&gt;%\n  dplyr::left_join(\n    nfl_playerIDs[, c(\"gsis_id\", \"name\", \"merge_name\", \"position\", \"team\")],\n    by = c(\"player_id\" = \"gsis_id\")\n  ) %&gt;%\n  dplyr::select(name, team, position, player_id, mean, sd, var) %&gt;%\n  dplyr::arrange(dplyr::desc(mean))\n\nsummary(player_stats_weekly_recent_summary$mean)\n\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's \n-0.1333  0.0000  0.0000  0.7648  0.0000 26.6106     268 \n\n\nCode\nsummary(player_stats_weekly_recent_summary$sd)\n\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's \n 0.0000  0.0000  0.0000  0.4914  0.0000 13.8621     400 \n\n\nCode\nggplot2::ggplot(player_stats_weekly_recent_summary,\n                ggplot2::aes(x = mean)) +\n  ggplot2::geom_histogram(bins = 30) +\n  ggplot2::labs(\n    x = \"Mean weekly fantasy points\",\n    y = \"Count\",\n    title = \"Distribution of players' mean weekly fantasy points\"\n  ) +\n  ggplot2::theme_classic()\n\n\nWarning: Removed 268 rows containing non-finite outside the scale range\n(`stat_bin()`).\n\n\n\n\n\n\n\n\n\nCode\nggplot2::ggplot(player_stats_weekly_recent_summary,\n                ggplot2::aes(x = sd)) +\n  ggplot2::geom_histogram(bins = 30) +\n  ggplot2::labs(\n    x = \"SD of weekly fantasy points (volatility)\",\n    y = \"Count\",\n    title = \"Distribution of players' week-to-week volatility\"\n  ) +\n  ggplot2::theme_classic()\n\n\nWarning: Removed 400 rows containing non-finite outside the scale range\n(`stat_bin()`).\n\n\n\n\n\n\n\n\n\nCode\ncor_test_mean_sd &lt;- cor.test(\n  ~ mean + sd,\n  data = player_stats_weekly_recent_summary\n)\n\ncor_test_mean_sd\n\n\n\n    Pearson's product-moment correlation\n\ndata:  mean and sd\nt = 237.93, df = 9007, p-value &lt; 0.00000000000000022\nalternative hypothesis: true correlation is not equal to 0\n95 percent confidence interval:\n 0.9259472 0.9316182\nsample estimates:\n      cor \n0.9288371 \n\n\nCode\nggplot2::ggplot(\n  data = player_stats_weekly_recent_summary,\n  ggplot2::aes(x = sd, y = mean)\n) +\n  ggplot2::geom_point(alpha = 0.5) +\n  ggplot2::coord_cartesian(xlim = c(0, NA), ylim = c(0, NA), expand = FALSE) +\n  ggplot2::labs(\n    x = \"SD of weekly fantasy points (volatility)\",\n    y = \"Mean weekly fantasy points\",\n    title = \"Mean vs SD of players' weekly fantasy points\"\n  ) +\n  ggplot2::theme_classic()\n\n\nWarning: Removed 400 rows containing missing values or values outside the scale range\n(`geom_point()`).\n\n\n\n\n\n\n\n\n\nCode\nsummary_noNA &lt;- player_stats_weekly_recent_summary %&gt;%\n  dplyr::filter(!is.na(mean), !is.na(var), var &gt; 0)\n\nsd_median &lt;- stats::median(summary_noNA$sd, na.rm = TRUE)\n\nlow_vol_players  &lt;- summary_noNA %&gt;% dplyr::filter(sd &lt;= sd_median)\nhigh_vol_players &lt;- summary_noNA %&gt;% dplyr::filter(sd &gt;  sd_median)\n\nconst_cor &lt;- function(rho, numAssets) {\n  C &lt;- matrix(rho, nrow = numAssets, ncol = numAssets)\n  diag(C) &lt;- 1\n  C\n}\n\nsd_low  &lt;- low_vol_players$sd\ncov_low &lt;- diag(sd_low) %*% const_cor(0, length(sd_low)) %*% diag(sd_low)\n\nefficientFrontier_low &lt;- NMOF::mvFrontier(\n  low_vol_players$mean,  # expected weekly points\n  cov_low,               # risk from historical SD\n  wmin = 0,\n  wmax = 1,\n  n    = 50\n)\n\nsd_high  &lt;- high_vol_players$sd\ncov_high &lt;- diag(sd_high) %*% const_cor(0, length(sd_high)) %*% diag(sd_high)\n\nefficientFrontier_high &lt;- NMOF::mvFrontier(\n  high_vol_players$mean,\n  cov_high,\n  wmin = 0,\n  wmax = 1,\n  n    = 50\n)\n\nplot(\n  efficientFrontier_low$volatility,\n  efficientFrontier_low$return,\n  type = \"o\",\n  pch  = 19,\n  cex  = 0.6,\n  xlab = \"Portfolio SD (weekly fantasy points)\",\n  ylab = \"Portfolio mean (weekly fantasy points)\",\n  main = \"Efficient frontiers: low-vol vs high-vol fantasy portfolios\",\n  xlim = range(c(efficientFrontier_low$volatility,\n                 efficientFrontier_high$volatility)),\n  ylim = range(c(efficientFrontier_low$return,\n                 efficientFrontier_high$return))\n)\n\nlines(\n  efficientFrontier_high$volatility,\n  efficientFrontier_high$return,\n  type = \"o\",\n  pch  = 17,\n  cex  = 0.6\n)\n\nlegend(\n  \"bottomright\",\n  legend = c(\"Low-volatility players\", \"High-volatility players\"),\n  pch    = c(19, 17),\n  bty    = \"n\"\n)"
-  },
-  {
-    "objectID": "posts/blogpost8/blogpost8.html#findings",
-    "href": "posts/blogpost8/blogpost8.html#findings",
-    "title": "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football",
-    "section": "5.2 Findings",
-    "text": "5.2 Findings\nGraph 1: Most players have very low average points\nGraph 2: Most players also have very low volatility, with a long right tail of players whose scores swing a lot from week to week.\nGraph 3: The scatterplot shows a strong upward trend: players who score more on average also tend to have higher week-to-week SD.\nGraph 4: At low levels of portfolio SD, on the left side, portfolios built from low-volatility players achieve similar or higher mean points than those built from only high-volatility players."
-  },
-  {
-    "objectID": "posts/blogpost7/blogpost7.html",
-    "href": "posts/blogpost7/blogpost7.html",
-    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
-    "section": "",
-    "text": "Code\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)\n\n\n\n\n\n\n\nCode\nlibrary(\"petersenlab\")\nlibrary(\"future\")\nlibrary(\"missRanger\")\nlibrary(\"powerjoin\")\nlibrary(\"tidymodels\")\nlibrary(\"LongituRF\")\nlibrary(\"gpboost\")\nlibrary(\"effectsize\")\nlibrary(\"tidyverse\")\nlibrary(\"knitr\")\n\n\n\n\n\n\n\nCode\nload(file = \"../../data/player_stats_weekly.RData\")\nload(file = \"../../data/players_projections_weekly.RData\")\nload(file = \"../../data/nfl_playerIDs.RData\")\nload(file = \"../../data/projectionsWithActuals_weekly.RData\")\n\n\n\n\nCode\noptions(scipen = 999) # prevent scientific notation\n\n\n\n\n\nAI Disclosure: AI was not used.\nLink to AI Transcript: not applicable"
-  },
-  {
-    "objectID": "posts/blogpost7/blogpost7.html#install-libraries",
-    "href": "posts/blogpost7/blogpost7.html#install-libraries",
-    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
-    "section": "",
-    "text": "Code\n#install.packages(\"remotes\")\n#remotes::install_github(\"DevPsyLab/petersenlab\")\n#remotes::install_github(\"FantasyFootballAnalytics/ffanalytics\")\n\n#update.packages(ask = FALSE)"
-  },
-  {
-    "objectID": "posts/blogpost7/blogpost7.html#load-libraries",
-    "href": "posts/blogpost7/blogpost7.html#load-libraries",
-    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
-    "section": "",
-    "text": "Code\nlibrary(\"petersenlab\")\nlibrary(\"future\")\nlibrary(\"missRanger\")\nlibrary(\"powerjoin\")\nlibrary(\"tidymodels\")\nlibrary(\"LongituRF\")\nlibrary(\"gpboost\")\nlibrary(\"effectsize\")\nlibrary(\"tidyverse\")\nlibrary(\"knitr\")"
-  },
-  {
-    "objectID": "posts/blogpost7/blogpost7.html#load-data",
-    "href": "posts/blogpost7/blogpost7.html#load-data",
-    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
-    "section": "",
-    "text": "Code\nload(file = \"../../data/player_stats_weekly.RData\")\nload(file = \"../../data/players_projections_weekly.RData\")\nload(file = \"../../data/nfl_playerIDs.RData\")\nload(file = \"../../data/projectionsWithActuals_weekly.RData\")\n\n\n\n\nCode\noptions(scipen = 999) # prevent scientific notation"
-  },
-  {
-    "objectID": "posts/blogpost7/blogpost7.html#a.i.-disclosure",
-    "href": "posts/blogpost7/blogpost7.html#a.i.-disclosure",
-    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
-    "section": "",
-    "text": "AI Disclosure: AI was not used.\nLink to AI Transcript: not applicable"
-  },
-  {
-    "objectID": "posts/blogpost7/blogpost7.html#research-questions",
-    "href": "posts/blogpost7/blogpost7.html#research-questions",
-    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
-    "section": "3.1 Research Questions",
-    "text": "3.1 Research Questions\nFor NFL quarterbacks, does a tuned elastic-net model using prior-season stats predict this season’s total fantasy points better than a simple baseline that just uses last season’s points?"
-  },
-  {
-    "objectID": "posts/blogpost7/blogpost7.html#hypothesis",
-    "href": "posts/blogpost7/blogpost7.html#hypothesis",
-    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
-    "section": "3.2 Hypothesis",
-    "text": "3.2 Hypothesis\nThe Machine Learning model will perform about the same as the simple last-season-only baseline for QBs, but a little better. In other words, using a more complex ML model will not dramatically improve accuracy (R², MAE, or RMSE) compared to just using last season’s fantasy points."
-  },
-  {
-    "objectID": "posts/blogpost7/blogpost7.html#justification",
-    "href": "posts/blogpost7/blogpost7.html#justification",
-    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
-    "section": "3.3 Justification",
-    "text": "3.3 Justification\nFrom an outside point of view, player statistics are very hard to predict. If we could, that would leverage us into making a bunch of money by just simply predicting the outcomes of statistics that each player has. Machine learning, as the name suggests, learns about all statistics and prints out accurate projections that a player will have. There are so many statistics that we would have to remember and calculate, and making a machine to do it for us makes it simpler.\nWhy would we say that machine learning isn’t perfect? Fantasy football is one of the most hardest objects to have perfect predictions. Machines only know the past, not the future. For example, the Golden State Warriors were a dominate team in 2015-16, where they won 73 of 82 games. Over the next few seasons, the Warriors would win less and less games, because teams figured them out. Would a machine learn that, not initially. That’s the same with football, a team would figure someone out the next week and dominate based off that. Football players are also prone to injuries, and they are very unpredictable.\nAll in all, machine learning will always get better, and will always have a better prediction that us, but don’t take it to heart."
-  },
-  {
-    "objectID": "posts/blogpost7/blogpost7.html#code",
-    "href": "posts/blogpost7/blogpost7.html#code",
-    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
-    "section": "5.1 Code",
-    "text": "5.1 Code\n\n\nCode\nseason_agg_QB &lt;- player_stats_weekly %&gt;%\n  dplyr::filter(position == \"QB\") %&gt;%\n  dplyr::group_by(player_id, season) %&gt;%\n  dplyr::summarise(fp_season = sum(fantasyPoints, na.rm = TRUE),\n                   fp_pg_season = mean(fantasyPoints, na.rm = TRUE), .groups = \"drop_last\") %&gt;%\n  dplyr::arrange(season, .by_group = TRUE) %&gt;%\n  dplyr::mutate(fp_prev_season = dplyr::lag(fp_season),\n                fp_pg_prev_season = dplyr::lag(fp_pg_season)) %&gt;%\n  dplyr::ungroup()\n\nplayer_stats_weekly_QB_example &lt;- player_stats_weekly %&gt;%\n  dplyr::filter(position == \"QB\") %&gt;%\n  dplyr::arrange(player_id, season, week) %&gt;%\n  dplyr::group_by(player_id, season) %&gt;%\n  dplyr::mutate(fantasyPoints_nextGame = dplyr::lead(fantasyPoints)) %&gt;%\n  dplyr::ungroup() %&gt;%\n  dplyr::left_join(season_agg_QB %&gt;% dplyr::select(player_id, season, fp_prev_season, fp_pg_prev_season),\n                   by = c(\"player_id\",\"season\")) %&gt;%\n  dplyr::select(player_id, season, week, fantasyPoints, fantasyPoints_nextGame,\n                fp_prev_season, fp_pg_prev_season,\n                ageCentered20, ageCentered20Quadratic, years_of_experience,\n                rushing_yards, rushing_tds, receiving_yards, receiving_tds,\n                receiving_air_yards, receiving_yards_after_catch, racr, targets, target_share) %&gt;%\n  stats::na.omit()\n\nmodel_predictions_QB &lt;- data.frame(actual = player_stats_weekly_QB_example$fantasyPoints_nextGame)\n\n\n\n\nCode\nqb_season &lt;- player_stats_weekly %&gt;%\n  filter(position == \"QB\") %&gt;%\n  group_by(player_id, season) %&gt;%\n  summarize(seasonPoints = sum(fantasyPoints, na.rm = TRUE), .groups = \"drop_last\") %&gt;%\n  arrange(player_id, season) %&gt;%\n  mutate(lastSeasonPoints = dplyr::lag(seasonPoints)) %&gt;%\n  ungroup() %&gt;%\n  drop_na(lastSeasonPoints)\n\nmodel_predictions &lt;- data.frame(\n  actual = qb_season$seasonPoints\n)\n\n\n\n\nCode\nlinearRegression_onePredictor &lt;- lm(\n  seasonPoints ~ lastSeasonPoints,\n  data = qb_season,\n  na.action = \"na.exclude\"\n)\n\nsummary(linearRegression_onePredictor)\n\n\n\nCall:\nlm(formula = seasonPoints ~ lastSeasonPoints, data = qb_season, \n    na.action = \"na.exclude\")\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-314.86  -43.21  -16.58   47.11  392.76 \n\nCoefficients:\n                 Estimate Std. Error t value            Pr(&gt;|t|)    \n(Intercept)      29.40480    2.96696   9.911 &lt;0.0000000000000002 ***\nlastSeasonPoints  0.72118    0.01788  40.325 &lt;0.0000000000000002 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 80.91 on 1604 degrees of freedom\nMultiple R-squared:  0.5034,    Adjusted R-squared:  0.5031 \nF-statistic:  1626 on 1 and 1604 DF,  p-value: &lt; 0.00000000000000022\n\n\nCode\nprint(effectsize::standardize_parameters(linearRegression_onePredictor), digits = 2)\n\n\n# Standardization method: refit\n\nParameter        | Std. Coef. |        95% CI\n---------------------------------------------\n(Intercept)      |   3.05e-17 | [-0.03, 0.03]\nlastSeasonPoints |       0.71 | [ 0.68, 0.74]\n\n\nCode\nmodel_predictions$linearRegression_onePredictor &lt;- predict(linearRegression_onePredictor)\n\n# Evaluate Accuracy of Predictions\npetersenlab::accuracyOverall(\n  predicted = model_predictions$linearRegression_onePredictor,\n  actual = model_predictions$actual,\n  dropUndefined = TRUE\n)\n\n\nWarning in log(actual + 1): NaNs produced\n\n\n\n  \n\n\n\n\n\nCode\nset.seed(52242)\n\nfolds_kFold &lt;- rsample::group_vfold_cv(\n  qb_season,\n  group = player_id,\n  v = 10\n)\n\n\n\n\nCode\nplayer_stats_weekly_example &lt;- player_stats_weekly %&gt;%\n  dplyr::filter(position == \"QB\") %&gt;%\n  dplyr::arrange(player_id, season, week) %&gt;%\n  dplyr::group_by(player_id, season) %&gt;%\n  dplyr::mutate(fantasyPoints_nextGame = dplyr::lead(fantasyPoints)) %&gt;%\n  dplyr::ungroup() %&gt;%\n  dplyr::select(\n    player_id, season, week,\n    fantasyPoints_nextGame,              # outcome\n    # predictors (only from your screenshots)\n    completions, attempts,\n    passing_yards, passing_tds, passing_interceptions,\n    sacks_suffered, sack_yards_lost, sack_fumbles, sack_fumbles_lost,\n    passing_air_yards, passing_yards_after_catch,\n    passing_first_downs, passing_epa, passing_cpoe, passing_2pt_conversions,\n    pacr,\n    carries, rushing_yards, rushing_tds,\n    ageCentered20, ageCentered20Quadratic\n  ) %&gt;%\n  tidyr::drop_na()\n\nset.seed(52242)\nfolds_kFold &lt;- rsample::group_vfold_cv(\n  player_stats_weekly_example,\n  group = player_id,\n  v = 10\n)\n\nrec &lt;- recipes::recipe(\n  fantasyPoints_nextGame ~\n    completions + attempts +\n    passing_yards + passing_tds + passing_interceptions +\n    sacks_suffered + sack_yards_lost + sack_fumbles + sack_fumbles_lost +\n    passing_air_yards + passing_yards_after_catch +\n    passing_first_downs + passing_epa + passing_cpoe + passing_2pt_conversions +\n    pacr +\n    carries + rushing_yards + rushing_tds +\n    ageCentered20 + ageCentered20Quadratic,\n  data = player_stats_weekly_example\n)\n\nenet_spec &lt;- parsnip::linear_reg(penalty = tune::tune(), mixture = tune::tune()) %&gt;%\n  parsnip::set_engine(\"glmnet\")\n\nenet_wf &lt;- workflows::workflow() %&gt;%\n  workflows::add_recipe(rec) %&gt;%\n  workflows::add_model(enet_spec)\n\ngrid_enet &lt;- dials::grid_regular(\n  dials::penalty(range = c(-4, -1)),\n  dials::mixture(range = c(0, 1)),\n  levels = c(20, 5)\n)\n\ncv_results &lt;- tune::tune_grid(\n  enet_wf,\n  resamples = folds_kFold,\n  grid = grid_enet,\n  metrics = yardstick::metric_set(rmse, mae, rsq),\n  control = tune::control_grid(save_pred = TRUE)\n)\n\nbest &lt;- tune::select_best(cv_results, metric = \"mae\")\nfinal_wf &lt;- tune::finalize_workflow(enet_wf, best)\n\nfinal_model &lt;- workflows::fit(final_wf, data = player_stats_weekly_example)\n\npreds &lt;- predict(final_model, new_data = player_stats_weekly_example)$.pred\npetersenlab::accuracyOverall(predicted = preds,\n                             actual = player_stats_weekly_example$fantasyPoints_nextGame,\n                             dropUndefined = TRUE)\n\n\nWarning in log(actual + 1): NaNs produced"
-  },
-  {
-    "objectID": "posts/blogpost7/blogpost7.html#findings",
-    "href": "posts/blogpost7/blogpost7.html#findings",
-    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
-    "section": "5.2 Findings",
-    "text": "5.2 Findings\nFirst Model ME: ~0.0000000000000285 MAE: 61.77 MdAE: 44.62 MSE: 6537.85 RMSE: 80.86 MPE: -12.89 MAPE: 2882.71 sMAPE: 41.99 MASE: 0.61 RMSLE: 1.62 R^2: 0.503 Adjusted R^2: 0.503 Predictive R^2: 0.502\nSecond Model ME: ~0.0000000000000105 MAE: 6.39 MdAE: 5.54 MSE: 63.43 RMSE: 7.96 MPE: -44.61 MAPE: 327.81 sMAPE: 25.52 MASE: 0.93 RMSLE: 0.78 R^2: 0.139 Adjusted R^2: 0.139 Predictive R^2: 0.139"
-  },
-  {
-    "objectID": "posts/blogpost7/blogpost7.html#visualization",
-    "href": "posts/blogpost7/blogpost7.html#visualization",
-    "title": "Do last season’s fantasy points beat a basic ML model for QBs",
-    "section": "5.3 Visualization",
-    "text": "5.3 Visualization\n\n\nCode\nqb_weekly &lt;- player_stats_weekly %&gt;%\n  dplyr::filter(position == \"QB\") %&gt;%\n  dplyr::arrange(player_id, season, week) %&gt;%\n  dplyr::group_by(player_id, season) %&gt;%\n  dplyr::mutate(fantasyPoints_nextGame = dplyr::lead(fantasyPoints)) %&gt;%\n  dplyr::ungroup()\n\nqb_last_ppg &lt;- qb_weekly %&gt;%\n  dplyr::group_by(player_id, season) %&gt;%\n  dplyr::summarise(lastSeasonPoints = mean(fantasyPoints, na.rm = TRUE), .groups = \"drop\") %&gt;%\n  dplyr::mutate(season = season + 1)\n\nqb_lastSeason &lt;- qb_weekly %&gt;%\n  dplyr::left_join(qb_last_ppg, by = c(\"player_id\", \"season\")) %&gt;%\n  dplyr::select(player_id, season, week, fantasyPoints, fantasyPoints_nextGame, lastSeasonPoints) %&gt;%\n  tidyr::drop_na(lastSeasonPoints, fantasyPoints_nextGame)\n\nggplot2::ggplot(qb_lastSeason, ggplot2::aes(x = lastSeasonPoints, y = fantasyPoints_nextGame)) +\n  ggplot2::geom_point(alpha = 0.25) +\n  ggplot2::geom_smooth(method = \"lm\", se = FALSE) +\n  ggplot2::labs(\n    title = \"QB: Last-Season Points vs Next-Game Fantasy Points\",\n    x = \"Last-season fantasy points (per game)\",\n    y = \"Next-game fantasy points\"\n  ) +\n  ggplot2::theme_minimal()\n\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\nIt shows a clear positive relationship: QBs who scored more last season (per game) tend to score more next game now (upward blue line)."
+    "objectID": "posts/qbandcarries/qbandcarries.html#conclusion",
+    "href": "posts/qbandcarries/qbandcarries.html#conclusion",
+    "title": "Correlation between the amount of carries for a QB compared to their fantasy point production",
+    "section": "6.5 Conclusion",
+    "text": "6.5 Conclusion\nThis study demonstrates that both passing yards and carries are important predictors of quarterback fantasy performance. While passing yards account for the majority of variance in scoring, carries remain a significant and meaningful independent contributor. Overall, carries matter, providing a consistent and measurable boost to fantasy outcomes."
   },
   {
     "objectID": "posts/welcome/index.html",
