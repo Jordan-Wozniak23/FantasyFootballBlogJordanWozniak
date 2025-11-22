@@ -17,16 +17,24 @@ format:
     self-contained-math: true
 ---
 
+
+
 # Preamble {#sec-preamble}
 
 ## Install Libraries
+
+
 ```{r}
 #install.packages("remotes")
 #remotes::install_github("DevPsyLab/petersenlab")
 #remotes::install_github("FantasyFootballAnalytics/ffanalytics")
 ```
 
+
+
 ## Load Libraries
+
+
 ```{r}
 #| message: false
 #| warning: false
@@ -44,7 +52,11 @@ library("tidyverse")
 library("knitr")
 ```
 
+
+
 ## Load Data
+
+
 
 ```{r}
 load(file = "../../data/player_stats_weekly.RData")
@@ -54,7 +66,11 @@ load(file = "../../data/nfl_actualStats_team.RData")
 load(file = "../../data/projectionsWithActuals_weekly.RData")
 ```
 
+
+
 ## Prepare Data
+
+
 ```{r}
 nfl_actualStats_team_seasonal_reg$fumbles_lost <- rowSums(
   nfl_actualStats_team_seasonal_reg[,c(
@@ -67,6 +83,8 @@ nfl_actualStats_team_seasonal_reg$fumbles_lost <- rowSums(
 ```{r}
 options(scipen = 999) # prevent scientific notation
 ```
+
+
 
 ## A.I. Disclosure
 
@@ -114,6 +132,8 @@ Factor analysis “aims to identify the optimal latent structure for a group of 
 # Method {#sec-method}
 
 ## Code
+
+
 
 ```{r}
 faVars <- c(
@@ -212,6 +232,8 @@ nfl_actualStats_team_seasonal_reg %>%
   head()
 ```
 
+
+
 ## Results and Findings
 
 Our main research question was, “Does a one-factor CFA ‘team offense quality’ factor, estimated from season-long offensive stats, predict which NFL teams score the most points per game in the following season?”
@@ -245,6 +267,9 @@ https://www.advancedfootballanalytics.com/2011/01
 https://isaactpetersen.github.io/Fantasy-Football-Analytics-Textbook/factor-analysis.html
 
 # Session Info {#sec-sessionInfo}
+
+
 ```{r}
 sessionInfo()
 ```
+
