@@ -1,9 +1,9 @@
 ---
-title: "Modern Portfolio Theory: Choosing Consistency Over Volatility in Fantasy Football"
+title: "Predicting Next Season’s Scoring: A One-Factor CFA Team Offense Quality Model for NFL Offenses"
 author: "Jordan Wozniak"
-date: "11/13/2025"
-categories: [modernportfoliotheory]
-image: "scales-justice-symbol-law-concept-600nw-2538419399.jpg"
+date: "11/20/2025"
+categories: [factoranalysis]
+image: "mahomy.jpg"
 format: html
 ---
 
@@ -68,15 +68,20 @@ Link to AI Transcript: not applicable
 
 # Abstract {#sec-abstract}
 
-**Background**:
+**Background**: NFL offenses are usually evaluated with separate box-score stats (yards, touchdowns, interceptions), but these observed variables are noisy and influenced by schedule and luck.
+Using factor analysis, we can combine them into a single latent “team offense quality” factor that may predict future scoring better than any single stat.
 
-**Method**:
+**Method**: Using team-season data from *nfl_actualStats_team_seasonal*, we fit a one-factor confirmatory factor analysis (CFA) to passing, rushing, efficiency, and turnover variables to estimate a latent “team offense quality” factor.
+We then used each team’s factor score to predict its points per game in the following season.
 
-**Results**:
+**Results**: The one-factor CFA showed good loadings across the offensive variables, indicating that they share substantial common variance.
+Teams with higher offense-quality factor scores tended to score more points per game in the next season, consistent with the hypothesis.
 
-**Discussion**:
+**Discussion**: These findings suggest that the latent “team offense quality” factor captures meaningful underlying offensive strength that carries over from one season to the next.
+Compared with looking at individual box-score stats, using a single latent factor provides a more parsimonious and potentially more predictive summary of team offense.
 
-**Conclusion:**
+**Conclusion:** Our results support the hypothesis that a one-factor CFA “team offense quality” measure, estimated from season-long offensive stats, can meaningfully predict which NFL teams will score more points per game in the following season.
+This illustrates how latent variable models from the textbook can be applied to real football data to improve prediction and understanding of team performance.
 
 # Background {#sec-background}
 
@@ -201,6 +206,10 @@ nfl_actualStats_team_seasonal_reg %>%
 
 ## Results and Findings
 
+Our main research question was, “Does a one-factor CFA ‘team offense quality’ factor, estimated from season-long offensive stats, predict which NFL teams score the most points per game in the following season?”
+We first fit a one-factor CFA to passing, rushing, and turnover variables and obtained offense-quality factor scores for each team-season.
+
+These results support the hypothesis that a single latent “team offense quality” factor has predictive validity for future offensive scoring.
 
 # Discussion {#sec-discussion}
 
