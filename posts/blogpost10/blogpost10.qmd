@@ -1,0 +1,207 @@
+---
+title: ""
+author: "Jordan Wozniak"
+date: "12/4/2025"
+categories: []
+image: ""
+format: html
+---
+
+# Preamble {#sec-preamble}
+
+## Install Libraries
+```{r}
+#install.packages("remotes")
+#remotes::install_github("DevPsyLab/petersenlab")
+#remotes::install_github("FantasyFootballAnalytics/ffanalytics")
+
+#update.packages(ask = FALSE)
+```
+
+## Load Libraries
+```{r}
+#| message: false
+#| warning: false
+
+library("petersenlab")
+library("xts")
+library("zoo")
+library("forecast")
+library("brms")
+library("rstan")
+library("plotly")
+library("tidyverse")
+library("SimDesign")
+library("fitdistrplus")
+library("sn")
+```
+
+## Load Data
+
+```{r}
+load(file = "../../data/player_stats_weekly.RData")
+load(file = "../../data/players_projections_weekly.RData")
+load(file = "../../data/player_stats_seasonal.RData")
+load(file = "../../data/players_projectedPoints_seasonal.RData")
+load(file = "../../data/nfl_playerIDs.RData")
+```
+
+```{r}
+options(scipen = 999) # prevent scientific notation
+```
+
+## A.I. Disclosure
+
+AI Disclosure: AI was not used.
+
+Link to AI Transcript: not applicable
+
+# Abstract {#sec-abstract}
+
+*Background*:
+
+*Method*:
+
+*Results*:
+
+*Discussion*:
+
+*Conclusion*:
+
+
+# Background {#sec-background}
+
+Fantasy football performance is inherently streaky: some players start hot and fade, while others heat up late in the season. Looking only at full-season averages can hide these trends and make it hard to know whether a player is truly improving or just having a few lucky games. Because we have weekly fantasy points across an entire season, we can treat them as a time series and compare early-season performance to late-season performance. This helps managers see which players may be “second-half risers” or “early-season mirages.”
+
+## Research Question
+
+Do NFL players tend to score more fantasy points in the second half of the season (Weeks 9–17) than in the first half (Weeks 1–8), and which players show the biggest improvements or declines over time?
+
+## Hypothesis
+
+I hypothesize that players who score higher than the league-wide average in the first half of the season (Weeks 1–8) will tend to do even better in the later weeks (Weeks 9–17). In other words, early high scorers will, on average, either maintain or increase their fantasy production over time, while players who are below average early in the season will be less likely to show big late-season improvements.
+
+## Justification
+
+This hypothesis follows from the idea of autocorrelation and time‐series patterns described in Chapter 25: past values of a series are often related to future values. If a player is consistently scoring above the league-wide average in Weeks 1–8, that suggests a strong role, good health, and favorable usage, which are likely to continue into later weeks. In time-series terms, we expect some “momentum,” so high early-season values should predict equal or higher values later in the season.
+
+# Method {#sec-method}
+
+I used the *player_stats_weekly dataset* from the textbook provided by *Petersen*, which contains weekly fantasy points for NFL players. To make this more simple to look at and a test to see data, I have taken a small portion of players. This portion include all QBs between the years of 2015 and 2024. We have the last ten seasons. The weeks have been divided up from Week 1 through 8, and then Week 9 through 17. 18 is not included because before the 2021 season, every team got a 17th game. Doing it this way would counteract injuries in the first few years of the findings versus the byes that teams have, and then wouldn't skew results from players later down the road having an extra game.
+
+# Results {#sec-results}
+
+## Code
+```{r}
+target_season <- max(player_stats_weekly$season, na.rm = TRUE)
+
+player_stats_weekly %>%
+  filter(
+    position == "QB",
+    season >= 2015,
+    season <= 2024,
+    !is.na(player_display_name)
+  ) %>%
+  distinct(player_display_name) %>%
+  arrange(player_display_name) %>%
+  print(n = Inf)
+
+
+early_late_by_player <- player_stats_weekly %>%
+  filter(
+    season == target_season,
+    !is.na(fantasyPoints),
+    week >= 1, week <= 17
+  ) %>%
+  group_by(player_id, player_display_name, position, team) %>%
+  summarise(
+    mean_1_8  = mean(fantasyPoints[week %in% 1:8],  na.rm = TRUE),
+    games_1_8 = sum(week %in% 1:8  & !is.na(fantasyPoints)),
+    mean_9_17  = mean(fantasyPoints[week %in% 9:17], na.rm = TRUE),
+    games_9_17 = sum(week %in% 9:17 & !is.na(fantasyPoints)),
+    .groups = "drop"
+  ) %>%
+
+  filter(games_1_8 > 0, games_9_17 > 0) %>%
+  mutate(
+    diff = mean_9_17 - mean_1_8,
+    direction = dplyr::case_when(
+      diff > 0  ~ "improved",
+      diff < 0  ~ "declined",
+      TRUE      ~ "no_change"
+    )
+  )
+
+early_late_by_player %>%
+  filter(position == "QB") %>%
+  arrange(desc(diff))
+
+early_late_by_player %>%
+  filter(position == "QB") %>%
+  arrange(diff)
+
+
+
+early_late_by_player %>%
+  arrange(desc(diff)) %>%
+  head(195)
+
+early_late_by_player %>%
+  arrange(diff) %>%
+  head(195)
+```
+
+## Findings
+
+
+
+
+## Visualization
+```{r}
+early_late_qb <- player_stats_weekly %>%
+  filter(
+    position == "QB",
+    season >= 2015, season <= 2024,
+    !is.na(fantasyPoints),
+    week >= 1, week <= 17
+  ) %>%
+  group_by(season, player_id, player_display_name, team) %>%
+  summarise(
+    mean_1_8   = mean(fantasyPoints[week %in% 1:8],  na.rm = TRUE),
+    games_1_8  = sum(week %in% 1:8  & !is.na(fantasyPoints)),
+    mean_9_17  = mean(fantasyPoints[week %in% 9:17], na.rm = TRUE),
+    games_9_17 = sum(week %in% 9:17 & !is.na(fantasyPoints)),
+    .groups = "drop"
+  ) %>%
+  filter(games_1_8 > 0, games_9_17 > 0) %>%
+  mutate(diff = mean_9_17 - mean_1_8)
+
+ggplot(
+  data = early_late_qb,
+  mapping = aes(x = mean_1_8, y = mean_9_17)
+) +
+  geom_point(alpha = 0.5) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+  labs(
+    x = "Average Fantasy Points (Weeks 1–8)",
+    y = "Average Fantasy Points (Weeks 9–17)",
+    title = "QB Fantasy Performance: Early vs Late Season",
+    subtitle = "Seasons 2015–2024; points above the line improved later in the year"
+  ) +
+  theme_classic()
+```
+
+The dots form a strong upward diagonal, so QBs who scored a lot early generally also scored a lot later, early performance does predict late performance.
+
+# Strengths and Limitations {#sec-strengthsAndLimitations}
+
+*Strengths*: 
+
+*Limitations*:
+
+
+# Conclusion {#sec-conclusion}
+
+# Citation {#sec-citation}
+
+# Session Info {#sec-sessionInfo}
