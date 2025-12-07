@@ -9,7 +9,7 @@
 <meta name="author" content="Jordan Wozniak">
 <meta name="dcterms.date" content="2025-12-04">
 
-<title>blogpost10 – My Blog</title>
+<title>“Hot Starts, Cool Finishes? Fantasy QB Stability from Weeks 1–17” – My Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -154,8 +154,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      
-                      </div>
+      <h1 class="title">“Hot Starts, Cool Finishes? Fantasy QB Stability from Weeks 1–17”</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">hotandcold</div>
+              </div>
+                  </div>
   </div>
     
   
@@ -283,11 +286,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="sec-abstract" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Abstract</h1>
-<p><em>Background</em>:</p>
-<p><em>Method</em>:</p>
-<p><em>Results</em>:</p>
-<p><em>Discussion</em>:</p>
-<p><em>Conclusion</em>:</p>
+<p><em>Background</em>: Fantasy football performance can be streaky, and managers often wonder whether early-season production predicts how players will perform later in the year.</p>
+<p><em>Method</em>: Using the <em>player_stats_weekly</em> dataset from Petersen, I selected all QBs from the 2015–2024 seasons, split their games into Weeks 1–8 and Weeks 9–17, and calculated each player’s average fantasy points and games played in each segment. I then summarized the overall averages to compare early vs.&nbsp;late-season performance.</p>
+<p><em>Results</em>: Across 502 player-seasons, players averaged about 5.1 games and 12.7 fantasy points in Weeks 1–8, and about 5.6 games and 12.9 fantasy points in Weeks 9–17. On average, this indicates only a very small increase in both opportunity (games played) and fantasy production later in the season.</p>
+<p><em>Discussion</em>: : These results suggest that, for most QBs, fantasy performance is relatively stable across the season rather than dramatically improving or collapsing in the second half. This stability means that early “breakouts” and “slumps” may often reflect short-term variance rather than true changes in player ability or role.</p>
+<p><em>Conclusion</em>: Overall, early-season performance for QBs from 2015–2024 was a reasonable but not explosive indicator of late-season performance, with only slight average increases in games and points. Fantasy managers should be cautious about overreacting to small early-season sample sizes and instead consider a player’s full-season context when making decisions.</p>
 </section>
 <section id="sec-background" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Background</h1>
@@ -610,6 +613,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="findings" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="findings"><span class="header-section-number">5.2</span> Findings</h2>
+<p>Across 502 player-seasons, players averaged about 5.1 games in Weeks 1–8 and 5.6 games in Weeks 9–17, and their average fantasy points were 12.73 early vs 12.89 late.</p>
 </section>
 <section id="visualization" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="visualization"><span class="header-section-number">5.3</span> Visualization</h2>
@@ -661,17 +665,101 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="sec-strengthsAndLimitations" class="level1" data-number="6">
 <h1 data-number="6"><span class="header-section-number">6</span> Strengths and Limitations</h1>
-<p><em>Strengths</em>:</p>
-<p><em>Limitations</em>:</p>
+<p><em>Strengths</em>: Summarizing players with means and differences, plus a scatterplot of early vs.&nbsp;late averages, makes it straightforward to see who improved, who declined, and how stable performance is across the season. This also creates a definitive idea of analyzing the consistent players in the league, if they score the average line, we could say they could continue to do that, relaibility over potential “booming.”</p>
+<p><em>Limitations</em>: However, this study also has several limitations. First, I only looked at fantasy points and did not control for important factors like injuries, changes in team role, strength of schedule, or bye weeks, which can all affect late-season scoring. Second, the cutoff at Week 8 is somewhat arbitrary; a different cutoff (for example, quarters of the season) might show a slightly different pattern.</p>
 </section>
 <section id="sec-conclusion" class="level1" data-number="7">
 <h1 data-number="7"><span class="header-section-number">7</span> Conclusion</h1>
+<p>On average, players in this sample played a similar number of games in the first half (about 5.1 games) and second half (about 5.6 games) of the season, and their mean fantasy points were also very close (about 12.7 points in Weeks 1–8 vs.&nbsp;12.9 points in Weeks 9–17). This pattern suggests that, for most players, fantasy performance is fairly stable across the year, with only small average changes between early and late weeks. In practical terms, early-season stars do not always explode even more later, and early slow starts do not always lead to huge second-half breakouts; fantasy managers should be cautious about overreacting to short streaks and instead consider a player’s overall role and context</p>
 </section>
 <section id="sec-citation" class="level1" data-number="8">
 <h1 data-number="8"><span class="header-section-number">8</span> Citation</h1>
+<p>https://fantasysixpack.net/2025-fantasy-football-touchdown-regression-candidates-chris-olave-james-cook-and-more/?utm_source=chatgpt.com</p>
 </section>
 <section id="sec-sessionInfo" class="level1" data-number="9">
 <h1 data-number="9"><span class="header-section-number">9</span> Session Info</h1>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>R version 4.5.2 (2025-10-31)
+Platform: x86_64-pc-linux-gnu
+Running under: Ubuntu 24.04.3 LTS
+
+Matrix products: default
+BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
+LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0
+
+locale:
+ [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
+ [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
+ [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
+[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
+
+time zone: UTC
+tzcode source: system (glibc)
+
+attached base packages:
+[1] stats4    stats     graphics  grDevices utils     datasets  methods  
+[8] base     
+
+other attached packages:
+ [1] sn_2.1.1            fitdistrplus_1.2-4  survival_3.8-3     
+ [4] MASS_7.3-65         SimDesign_2.21      lubridate_1.9.4    
+ [7] forcats_1.0.1       stringr_1.6.0       dplyr_1.1.4        
+[10] purrr_1.2.0         readr_2.1.6         tidyr_1.3.1        
+[13] tibble_3.3.0        tidyverse_2.0.0     plotly_4.11.0      
+[16] ggplot2_4.0.1       rstan_2.32.7        StanHeaders_2.32.10
+[19] brms_2.23.0         Rcpp_1.1.0          forecast_8.24.0    
+[22] xts_0.14.1          zoo_1.8-14          petersenlab_1.2.2  
+
+loaded via a namespace (and not attached):
+  [1] RColorBrewer_1.1-3    audio_0.1-11          tensorA_0.36.2.1     
+  [4] rstudioapi_0.17.1     jsonlite_2.0.0        magrittr_2.0.4       
+  [7] TH.data_1.1-5         estimability_1.5.1    farver_2.1.2         
+ [10] nloptr_2.2.1          rmarkdown_2.30        vctrs_0.6.5          
+ [13] minqa_1.2.8           base64enc_0.1-3       htmltools_0.5.9      
+ [16] distributional_0.5.0  curl_7.0.0            Formula_1.2-5        
+ [19] TTR_0.24.4            parallelly_1.45.1     htmlwidgets_1.6.4    
+ [22] testthat_3.3.1        plyr_1.8.9            sandwich_3.1-1       
+ [25] emmeans_2.0.0         lifecycle_1.0.4       pkgconfig_2.0.3      
+ [28] Matrix_1.7-4          R6_2.6.1              fastmap_1.2.0        
+ [31] future_1.68.0         rbibutils_2.4         numDeriv_2016.8-1.1  
+ [34] digest_0.6.39         colorspace_2.1-2      Hmisc_5.2-4          
+ [37] labeling_0.4.3        progressr_0.18.0      timechange_0.3.0     
+ [40] httr_1.4.7            abind_1.4-8           compiler_4.5.2       
+ [43] withr_3.0.2           htmlTable_2.4.3       S7_0.2.1             
+ [46] backports_1.5.0       tseries_0.10-58       inline_0.3.21        
+ [49] DBI_1.2.3             psych_2.5.6           QuickJSR_1.8.1       
+ [52] pkgbuild_1.4.8        R.utils_2.13.0        sessioninfo_1.2.3    
+ [55] loo_2.8.0             tools_4.5.2           pbivnorm_0.6.0       
+ [58] foreign_0.8-90        lmtest_0.9-40         quantmod_0.4.28      
+ [61] future.apply_1.20.0   clipr_0.8.0           nnet_7.3-20          
+ [64] R.oo_1.27.1           glue_1.8.0            quadprog_1.5-8       
+ [67] nlme_3.1-168          grid_4.5.2            checkmate_2.3.3      
+ [70] cluster_2.1.8.1       reshape2_1.4.5        generics_0.1.4       
+ [73] gtable_0.3.6          tzdb_0.5.0            R.methodsS3_1.8.2    
+ [76] data.table_1.17.8     hms_1.1.4             utf8_1.2.6           
+ [79] pillar_1.11.1         posterior_1.6.1       mitools_2.4          
+ [82] splines_4.5.2         lattice_0.22-7        tidyselect_1.2.1     
+ [85] pbapply_1.7-4         mix_1.0-13            knitr_1.50           
+ [88] reformulas_0.4.2      gridExtra_2.3         V8_8.0.1             
+ [91] urca_1.3-4            xfun_0.54             bridgesampling_1.2-1 
+ [94] brio_1.1.5            timeDate_4051.111     matrixStats_1.5.0    
+ [97] stringi_1.8.7         lazyeval_0.2.2        yaml_2.3.11          
+[100] boot_1.3-32           evaluate_1.0.5        codetools_0.2-20     
+[103] beepr_2.0             cli_3.6.5             RcppParallel_5.1.11-1
+[106] rpart_4.1.24          xtable_1.8-4          Rdpack_2.6.4         
+[109] lavaan_0.6-20         globals_0.18.0        coda_0.19-4.1        
+[112] parallel_4.5.2        rstantools_2.5.0      fracdiff_1.5-3       
+[115] bayesplot_1.14.0      Brobdingnag_1.2-9     listenv_0.10.0       
+[118] lme4_1.1-38           viridisLite_0.4.2     mvtnorm_1.3-3        
+[121] scales_1.4.0          rlang_1.1.6           multcomp_1.4-29      
+[124] mnormt_2.1.1         </code></pre>
+</div>
+</div>
 
 
 </section>
