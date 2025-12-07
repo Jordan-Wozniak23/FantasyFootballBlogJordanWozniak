@@ -1,9 +1,9 @@
 ---
-title: ""
+title: "“Hot Starts, Cool Finishes? Fantasy QB Stability from Weeks 1–17”"
 author: "Jordan Wozniak"
 date: "12/4/2025"
-categories: []
-image: ""
+categories: [hotandcold]
+image: "360_F_587513090_cyd8ZMk97SKl1EDGw8UzpnzhPQNYIyT9"
 format: html
 ---
 
@@ -58,15 +58,15 @@ Link to AI Transcript: not applicable
 
 # Abstract {#sec-abstract}
 
-*Background*:
+*Background*: Fantasy football performance can be streaky, and managers often wonder whether early-season production predicts how players will perform later in the year.
 
-*Method*:
+*Method*: Using the *player_stats_weekly* dataset from Petersen, I selected all QBs from the 2015–2024 seasons, split their games into Weeks 1–8 and Weeks 9–17, and calculated each player’s average fantasy points and games played in each segment. I then summarized the overall averages to compare early vs. late-season performance.
 
-*Results*:
+*Results*: Across 502 player-seasons, players averaged about 5.1 games and 12.7 fantasy points in Weeks 1–8, and about 5.6 games and 12.9 fantasy points in Weeks 9–17. On average, this indicates only a very small increase in both opportunity (games played) and fantasy production later in the season.
 
-*Discussion*:
+*Discussion*: : These results suggest that, for most QBs, fantasy performance is relatively stable across the season rather than dramatically improving or collapsing in the second half. This stability means that early “breakouts” and “slumps” may often reflect short-term variance rather than true changes in player ability or role.
 
-*Conclusion*:
+*Conclusion*: Overall, early-season performance for QBs from 2015–2024 was a reasonable but not explosive indicator of late-season performance, with only slight average increases in games and points. Fantasy managers should be cautious about overreacting to small early-season sample sizes and instead consider a player’s full-season context when making decisions.
 
 
 # Background {#sec-background}
@@ -153,8 +153,17 @@ early_late_by_player %>%
 
 ## Findings
 
-
-
+```{r}
+early_late_qb %>%  # or early_late
+  summarise(
+    n_players      = n(),
+    avg_games_1_8  = mean(games_1_8,  na.rm = TRUE),
+    avg_games_9_17 = mean(games_9_17, na.rm = TRUE),
+    avg_mean_1_8   = mean(mean_1_8,   na.rm = TRUE),
+    avg_mean_9_17  = mean(mean_9_17,  na.rm = TRUE)
+  )
+```
+Those numbers say: across 502 player-seasons, players averaged about 5.1 games in Weeks 1–8 and 5.6 games in Weeks 9–17, and their average fantasy points were 12.73 early vs 12.89 late—so, on average, players scored only a tiny bit more in the second half of the year.
 
 ## Visualization
 ```{r}
@@ -195,13 +204,20 @@ The dots form a strong upward diagonal, so QBs who scored a lot early generally 
 
 # Strengths and Limitations {#sec-strengthsAndLimitations}
 
-*Strengths*: 
+*Strengths*: Summarizing players with means and differences, plus a scatterplot of early vs. late averages, makes it straightforward to see who improved, who declined, and how stable performance is across the season. This also creates a definitive idea of analyzing the consistent players in the league, if they score the average line, we could say they could continue to do that, relaibility over potential "booming."
 
-*Limitations*:
+*Limitations*: However, this study also has several limitations. First, I only looked at fantasy points and did not control for important factors like injuries, changes in team role, strength of schedule, or bye weeks, which can all affect late-season scoring. Second, the cutoff at Week 8 is somewhat arbitrary; a different cutoff (for example, quarters of the season) might show a slightly different pattern.
 
 
 # Conclusion {#sec-conclusion}
 
+On average, players in this sample played a similar number of games in the first half (about 5.1 games) and second half (about 5.6 games) of the season, and their mean fantasy points were also very close (about 12.7 points in Weeks 1–8 vs. 12.9 points in Weeks 9–17). This pattern suggests that, for most players, fantasy performance is fairly stable across the year, with only small average changes between early and late weeks. In practical terms, early-season stars do not always explode even more later, and early slow starts do not always lead to huge second-half breakouts; fantasy managers should be cautious about overreacting to short streaks and instead consider a player’s overall role and context
+
 # Citation {#sec-citation}
 
+https://fantasysixpack.net/2025-fantasy-football-touchdown-regression-candidates-chris-olave-james-cook-and-more/?utm_source=chatgpt.com
+
 # Session Info {#sec-sessionInfo}
+```{r}
+sessionInfo()
+```
