@@ -153,17 +153,7 @@ early_late_by_player %>%
 
 ## Findings
 
-```{r}
-early_late_qb %>%  # or early_late
-  summarise(
-    n_players      = n(),
-    avg_games_1_8  = mean(games_1_8,  na.rm = TRUE),
-    avg_games_9_17 = mean(games_9_17, na.rm = TRUE),
-    avg_mean_1_8   = mean(mean_1_8,   na.rm = TRUE),
-    avg_mean_9_17  = mean(mean_9_17,  na.rm = TRUE)
-  )
-```
-Those numbers say: across 502 player-seasons, players averaged about 5.1 games in Weeks 1–8 and 5.6 games in Weeks 9–17, and their average fantasy points were 12.73 early vs 12.89 late—so, on average, players scored only a tiny bit more in the second half of the year.
+Across 502 player-seasons, players averaged about 5.1 games in Weeks 1–8 and 5.6 games in Weeks 9–17, and their average fantasy points were 12.73 early vs 12.89 late.
 
 ## Visualization
 ```{r}
