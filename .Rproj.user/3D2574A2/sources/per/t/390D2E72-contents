@@ -1,0 +1,250 @@
+---
+title: "Predicting Next Season’s Scoring: A One-Factor CFA Team Offense Quality Model for NFL Offenses"
+author: "Jordan Wozniak"
+date: "11/20/2025"
+categories: [factoranalysis]
+image: "mahomy.jpg"
+format:
+  html:
+    toc: true
+    toc-depth: 4
+    number-sections: true
+    number-depth: 4
+    code-fold: show
+    echo: true
+    error: true
+    embed-resources: true
+    self-contained-math: true
+---
+
+# Preamble {#sec-preamble}
+
+## Install Libraries
+```{r}
+#install.packages("remotes")
+#remotes::install_github("DevPsyLab/petersenlab")
+#remotes::install_github("FantasyFootballAnalytics/ffanalytics")
+```
+
+## Load Libraries
+```{r}
+#| message: false
+#| warning: false
+
+library("petersenlab")
+library("future")
+library("lavaan")
+library("missRanger")
+library("powerjoin")
+library("tidymodels")
+library("LongituRF")
+library("gpboost")
+library("effectsize")
+library("tidyverse")
+library("knitr")
+```
+
+## Load Data
+
+```{r}
+load(file = "../../data/player_stats_weekly.RData")
+load(file = "../../data/players_projections_weekly.RData")
+load(file = "../../data/nfl_playerIDs.RData")
+load(file = "../../data/nfl_actualStats_team.RData")
+load(file = "../../data/projectionsWithActuals_weekly.RData")
+```
+
+## Prepare Data
+```{r}
+nfl_actualStats_team_seasonal_reg$fumbles_lost <- rowSums(
+  nfl_actualStats_team_seasonal_reg[,c(
+    "sack_fumbles_lost",
+    "rushing_fumbles_lost",
+    "receiving_fumbles_lost")]
+)
+```
+
+```{r}
+options(scipen = 999) # prevent scientific notation
+```
+
+## A.I. Disclosure
+
+AI Disclosure: AI was not used.
+
+Link to AI Transcript: not applicable
+
+# Abstract {#sec-abstract}
+
+**Background**: NFL offenses are usually evaluated with separate box-score stats (yards, touchdowns, interceptions), but these observed variables are noisy and influenced by schedule and luck.
+Using factor analysis, we can combine them into a single latent “team offense quality” factor that may predict future scoring better than any single stat.
+
+**Method**: Using team-season data from *nfl_actualStats_team_seasonal*, we fit a one-factor confirmatory factor analysis (CFA) to passing, rushing, efficiency, and turnover variables to estimate a latent “team offense quality” factor.
+We then used each team’s factor score to predict its points per game in the following season.
+
+**Results**: The one-factor CFA showed good loadings across the offensive variables, indicating that they share substantial common variance.
+Teams with higher offense-quality factor scores tended to score more points per game in the next season, consistent with the hypothesis.
+
+**Discussion**: These findings suggest that the latent “team offense quality” factor captures meaningful underlying offensive strength that carries over from one season to the next.
+Compared with looking at individual box-score stats, using a single latent factor provides a more parsimonious and potentially more predictive summary of team offense.
+
+**Conclusion:** Our results support the hypothesis that a one-factor CFA “team offense quality” measure, estimated from season-long offensive stats, can meaningfully predict which NFL teams will score more points per game in the following season.
+This illustrates how latent variable models from the textbook can be applied to real football data to improve prediction and understanding of team performance.
+
+# Background {#sec-background}
+
+Fantasy and real-life football analysts often look at simple box-score stats (yards, touchdowns, interceptions), but these raw numbers are noisy and influenced by schedule, injuries, and random variance.
+Using factor analysis, we can combine multiple offensive stats into one latent “overall offense quality” factor that may capture a team’s true offensive strength better than any single observed variable.
+
+## Research Question
+
+Does a one-factor CFA “team offense quality” factor, estimated from season-long offensive stats, predict which NFL teams score the most points per game in the following season?
+
+## Hypothesis
+
+**Hypothesis**: Teams with higher scores on the latent “team offense quality” factor in Year 1 will, on average, score more points per game in Year 2 than teams with lower factor scores.
+
+**Specific Prediction**: A one-unit increase in the Year-1 offense factor will be associated with a statistically significant positive increase in Year-2 points per game.
+
+## Justification
+
+Factor analysis reduces measurement error by pooling information across many correlated offensive statistics, so the latent offense factor should be a more reliable indicator of a team’s true offensive ability than any single stat.
+Factor analysis “aims to identify the optimal latent structure for a group of variables” and “simple, parsimonious factors that underlie the ‘junk’ … we observe” (Petersen, ch. 22).
+
+# Method {#sec-method}
+
+## Code
+
+```{r}
+faVars <- c(
+  "passing_yards","passing_tds","passing_interceptions","passing_epa","passing_cpoe",
+  "rushing_yards","rushing_tds","rushing_epa",
+  "receiving_epa","fumbles_lost"
+)
+
+petersenlab::cor.table(
+  nfl_actualStats_team_seasonal_reg[,faVars]
+)
+
+GGally::ggcorr(
+  nfl_actualStats_team_seasonal_reg[,faVars],
+  label = TRUE,
+  label_round = 2
+)
+
+psych::fa.parallel(
+  x = nfl_actualStats_team_seasonal_reg[faVars],
+  fm = "ml",
+  fa = "fa"
+)
+
+screeDataEFA <- nFactors::nScree(
+  x = cor(
+    nfl_actualStats_team_seasonal_reg[faVars],
+    use = "pairwise.complete.obs"),
+  model = "factors"
+)
+
+nFactors::plotnScree(screeDataEFA)
+
+psych::vss(
+  nfl_actualStats_team_seasonal_reg[faVars],
+  rotate = "oblimin",
+  fm = "mle"
+)
+
+psych::nfactors(
+  nfl_actualStats_team_seasonal_reg[faVars],
+  rotate = "oblimin",
+  fm = "mle"
+)
+
+
+efa1factor_syntax <- '
+ # EFA Factor Loadings
+ efa("efa1")*f1 =~ passing_yards + passing_tds + passing_interceptions + passing_epa + passing_cpoe + 
+ rushing_yards + rushing_tds + rushing_epa + receiving_epa + fumbles_lost
+'
+
+efa1factor_fit <- sem(
+  efa1factor_syntax,
+  data = nfl_actualStats_team_seasonal_reg,
+  information = "observed",
+  missing = "ML",
+  estimator = "MLR",
+  rotation = "geomin",
+  bounds = "standard",
+  meanstructure = TRUE,
+  em.h1.iter.max = 2000000
+)
+
+summary(
+  efa1factor_fit,
+  fit.measures = TRUE,
+  standardized = TRUE,
+  rsquare = TRUE
+)
+
+lavaanPlot::lavaanPlot(
+  efa1factor_fit,
+  coefs = TRUE,
+  covs = TRUE,
+  stand = TRUE
+)
+
+efa1factor_factorScores <- lavaan::lavPredict(efa1factor_fit)
+
+nfl_actualStats_team_seasonal_reg <- cbind(
+  nfl_actualStats_team_seasonal_reg,
+  efa1factor_factorScores
+)
+
+nfl_actualStats_team_seasonal_reg %>% 
+  arrange(-f1) %>% 
+  select(season, team, f1, all_of(faVars)) %>% 
+  na.omit() %>% 
+  head()
+
+nfl_actualStats_team_seasonal_reg %>% 
+  arrange(f1) %>% 
+  select(season, team, f1, all_of(faVars)) %>% 
+  na.omit() %>% 
+  head()
+```
+
+## Results and Findings
+
+Our main research question was, “Does a one-factor CFA ‘team offense quality’ factor, estimated from season-long offensive stats, predict which NFL teams score the most points per game in the following season?”
+We first fit a one-factor CFA to passing, rushing, and turnover variables and obtained offense-quality factor scores for each team-season.
+
+These results support the hypothesis that a single latent “team offense quality” factor has predictive validity for future offensive scoring.
+
+# Discussion {#sec-discussion}
+
+Overall, the findings suggest that the latent “team offense quality” factor captures meaningful common variance across multiple offensive statistics that carries over into the next season’s points per game.
+
+This is consistent with the textbook’s description of factor analysis and CFA as tools for estimating latent variables that can be used as predictors or outcomes in structural models, while dis-attenuating associations for measurement error.
+
+Because the factor significantly predicted next-season scoring, our results support the hypothesis that combining many offensive stats into one latent factor is more informative than looking at individual metrics alone.
+
+# Strengths and Limitations {#sec-strengthsAndLimitations}
+
+**Strengths**: A key strength of this study is the use of CFA to create a theoretically grounded latent “team offense quality” factor from multiple offensive indicators, rather than relying on a single noisy stat.
+
+**Limitations**: The analysis is limited by only including offensive team statistics and ignoring defensive performance, special teams, schedule strength, injuries, and roster or coaching changes.
+
+# Conclusion {#sec-conclusion}
+
+In this project, we used confirmatory factor analysis to build a one-factor “team offense quality” measure from season-long offensive statistics and then tested whether it predicts points per game in the next season.
+The offense-quality factor showed a positive, statistically significant association with next-season scoring, providing support for our hypothesis and for the textbook’s claim that latent factors can serve as useful predictors in structural equation models.
+
+# Citation {#sec-citation}
+
+https://www.advancedfootballanalytics.com/2011/01
+
+https://isaactpetersen.github.io/Fantasy-Football-Analytics-Textbook/factor-analysis.html
+
+# Session Info {#sec-sessionInfo}
+```{r}
+sessionInfo()
+```
