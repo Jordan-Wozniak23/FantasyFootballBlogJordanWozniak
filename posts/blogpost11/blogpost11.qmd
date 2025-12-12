@@ -91,7 +91,7 @@ However, this might be the one weakness that breaks this all, is where we can pr
 ## Code
 
 ```{r}
-qbs_from_2015_2024 <- player_stats_seasonal %>%
+qbs_from_2015_2024 <- player_stats_weekly %>%
   filter(
     position == "QB",
     season >= 2015,
@@ -113,5 +113,29 @@ qbs_from_2015_2024 <- player_stats_seasonal %>%
 ## Results and Findings
 
 ## Statistical Visulization
+
+```{r}
+example_player <- player_stats_seasonal %>%
+  filter(player_display_name == "Josh Allen") %>% 
+  distinct(player_id) %>% 
+  pull(player_id)
+
+example_player <- player_stats_weekly %>%
+  filter(
+    player_id == example_player,
+    season == 2024
+  )
+
+ggplot2::ggplot(
+  data = example_player,
+  mapping = aes(x = week, y = fantasyPoints)
+) +
+  geom_col() +
+  labs(
+    x = "Week",
+    y = "Fantasy Points",
+    title = "Josh Allen Weekly Fantasy Points (2024 Season)"
+)
+```
 
 # Discussion {#sec-discussion}
