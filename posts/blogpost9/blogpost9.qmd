@@ -64,16 +64,6 @@ nfl_actualStats_team_seasonal_reg$fumbles_lost <- rowSums(
 )
 ```
 
-```{r}
-options(scipen = 999) # prevent scientific notation
-```
-
-## A.I. Disclosure
-
-AI Disclosure: AI was not used.
-
-Link to AI Transcript: not applicable
-
 # Abstract {#sec-abstract}
 
 **Background**: NFL offenses are usually evaluated with separate box-score stats (yards, touchdowns, interceptions), but these observed variables are noisy and influenced by schedule and luck.

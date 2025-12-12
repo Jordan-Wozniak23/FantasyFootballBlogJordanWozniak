@@ -1,0 +1,117 @@
+---
+title: "Predicting Next Season’s Scoring: A One-Factor CFA Team Offense Quality Model for NFL Offenses"
+author: "Jordan Wozniak"
+date: "11/20/2025"
+categories: [factoranalysis]
+image: "mahomy.jpg"
+format:
+  html:
+    toc: true
+    toc-depth: 4
+    number-sections: true
+    number-depth: 4
+    code-fold: show
+    echo: true
+    error: true
+    embed-resources: true
+    self-contained-math: true
+---
+
+# Preamble {#sec-preamble}
+
+## Install Libraries
+```{r}
+#install.packages("remotes")
+#remotes::install_github("DevPsyLab/petersenlab")
+#remotes::install_github("FantasyFootballAnalytics/ffanalytics")
+```
+
+## Load Libraries
+```{r}
+#| message: false
+#| warning: false
+
+library("petersenlab")
+library("future")
+library("lavaan")
+library("missRanger")
+library("powerjoin")
+library("tidymodels")
+library("LongituRF")
+library("gpboost")
+library("effectsize")
+library("tidyverse")
+library("knitr")
+```
+
+## Load Data
+
+```{r}
+load(file = "../../data/player_stats_weekly.RData")
+load(file = "../../data/players_projections_weekly.RData")
+load(file = "../../data/nfl_playerIDs.RData")
+load(file = "../../data/nfl_actualStats_team.RData")
+load(file = "../../data/projectionsWithActuals_weekly.RData")
+load(file = "../../data/player_stats_seasonal.RData")
+```
+
+```{r}
+options(scipen = 999) # prevent scientific notation
+```
+
+## A.I. Disclosure
+
+AI Disclosure: AI was not used.
+
+Link to AI Transcript: not applicable
+
+# Abstract {#sec-abstract}
+
+
+
+
+# Background {#sec-background}
+
+Fantasy football has been the pinnacle of gambling, either by picking players to formulate a team, or to simply bet on another player. However, we aren't experts, so a lot of the issues that arise is from us not knowing the right players to choose, or the right thing to gamble on. Throughout my time being spent in a class where we deal with such, the psychology in statistics and human judgement, all of this can be encapsulated into a single idea.
+
+## Research Question
+
+The research question at hand may go both ways as an answer to such. But can we prove that our own R-code is a better, not certain, eliminator to the uncertainty?
+
+## Hypothesis
+
+I believe that our R-code can greatly eliminate the uncertainty. This is the only thing that drives us away from making those big bets (take this with a grain of salt, I am not an advisory for betting, or such betting). If we can get basic statistics on how players perform throughout their career, we can get a basic baseline to bet on.
+
+However, this might be the one weakness that breaks this all, is where we can predict injuries, et cetera, but that will be a different conversation later.
+
+## Justification
+
+# Method {#sec-method}
+
+## Code
+
+```{r}
+qbs_from_2015_2024 <- player_stats_seasonal %>%
+  filter(
+    position == "QB",
+    season >= 2015,
+    season <= 2024
+  ) %>%
+  select(
+    player_id,
+    player_display_name,
+    season,
+    completions,
+    attempts,
+    passing_yards,
+    passing_tds,
+    passing_interceptions,
+    fantasyPoints
+  )
+```
+
+## Results and Findings
+
+## Statistical Visulization
+
+# Discussion {#sec-discussion}
