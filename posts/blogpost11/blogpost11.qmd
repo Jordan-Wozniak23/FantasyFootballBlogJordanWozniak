@@ -53,6 +53,8 @@ load(file = "../../data/nfl_playerIDs.RData")
 load(file = "../../data/nfl_actualStats_team.RData")
 load(file = "../../data/projectionsWithActuals_weekly.RData")
 load(file = "../../data/player_stats_seasonal.RData")
+load(file = "../../data/player_projections_weekly.RData")
+load(file = "../../data/player_projections_seasonal.RData")
 ```
 
 ```{r}
@@ -88,6 +90,14 @@ However, this might be the one weakness that breaks this all, is where we can pr
 
 # Method {#sec-method}
 
+All ideas were collected on behalf of the chapter selections by *Petersen*.
+
+There are a few ideas that are combined into this. The first set of code collects all of the data for QBs, for simplicity, that ranges from their name, their total passing yards, touchdowns, interceptions, and their fantasy points. Mainly modeled from chapter 4.
+
+The second idea was that I chose an easy QB, like Josh Allen, and predicted his 2025 season week by week (pretending that 2025 didn't happen yet), and took all of his previous seasons and predict what he will score for every week. Some code was changed from the textbook, but most of these ideas are all from the textbook itself, chapter 17.
+
+With those ideas in mind, I added a statistical visualization to see the projected fantasy points for Josh Allen.
+
 ## Code
 
 ```{r}
@@ -108,6 +118,90 @@ qbs_from_2015_2024 <- player_stats_weekly %>%
     passing_interceptions,
     fantasyPoints
   )
+
+joshAllen_2024 <- player_stats_seasonal %>%
+  filter(
+    player_display_name == "Josh Allen",
+    position == "QB",
+    season == 2024
+  )
+
+qb_season <- player_stats_seasonal %>%
+  filter(
+    position == "QB",
+    season >= 2015,
+    season <= 2024
+  )
+
+qb_week <- player_stats_weekly %>%
+  filter(
+    position == "QB",
+    season >= 2015,
+    season <= 2024
+  )
+```
+
+
+```{r}
+qb_week_prev_next <- qb_week %>%
+  select(player_id, season, week, fantasyPoints) %>%
+  rename(
+    prev_week = week,
+    prev_fantasyPoints = fantasyPoints
+  ) %>%
+  mutate(week = prev_week + 1) %>%
+  left_join(
+    qb_week %>%
+      select(player_id, season, week, fantasyPoints),
+    by = c("player_id", "season", "week")
+  ) %>%
+  rename(next_fantasyPoints = fantasyPoints) %>%
+  filter(!is.na(next_fantasyPoints))
+
+qb_week_model <- lm(
+  next_fantasyPoints ~ prev_fantasyPoints,
+  data = qb_week_prev_next
+)
+
+joshAllen_weekly_2024 <- player_stats_weekly %>%
+  filter(
+    player_display_name == "Josh Allen",
+    position == "QB",
+    season == 2024
+  ) %>%
+  arrange(week)
+
+joshallen_prev_for_pred <- joshAllen_weekly_2024 %>%
+  select(week, fantasyPoints) %>%
+  rename(
+    prev_week = week,
+    prev_fantasyPoints = fantasyPoints
+  ) %>%
+  mutate(week = prev_week + 1) %>%
+  inner_join(
+    joshAllen_weekly_2024 %>% select(week),
+    by = "week"
+  )
+
+joshallen_week_pred_mat <- predict(
+  qb_week_model,
+  newdata = data.frame(
+    prev_fantasyPoints = ja_prev_for_pred$prev_fantasyPoints
+  ),
+  interval = "prediction",
+  level = 0.95
+)
+
+joshallen_week_preds <- cbind(joshallen_prev_for_pred, joshallen_week_pred_mat)
+
+joshallen_week_preds
+
+joshAllen_2025_proj <- players_projections_weekly %>%
+  filter(player_display_name == "Josh Allen",
+         position == "QB",
+         season == 2025)
+
+joshAllen_2025_proj
 ```
 
 ## Results and Findings
@@ -115,27 +209,19 @@ qbs_from_2015_2024 <- player_stats_weekly %>%
 ## Statistical Visulization
 
 ```{r}
-example_player <- player_stats_seasonal %>%
-  filter(player_display_name == "Josh Allen") %>% 
-  distinct(player_id) %>% 
-  pull(player_id)
-
-example_player <- player_stats_weekly %>%
-  filter(
-    player_id == example_player,
-    season == 2024
-  )
-
 ggplot2::ggplot(
-  data = example_player,
-  mapping = aes(x = week, y = fantasyPoints)
+  data = joshallen_week_preds,
+  mapping = aes(x = week, y = fit)
 ) +
-  geom_col() +
+  geom_line() +
+  geom_point() +
+  geom_ribbon(aes(ymin = lwr, ymax = upr), alpha = 0.2) +
   labs(
     x = "Week",
-    y = "Fantasy Points",
-    title = "Josh Allen Weekly Fantasy Points (2024 Season)"
-)
+    y = "Predicted Fantasy Points",
+    title = "Predicted Week-to-Week Fantasy Points for Josh Allen"
+  ) +
+  theme_classic()
 ```
 
 # Discussion {#sec-discussion}
