@@ -1,0 +1,270 @@
+---
+title: "Is analyzing statistics better than guessing?"
+author: "Jordan Wozniak"
+date: "12/12/2025"
+categories: [thebigone]
+image: "statistics-bar-graph-pointed-line-design-M97RTR.png"
+format:
+  html:
+    toc: true
+    toc-depth: 4
+    number-sections: true
+    number-depth: 4
+    code-fold: show
+    echo: true
+    error: true
+    embed-resources: true
+    self-contained-math: true
+---
+
+# Preamble {#sec-preamble}
+
+## Install Libraries
+```{r}
+#install.packages("remotes")
+#remotes::install_github("DevPsyLab/petersenlab")
+#remotes::install_github("FantasyFootballAnalytics/ffanalytics")
+```
+
+## Load Libraries
+```{r}
+#| message: false
+#| warning: false
+
+library("petersenlab")
+library("future")
+library("lavaan")
+library("missRanger")
+library("powerjoin")
+library("tidymodels")
+library("LongituRF")
+library("gpboost")
+library("effectsize")
+library("tidyverse")
+library("knitr")
+```
+
+## Load Data
+
+```{r}
+load(file = "../../data/player_stats_weekly.RData")
+load(file = "../../data/players_projections_weekly.RData")
+load(file = "../../data/nfl_playerIDs.RData")
+load(file = "../../data/nfl_actualStats_team.RData")
+load(file = "../../data/projectionsWithActuals_weekly.RData")
+load(file = "../../data/player_stats_seasonal.RData")
+```
+
+```{r}
+options(scipen = 999) # prevent scientific notation
+```
+
+## A.I. Disclosure
+
+AI Disclosure: AI was not used.
+
+Link to AI Transcript: not applicable
+
+# Abstract {#sec-abstract}
+
+**Background**: Fantasy football decisions are made under substantial uncertainty, even when players use “expert” projections and crowd averages. Mainly drawing on our courses textbook chapters about the wisdom of the crowd and calibration.
+
+**Method**: Using *player_stats_weekly* and *player_stats_seasonal* from 2015–2024, I filtered to quarterbacks and fit regression models relating future fantasy points to past performance. I used Josh Allen as our "Mr. Wisdom" to give a visualization.
+
+**Results**: The season-level model predicted about 314 fantasy points for Josh Allen in 2025, and his actual 2025 total through Week 14 was very close to that value. As we go more on a week to week basis, it gets a little noisy, but close. Other tables were simply used that we can view all players, selected in the example as all QBs, where we can take averages of one player, or multiple players versus the same team, and see how well these players do, and make inferences off that.
+
+**Discussion**: These findings partially support the hypothesis that R-based models can reduce uncertainty: past performance contains enough signal to give a useful season-long baseline. Discussed more in the limitations, there are too many variables that occur when predicting week to week, so we can only get close instead of certain.
+
+**Conclusion**: Simple models using textbook data can help fantasy players make more informed, crowd-aware decisions by quantifying expected performance, but they do not eliminate risk. In practice, these tools should be treated as one input to judgment rather than guarantees. This can be applied to the real-world, which is the intention for this project. If we can get to a close prediction for a season for a player, then we can improve on a lot of ascpets of predicting.
+
+# Background {#sec-background}
+
+Fantasy football has been the pinnacle of gambling, either by picking players to formulate a team, or to simply bet on another player. However, we aren't experts, so a lot of the issues that arise is from us not knowing the right players to choose, or the right thing to gamble on. Throughout my time being spent in a class where we deal with such, the psychology in statistics and human judgement, all of this can be encapsulated into a single idea.
+
+## Research Question
+
+The research question at hand may go both ways as an answer to such. But can we prove that our own R-code is a better, not certain, eliminator to the uncertainty?
+
+## Hypothesis
+
+I believe that our R-code can greatly eliminate the uncertainty. This is the only thing that drives us away from making those big bets (take this with a grain of salt, I am not an advisory for betting, or such betting). If we can get basic statistics on how players perform throughout their career, we can get a basic baseline to bet on.
+
+However, this might be the one weakness that breaks this all, is where we can predict injuries, et cetera, but that will be a different conversation later.
+
+## Justification
+
+# Method {#sec-method}
+
+All ideas were collected on behalf of the chapter selections by *Petersen*.
+
+There are a few ideas that are combined into this. The first set of code collects all of the data for QBs, for simplicity, that ranges from their name, their total passing yards, touchdowns, interceptions, and their fantasy points. Mainly modeled from chapter 4.
+
+The second idea was that I chose an easy QB, like Josh Allen, and predicted his future weeks for the 2024 season. Examples used from chapter 17.
+
+With those ideas in mind, I added a statistical visualization to see the projected fantasy points for Josh Allen.
+
+## Code
+
+```{r}
+qbs_from_2015_2024 <- player_stats_weekly %>%
+  filter(
+    position == "QB",
+    season >= 2015,
+    season <= 2024
+  ) %>%
+  select(
+    player_display_name,
+    season,
+    completions,
+    attempts,
+    passing_yards,
+    passing_tds,
+    passing_interceptions,
+    fantasyPoints
+  )
+qbs_from_2015_2024 %>%
+  arrange(season, player_display_name) %>%
+  head(30) %>%
+  knitr::kable()
+
+# This is just an example, there is always an option to create more rows. More rows aren't added to clean up the worksheet.
+
+joshAllen_2024 <- player_stats_seasonal %>%
+  filter(
+    player_display_name == "Josh Allen",
+    position == "QB",
+    season == 2024
+  )
+
+qb_season <- player_stats_seasonal %>%
+  filter(
+    position == "QB",
+    season >= 2015,
+    season <= 2024
+  )
+
+qb_week <- player_stats_weekly %>%
+  filter(
+    position == "QB",
+    season >= 2015,
+    season <= 2024
+  )
+```
+
+
+```{r}
+qb_week_prev_next <- qb_week %>%
+  select(player_id, season, week, fantasyPoints) %>%
+  rename(
+    prev_week = week,
+    prev_fantasyPoints = fantasyPoints
+  ) %>%
+  mutate(week = prev_week + 1) %>%
+  left_join(
+    qb_week %>%
+      select(player_id, season, week, fantasyPoints),
+    by = c("player_id", "season", "week")
+  ) %>%
+  rename(next_fantasyPoints = fantasyPoints) %>%
+  filter(!is.na(next_fantasyPoints))
+
+qb_week_model <- lm(
+  next_fantasyPoints ~ prev_fantasyPoints,
+  data = qb_week_prev_next
+)
+
+joshAllen_weekly_2024 <- player_stats_weekly %>%
+  filter(
+    player_display_name == "Josh Allen",
+    position == "QB",
+    season == 2024
+  ) %>%
+  arrange(week)
+
+joshallen_prev_for_pred <- joshAllen_weekly_2024 %>%
+  select(week, fantasyPoints) %>%
+  rename(
+    prev_week = week,
+    prev_fantasyPoints = fantasyPoints
+  ) %>%
+  mutate(week = prev_week + 1) %>%
+  inner_join(
+    joshAllen_weekly_2024 %>% select(week),
+    by = "week"
+  )
+
+joshallen_week_pred_mat <- predict(
+  qb_week_model,
+  newdata = data.frame(
+    prev_fantasyPoints = joshallen_prev_for_pred$prev_fantasyPoints
+  ),
+  interval = "prediction",
+  level = 0.95
+)
+
+joshallen_week_preds <- cbind(joshallen_prev_for_pred, joshallen_week_pred_mat)
+
+joshallen_week_preds
+```
+
+## Results and Findings
+
+Week 2 – After scoring 33.18 in Week 1, the model predicts about 21.6 points
+Week 3 – After 11.76 in Week 2, predicted = 15.1 points
+Week 4 – After 30.92 in Week 3, predicted = 20.9
+Week 5 – After 9.30 in Week 4, predicted = 14.3
+Week 6 – After 14.64 in Week 5, predicted = 15.9
+Week 7 – After 24.40 in Week 6, predicted = 18.9
+Week 8 – After 21.02 in Week 7, predicted ≈ 17.9
+Week 9 – After 20.82 in Week 8, predicted ≈ 17.8
+Week 10 – After 22.10 in Week 9, predicted ≈ 18.2
+Week 11 – After 18.20 in Week 10, predicted ≈ 17.0
+Week 14 – After 28.42 in Week 13, predicted ≈ 20.2
+Week 15 – After 51.88 in Week 14, predicted = 27.3
+Week 16 – After 41.28 in Week 15, predicted ≈ 24.1
+Week 17 – After 11.16 in Week 16, predicted ≈ 14.9
+
+## Statistical Visulization
+
+```{r}
+ggplot2::ggplot(
+  data = joshallen_week_preds,
+  mapping = aes(x = week, y = fit)
+) +
+  geom_line() +
+  geom_point() +
+  geom_ribbon(aes(ymin = lwr, ymax = upr), alpha = 0.2) +
+  labs(
+    x = "Week",
+    y = "Predicted Fantasy Points",
+    title = "Predicted Each Week Fantasy Points for Josh Allen"
+  ) +
+  theme_classic()
+```
+
+# Discussion {#sec-discussion}
+
+The goal of this project was to see whether basic R models built from the textbook data could reduce uncertainty in fantasy football decisions, using Josh Allen as a case study. Drawing on Chapters 17 and 26, we treated fantasy projection as our "wisdom" to get an idea of the model.
+
+Our analyses partly supported the original hypothesis. At the season level, the QB season-to-season model predicted Josh Allen’s 2025 fantasy total at roughly 314 points, and his partial 2025 season total, through Week 14, was already very close to that value.
+
+However, as stated before, this does *not* eliminate the uncertainty for predicting points since there are too many factors that suggest that we cannot use this as our "savior" to prediction. We can treat this as a good baseline to making stable predictions.
+
+# Strengths and Limitations {#sec-strengthsAndLimitations}
+
+*Strengths*: This idea creates a great baseline for projecting fantasy points. This model shows a test, example provided by fantasy points, that we can predict either passing yards, touchdowns, interceptions, and a plethora of other ideas that we want to see in order to predict how a player does, better than the guess work.
+
+*Limitations*: Consider this like the lottery, there is a lot of chance involved still that we can't just simply predict. That is why the key word "greatly," and not "certainly" was used. There are items like the feeling of the player, injuries, coaching decisions that we cannot simply but into a prediction model, and that will lie as a limitation.
+
+# Conclusion {#sec-conclusion}
+
+In summary, my R-code used textbook tools and historical QB data (2015–2024) to build both season-level and week-to-week prediction models for Josh Allen. The season regression suggested a 2025 total of roughly 314 fantasy points, and his partial 2025 results so far are very close to that baseline, showing that past performance and crowd data can meaningfully reduce uncertainty. However, we need to take this with a grain of salt
+
+# Citations {#sec-citations}
+
+https://dspace.mit.edu/bitstream/handle/1721.1/119466/16m1102094.pdf
+
+# Session Info {#sec-sessionInfo
+```{r}
+sessionInfo()
+```
