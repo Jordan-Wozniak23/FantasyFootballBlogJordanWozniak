@@ -78,7 +78,7 @@ Teams with higher offense-quality factor scores tended to score more points per 
 **Discussion**: These findings suggest that the latent “team offense quality” factor captures meaningful underlying offensive strength that carries over from one season to the next.
 Compared with looking at individual box-score stats, using a single latent factor provides a more parsimonious and potentially more predictive summary of team offense.
 
-**Conclusion:** Our results support the hypothesis that a one-factor CFA “team offense quality” measure, estimated from season-long offensive stats, can meaningfully predict which NFL teams will score more points per game in the following season.
+**Conclusion**: Our results support the hypothesis that a one-factor CFA “team offense quality” measure, estimated from season-long offensive stats, can meaningfully predict which NFL teams will score more points per game in the following season.
 This illustrates how latent variable models from the textbook can be applied to real football data to improve prediction and understanding of team performance.
 
 # Background {#sec-background}
